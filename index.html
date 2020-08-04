@@ -13,16 +13,17 @@
     <h4 style="color: #000; ">My Life in Months</h4>
     <div id="waffle"></div>
   </div>
+  <div><button id="camera">Take a Screenshot</button></div>
+
   <table id="mainTable" class="table table-striped">
             <thead><tr><th>Category</th><th>Months</th><th>Color</th></tr></thead>
             <tbody>
               <tr><td>Pennsylvania</td><td>96</td><td>#008080</td></tr>
-              <tr><td>West Virginia</td><td>96</td><td>#002855</td>></tr>
+              <tr><td>West Virginia</td><td>96</td><td>#002855</td></tr>
             </tbody>
   </table>
 
-  <div id="camera">Take a Screenshot</div>
-  <div id="reset">New Data</div>
+  <div><button id="addrow">Add a Row</button></div>
   </div>
 
   <!-- JS, Popper.js, and jQuery -->
@@ -76,9 +77,23 @@ $(document).ready(function() {
         .colorscale(palette)
         .adjust(1.2);
 
-  d3.select("#waffle")
+  function makeWaffleChart() {
+    d3.select("#waffle")
   			.datum(data)
   			.call(chart);
+  }
+
+  makeWaffleChart();
+
+  function calculateData() {
+    data = []
+  var dataRows = $("#mainTable").find('tbody tr');
+  dataRows.each(function () {
+      var row = $(this);
+      data.push({ "name": row.children().eq(0).text(),
+                  "value":row.children().eq(1).text()});
+      //total += parseFloat(row.children().eq(column).text());
+    });}
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
   $( "#camera" ).click(function() {
@@ -89,14 +104,54 @@ $(document).ready(function() {
     });
   });
 
-  $( "#reset" ).click(function() {
-    data.pop();
-    d3.select("#waffle")
-          .datum(data)
-          .call(chart);;
+
+  $( "#addrow" ).click(function() {
+    $('#mainTable tr:last').after('<tr><td>Name</td><td>12</td><td>#888888</td></tr>');
+    calculateData();
+    makeWaffleChart();
+    $('#mainTable').editableTableWidget().numericInputExample()
   });
 
-  $('#mainTable').editableTableWidget().find('td:first').focus();
+  // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
+  function isNormalPosInteger(str) {
+      str = str.trim();
+      if (!str) {
+          return false;
+      }
+      str = str.replace(/^0+/, "") || "0";
+      var n = Math.floor(Number(str));
+      return n !== Infinity && String(n) === str && n > 0;
+  }
+
+
+  function isHexColor(str) {
+    return /^#[0-9A-F]{6}$/i.test(str)
+  }
+
+  /* global $ */
+  /* this is an example for validation and change events */
+  $.fn.numericInputExample = function () {
+  	'use strict';
+  	var element = $(this);
+
+  	element.find('td').on('change', function (evt) {
+      calculateData();
+      makeWaffleChart();
+  	}).on('validate', function (evt, value) {
+  		var cell = $(this),
+  			column = cell.index();
+  		if (column === 0) {
+  			return !!value && value.trim().length > 0;
+  		} else if (column === 1){
+  			return isNormalPosInteger(value);
+  		} else {
+        return isHexColor(value);
+      }
+  	});
+  	return this;
+  };
+
+  $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
 });
 </script>
 </body>
