@@ -29,14 +29,26 @@
 <script>
 $(document).ready(function() {
   var data = [
-      { "name": "type 1", "value": 902},
-      { "name": "type 2", "value": 65},
-      { "name": "type 3", "value": 43},
-      { "name": "type 4", "value": 12}
+{ "name": "Pennsylvania", "value":96},
+{ "name": "West Virginia", "value":96},
+{ "name": "Kenyon", "value":45},
+{ "name": "Milwaukee", "value":3},
+{ "name": "UW Madison - M.S.", "value":21},
+{ "name": "San Antonio - SWRI", "value":7},
+{ "name": "UW Madison - Ph.D.", "value":77},
+{ "name": "Centenary College", "value":84},
+{ "name": "Hendrix College", "value":75}
     ]
+
+    /* to color elements we use the class name ( slugigy(name) ) */
+    var domain = data.map(function(d){ return slugify(d.name); })
+    var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"]
+    var palette = d3.scale.ordinal().domain(domain).range(range);
+
 
   var chart = d3waffle()
         .rows(12)
+        .colorscale(palette)
         .adjust(1.2);
 
   d3.select("#waffle")
