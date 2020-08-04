@@ -10,7 +10,7 @@
 
 </head>
 <body>
-  <a class="github-fork-ribbon" href="https://github.com/discotraystudios/" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+  <a class="github-fork-ribbon" href="https://github.com/discotraystudios/myLifeInMonths" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -27,11 +27,11 @@
       <table id="mainTable" class="table table-striped">
           <thead><tr><th>Life Event</th><th>Months</th><th>Color</th><th>Delete</th></tr></thead>
           <tbody>
-            <tr><td>Childhood</td><td>184</td><td>
-              <input type="color" class="colorpick" name="head"
+            <tr><td>Childhood</td><td>184</td><td class="colorpick" >
+              <input type="color" name="head"
                 value="#4f82c2"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>
-            <tr><td>High School</td><td>45</td><td>
-              <input type="color" class="colorpick" name="head"
+            <tr><td>High School</td><td>45</td><td class="colorpick" >
+              <input type="color" name="head"
                 value="#0f52ba"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>
           </tbody>
       </table>
@@ -113,7 +113,7 @@ $(document).ready(function() {
   });
 
   $( "#addrow" ).click(function() {
-    $('#mainTable tr:last').after('<tr><td>Event</td><td>12</td><td><input type="color" class="colorpick" value="#e66465"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
+    $('#mainTable tr:last').after('<tr><td>Event</td><td>12</td><td class="colorpick"><input type="color" value="#e66465"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     calculateData();
     makeWaffleChart();
     $('#mainTable').editableTableWidget().numericInputExample()

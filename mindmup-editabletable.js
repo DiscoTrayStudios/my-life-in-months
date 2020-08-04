@@ -14,19 +14,23 @@ $.fn.editableTableWidget = function (options) {
 			active,
 			showEditor = function (select) {
 				active = element.find('td:focus');
-				if (active.length) {
-					editor.val(active.text())
-						.removeClass('error')
-						.show()
-						.offset(active.offset())
-						.css(active.css(activeOptions.cloneProperties))
-						.width(active.width())
-						.height(active.height())
-						.focus();
-					if (select) {
-						editor.select();
+				console.log(active);
+				if (!(active.hasClass( "colorpick" ) || active.hasClass("remove"))) {
+
+					if (active.length) {
+						editor.val(active.text())
+							.removeClass('error')
+							.show()
+							.offset(active.offset())
+							.css(active.css(activeOptions.cloneProperties))
+							.width(active.width())
+							.height(active.height())
+							.focus();
+						if (select) {
+							editor.select();
+						}
 					}
-				}
+			  }
 			},
 			setActiveText = function () {
 				var text = editor.val(),
@@ -89,6 +93,8 @@ $.fn.editableTableWidget = function (options) {
 				editor.removeClass('error');
 			}
 		});
+
+
 		element.on('click keypress dblclick', showEditor)
 		.css('cursor', 'pointer')
 		.keydown(function (e) {
@@ -110,6 +116,7 @@ $.fn.editableTableWidget = function (options) {
 			}
 		});
 
+
 		element.find('td').prop('tabindex', 1);
 
 		$(window).on('resize', function () {
@@ -128,4 +135,3 @@ $.fn.editableTableWidget.defaultOptions = {
 					  'border', 'border-top', 'border-bottom', 'border-left', 'border-right'],
 	editor: $('<input>')
 };
-
