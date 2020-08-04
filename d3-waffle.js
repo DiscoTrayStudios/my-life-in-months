@@ -8,13 +8,13 @@ function d3waffle() {
       appearancetimes = function(d, i){ return 500; },
       height = 200,
       magic_padding = 5;
-     
+
   function chart(selection) {
-    
+
     selection.each(function(data) {
 
       selection.selectAll("*").remove();
-  
+
       /* setting parameters and data */
       var idcontainer = selection[0][0].id; // I need to change thiz plz
       var total = d3.sum(data, function(d) { return d.value; });
@@ -43,7 +43,7 @@ function d3waffle() {
       })
 
       /*console.log("detail data length: ", detaildata.length)*/
-      
+
       var gridSize = ((height - margin.top - margin.bottom) / rows)
 
       /* setting the container */
@@ -89,9 +89,9 @@ function d3waffle() {
               textsize = Math.min(val2 * gridSize, (val2 * gridSize - val) / this.getComputedTextLength() * val);
               return textsize * adjust + "px";
             })
-            .on("mouseover", mouseover)
-            .on("mouseout", mouseout)
-            .on("mousemove", mousemove)
+            //.on("mouseover", mouseover)
+          //  .on("mouseout", mouseout)
+          //  .on("mousemove", mousemove)
             .transition()
             .duration(appearancetimes)
             .style("opacity", 1);
@@ -102,9 +102,9 @@ function d3waffle() {
             .style("stroke", "gray")
             .attr("width", gridSize)
             .attr("height", gridSize)
-            .on("mouseover", mouseover)
-            .on("mouseout", mouseout)
-            .on("mousemove", mousemove)
+            //.on("mouseover", mouseover)
+            //.on("mouseout", mouseout)
+          //  .on("mousemove", mousemove)
             .style("opacity", 0)
 
       var legend = svg.selectAll('.legend')
@@ -112,7 +112,7 @@ function d3waffle() {
           .enter().append('g')
           .attr('class', function(d){ return "legend" + " " + d.class; })
           .attr("transform", function(d) { return "translate(" + (cols*gridSize + magic_padding) + "," + magic_padding + ")"; })
-        
+
       legend.append('text')
             .attr('x', gridSize)
             .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
@@ -226,7 +226,7 @@ function cartesianprod(paramArray) {
 
   function addTo(curr, args) {
 
-    var i, copy, 
+    var i, copy,
         rest = args.slice(1),
         last = !rest.length,
         result = [];
