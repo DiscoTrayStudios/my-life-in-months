@@ -8,10 +8,12 @@
 
 </head>
 <body>
-  Something works!
-  <div id="waffle">
-
+  <div id="capture" style="padding: 10px; background: #ffffff">
+    <h4 style="color: #000; ">My Life in Months</h4>
+    <div id="waffle"></div>
   </div>
+
+  <div id="camera">Take a Screenshot</div>
   <!-- JS, Popper.js, and jQuery -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" type="text/javascript"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -21,19 +23,31 @@
 <!-- using https://github.com/jbkunst/d3-waffle/ -->
 <script src="d3-waffle.js" type="text/javascript"></script>
 
+<!-- using http://html2canvas.hertzen.com/ -->
+<script src="html2canvas.min.js" type="text/javascript"></script>
+
 <script>
-var data = [
-    { "name": "type 1", "value": 102},
-    { "name": "type 2", "value": 65},
-    { "name": "type 3", "value": 43},
-    { "name": "type 4", "value": 12}
-  ]
+$(document).ready(function() {
+  var data = [
+      { "name": "type 1", "value": 902},
+      { "name": "type 2", "value": 65},
+      { "name": "type 3", "value": 43},
+      { "name": "type 4", "value": 12}
+    ]
 
-var chart = d3waffle();
+  var chart = d3waffle()
+        .rows(12)
+        .adjust(1.2);
 
-d3.select("#waffle")
-			.datum(data)
-			.call(chart);
+  d3.select("#waffle")
+  			.datum(data)
+  			.call(chart);
+  $( "#camera" ).click(function() {
+    html2canvas(document.querySelector("#capture")).then(canvas => {
+        document.body.appendChild(canvas)
+    });
+  });
+});
 </script>
 </body>
 </html>
