@@ -82,6 +82,7 @@ $(document).ready(function() {
   makeWaffleChart();
 
   function calculateData() {
+    console.log("Recalculating...");
     data = []
     range = []
     var dataRows = $("#mainTable").find('tbody tr');
@@ -89,9 +90,8 @@ $(document).ready(function() {
       var row = $(this);
       data.push({ "name": row.children().eq(0).text(),
                   "value":row.children().eq(1).text()});
-      //total += parseFloat(row.children().eq(column).text());
-      console.log(row.children().eq(2).children().eq(0).attr("value"));
-      range.push(row.children().eq(2).children().eq(0).attr("value"));
+      console.log(row.find('input')[0].value);
+      range.push(row.find('input')[0].value);
     });
     console.log(range);
   }
@@ -110,7 +110,7 @@ $(document).ready(function() {
     $('#mainTable tr:last').after('<tr><td>Name</td><td>12</td><td><input type="color" id="head" name="head" value="#e66465"></td></tr>');
     calculateData();
     makeWaffleChart();
-    //$('#mainTable').editableTableWidget().numericInputExample()
+    $('#mainTable').editableTableWidget().numericInputExample()
   });
 
   // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
