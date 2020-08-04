@@ -5,16 +5,19 @@
   <meta charset="utf-8">
   <!-- CSS only -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
 
 </head>
 <body>
+  <a class="github-fork-ribbon" href="https://github.com/discotraystudios/" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-      <div id="capture" style="padding: 10px; background: #ffffff">
-        <h4 style="color: #000; ">My Life in Months</h4>
-        <div id="waffle"></div>
-      </div>
+        <div id="capture" style="padding: 10px; background: #ffffff">
+          <h4>My Life in Months</h4>
+          <div id="waffle"></div>
+        </div>
       </div>
     </div>
     <div class="row">
@@ -22,14 +25,14 @@
     </div>
     <div class="row">
       <table id="mainTable" class="table table-striped">
-          <thead><tr><th>Life Event</th><th>Months</th><th>Color</th></tr></thead>
+          <thead><tr><th>Life Event</th><th>Months</th><th>Color</th><th>Delete</th></tr></thead>
           <tbody>
-            <tr><td>Pennsylvania</td><td>96</td><td>
-              <input type="color" id="head" name="head"
-                value="#e66465"></td></tr>
-            <tr><td>West Virginia</td><td>96</td><td>
-              <input type="color" id="head" name="head"
-                value="#e66465"></td></tr>
+            <tr><td>Childhood</td><td>184</td><td>
+              <input type="color" class="colorpick" name="head"
+                value="#4f82c2"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>
+            <tr><td>High School</td><td>45</td><td>
+              <input type="color" class="colorpick" name="head"
+                value="#0f52ba"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>
           </tbody>
       </table>
     </div>
@@ -68,26 +71,7 @@ $(document).ready(function() {
 { "name": "Centenary College", "value":84},
 { "name": "Hendrix College", "value":75}
     ]
-    var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"]
-
-
-  function makeWaffleChart() {
-    /* to color elements we use the class name ( slugigy(name) ) */
-    var domain = data.map(function(d){ return slugify(d.name); })
-    var palette = d3.scale.ordinal().domain(domain).range(range);
-
-
-    var chart = d3waffle()
-        .rows(12)
-        .colorscale(palette)
-        .adjust(1.2);
-
-    d3.select("#waffle")
-  			.datum(data)
-  			.call(chart);
-  }
-
-  makeWaffleChart();
+  var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"]
 
   function calculateData() {
     console.log("Recalculating...");
@@ -104,6 +88,21 @@ $(document).ready(function() {
     console.log(range);
   }
 
+  function makeWaffleChart() {
+    /* to color elements we use the class name ( slugigy(name) ) */
+    var domain = data.map(function(d){ return slugify(d.name); })
+    var palette = d3.scale.ordinal().domain(domain).range(range);
+
+    var chart = d3waffle()
+        .rows(12)
+        .colorscale(palette)
+        .adjust(1.2);
+
+    d3.select("#waffle")
+  			.datum(data)
+  			.call(chart);
+  }
+
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
   $( "#camera" ).click(function() {
     html2canvas(document.querySelector("#capture")).then(canvas => {
@@ -113,9 +112,8 @@ $(document).ready(function() {
     });
   });
 
-
   $( "#addrow" ).click(function() {
-    $('#mainTable tr:last').after('<tr><td>Name</td><td>12</td><td><input type="color" id="head" name="head" value="#e66465"></td></tr>');
+    $('#mainTable tr:last').after('<tr><td>Event</td><td>12</td><td><input type="color" class="colorpick" value="#e66465"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     calculateData();
     makeWaffleChart();
     $('#mainTable').editableTableWidget().numericInputExample()
@@ -138,6 +136,8 @@ $(document).ready(function() {
   	'use strict';
   	var element = $(this);
 
+    element.find('td').off('change').off('validate');
+
   	element.find('td').on('change', function (evt) {
       calculateData();
       makeWaffleChart();
@@ -154,6 +154,15 @@ $(document).ready(function() {
   	});
   	return this;
   };
+
+  calculateData();
+  makeWaffleChart();
+
+  $( document ).on( "click", ".remove", function(){
+    $(this).parent("tr:first").remove();
+    calculateData();
+    makeWaffleChart();
+  });
 
   $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
 });
