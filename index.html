@@ -122,7 +122,7 @@ $(document).ready(function() {
     var chart = d3waffle()
         .rows(12)
         .colorscale(palette)
-        .adjust(1.2);
+        .adjust(.95);
 
     d3.select("#waffle")
   			.datum(data)
