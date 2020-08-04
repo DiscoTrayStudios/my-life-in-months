@@ -18,8 +18,12 @@
   <table id="mainTable" class="table table-striped">
             <thead><tr><th>Category</th><th>Months</th><th>Color</th></tr></thead>
             <tbody>
-              <tr><td>Pennsylvania</td><td>96</td><td>#008080</td></tr>
-              <tr><td>West Virginia</td><td>96</td><td>#002855</td></tr>
+              <tr><td>Pennsylvania</td><td>96</td><td>
+                <input type="color" id="head" name="head"
+                  value="#e66465"></td></tr>
+              <tr><td>West Virginia</td><td>96</td><td>
+                <input type="color" id="head" name="head"
+                  value="#e66465"></td></tr>
             </tbody>
   </table>
 
@@ -56,28 +60,20 @@ $(document).ready(function() {
 { "name": "Centenary College", "value":84},
 { "name": "Hendrix College", "value":75}
     ]
+    var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"]
 
-    var data2 = [
-  { "name": "Pennsylvania", "value":10},
-  { "name": "West Virginia", "value":14},
-  { "name": "Kenyon", "value":45},
-  { "name": "Milwaukee", "value":3},
-  { "name": "UW Madison - M.S.", "value":21},
-  { "name": "San Antonio - SWRI", "value":7}
-      ]
 
+  function makeWaffleChart() {
     /* to color elements we use the class name ( slugigy(name) ) */
     var domain = data.map(function(d){ return slugify(d.name); })
-    var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"]
     var palette = d3.scale.ordinal().domain(domain).range(range);
 
 
-  var chart = d3waffle()
+    var chart = d3waffle()
         .rows(12)
         .colorscale(palette)
         .adjust(1.2);
 
-  function makeWaffleChart() {
     d3.select("#waffle")
   			.datum(data)
   			.call(chart);
@@ -87,13 +83,18 @@ $(document).ready(function() {
 
   function calculateData() {
     data = []
-  var dataRows = $("#mainTable").find('tbody tr');
-  dataRows.each(function () {
+    range = []
+    var dataRows = $("#mainTable").find('tbody tr');
+    dataRows.each(function () {
       var row = $(this);
       data.push({ "name": row.children().eq(0).text(),
                   "value":row.children().eq(1).text()});
       //total += parseFloat(row.children().eq(column).text());
-    });}
+      console.log(row.children().eq(2).children().eq(0).attr("value"));
+      range.push(row.children().eq(2).children().eq(0).attr("value"));
+    });
+    console.log(range);
+  }
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
   $( "#camera" ).click(function() {
@@ -106,10 +107,10 @@ $(document).ready(function() {
 
 
   $( "#addrow" ).click(function() {
-    $('#mainTable tr:last').after('<tr><td>Name</td><td>12</td><td>#888888</td></tr>');
+    $('#mainTable tr:last').after('<tr><td>Name</td><td>12</td><td><input type="color" id="head" name="head" value="#e66465"></td></tr>');
     calculateData();
     makeWaffleChart();
-    $('#mainTable').editableTableWidget().numericInputExample()
+    //$('#mainTable').editableTableWidget().numericInputExample()
   });
 
   // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
@@ -121,11 +122,6 @@ $(document).ready(function() {
       str = str.replace(/^0+/, "") || "0";
       var n = Math.floor(Number(str));
       return n !== Infinity && String(n) === str && n > 0;
-  }
-
-
-  function isHexColor(str) {
-    return /^#[0-9A-F]{6}$/i.test(str)
   }
 
   /* global $ */
@@ -145,7 +141,7 @@ $(document).ready(function() {
   		} else if (column === 1){
   			return isNormalPosInteger(value);
   		} else {
-        return isHexColor(value);
+        return false;
       }
   	});
   	return this;
