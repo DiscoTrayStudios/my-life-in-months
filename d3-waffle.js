@@ -45,10 +45,12 @@ function d3waffle() {
       /*console.log("detail data length: ", detaildata.length)*/
 
       var gridSize = ((height - margin.top - margin.bottom) / rows)
+      var gridWidth = 200 + margin.left + margin.right + gridSize * cols;
 
       /* setting the container */
       var svg = selection.append("svg")
-            .attr("width",  "100%")
+        //        .attr("width",  "100%")
+            .attr("width",  gridWidth + "px")
             .attr("height", height + "px")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
