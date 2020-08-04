@@ -194,9 +194,12 @@ $(document).ready(function() {
   makeWaffleChart();
 
   $( document ).on( "click", ".remove", function(){
-    $(this).parent("tr:first").remove();
-    calculateData();
-    makeWaffleChart();
+    var dataRows = $("#mainTable").find('tbody tr');
+    if (dataRows.length > 1) {
+      $(this).parent("tr:first").remove();
+      calculateData();
+      makeWaffleChart();
+    }
   });
 
   $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
