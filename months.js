@@ -109,7 +109,7 @@ $(document).ready(function() {
   	return this;
   };
 
-  calculateData();
+  //calculateData();
   makeWaffleChart();
 
   $( document ).on( "click", ".remove", function(){

@@ -78,39 +78,16 @@ function d3waffle() {
             .attr("class", "node")
             .attr("transform", function(d) { return "translate(" + (d.row)*gridSize + "," + (d.col)*gridSize  + ")"; });
 
-
-      /* this is necesary, when the icons are small/thin activate mouseout */
-      nodes.append("text")
-            .style("opacity", 0)
-            .html(icon)
-            .attr('class', function(d){ return d.class; })
-            .attr('font-family', 'FontAwesome')
-            .attr("transform", function(d) { return "translate(" + gridSize/2 + "," + 5/6*gridSize  + ")"; })
-            .style("text-anchor", "middle")
+      nodes.append("rect")
             .style('fill', function(d){ return colorscale(d.class); })
-            .style("font-size", function(d) {
-              val = 9;
-              val2 = 2.5;
-              textsize = Math.min(val2 * gridSize, (val2 * gridSize - val) / this.getComputedTextLength() * val);
-              return textsize * adjust + "px";
-            })
-            //.on("mouseover", mouseover)
-          //  .on("mouseout", mouseout)
-          //  .on("mousemove", mousemove)
+            .attr('class', function(d){ return d.class; })
+            .style("stroke", "white")
+            .attr("width", gridSize)
+            .attr("height", gridSize)
+            .style("opacity", 0)
             .transition()
             .duration(appearancetimes)
             .style("opacity", 1);
-
-      nodes.append("rect")
-            .style("fill", "white")
-            .attr('class', function(d){ return d.class; })
-            .style("stroke", "gray")
-            .attr("width", gridSize)
-            .attr("height", gridSize)
-            //.on("mouseover", mouseover)
-            //.on("mouseout", mouseout)
-          //  .on("mousemove", mousemove)
-            .style("opacity", 0)
 
       var legend = svg.selectAll('.legend')
           .data(data)
@@ -118,7 +95,20 @@ function d3waffle() {
           .attr('class', function(d){ return "legend" + " " + d.class; })
           .attr("transform", function(d) { return "translate(" + (rows*gridSize + magic_padding) + "," + magic_padding + ")"; })
 
-      legend.append('text')
+      legend.append("rect")
+      .attr('x', gridSize)
+      .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
+            .style('fill', function(d){ return colorscale(d.class); })
+            .attr('class', function(d){ return d.class; })
+            .style("stroke", "white")
+            .attr("width", gridSize)
+            .attr("height", gridSize)
+            .style("opacity", 0)
+            .transition()
+            .duration(appearancetimes)
+            .style("opacity", 1);
+
+/*      legend.append('text')
             .attr('x', gridSize)
             .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
             .style("opacity", 1)
@@ -133,6 +123,7 @@ function d3waffle() {
               textsize = Math.min(val2 * gridSize, (val2 * gridSize - val) / this.getComputedTextLength() * val);
               return textsize * adjust + "px";
             });*/
+
 
       legend.append('text')
             .attr('x', 1.5*gridSize + magic_padding)
