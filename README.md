@@ -15,3 +15,10 @@ career path, or other meaningful life events.
 # Live Website
 
 Try it out at https://discotraystudios.github.io/myLifeInMonths/
+
+# Credits
+
+* [d3-waffle](https://github.com/jbkunst/d3-waffle/)
+* [dom-to-image](https://github.com/tsayen/dom-to-image)
+* [editable-table](https://mindmup.github.io/editable-table/)
+* [FileSaver.js](https://github.com/eligrey/FileSaver.js/)
