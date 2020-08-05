@@ -29,7 +29,6 @@ function d3waffle() {
       var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
       var cols = Math.ceil(totalscales/rows);
       var griddata = cartesianprod(d3.range(cols), d3.range(rows));
-      //var griddata = cartesianprod(d3.range(rows), d3.range(cols));
       var detaildata = [];
 
       data.forEach(function(d){
@@ -116,7 +115,7 @@ function d3waffle() {
           .data(data)
           .enter().append('g')
           .attr('class', function(d){ return "legend" + " " + d.class; })
-          .attr("transform", function(d) { return "translate(" + (cols*gridSize + magic_padding) + "," + magic_padding + ")"; })
+          .attr("transform", function(d) { return "translate(" + (rows*gridSize + magic_padding) + "," + magic_padding + ")"; })
 
       legend.append('text')
             .attr('x', gridSize)
