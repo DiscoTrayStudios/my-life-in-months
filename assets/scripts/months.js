@@ -103,7 +103,7 @@ $(document).ready(function() {
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
-  			return !!value && value.trim().length > 0 && value.trim().length < 22;
+  			return !!value && value.trim().length > 0 && value.trim().length < 20;
   		} else if (column === 1){
   			return isNormalPosInteger(value);
   		} else {
