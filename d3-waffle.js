@@ -29,6 +29,7 @@ function d3waffle() {
       var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
       var cols = Math.ceil(totalscales/rows);
       var griddata = cartesianprod(d3.range(cols), d3.range(rows));
+      //var griddata = cartesianprod(d3.range(rows), d3.range(cols));
       var detaildata = [];
 
       data.forEach(function(d){
@@ -45,13 +46,15 @@ function d3waffle() {
       /*console.log("detail data length: ", detaildata.length)*/
 
       var gridSize = ((height - margin.top - margin.bottom) / rows)
-      var gridWidth = 200 + margin.left + margin.right + gridSize * cols;
+// MHG Trying to flip it      var gridWidth = 200 + margin.left + margin.right + gridSize * cols;
+
+      var gridWidth = margin.top + margin.bottom + gridSize * cols;
 
       /* setting the container */
       var svg = selection.append("svg")
         //        .attr("width",  "100%")
-            .attr("width",  gridWidth + "px")
-            .attr("height", height + "px")
+            .attr("width",  (height + 200) + "px")
+            .attr("height", gridWidth + "px")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .style("cursor", "default");
@@ -74,7 +77,7 @@ function d3waffle() {
             .data(detaildata)
             .enter().append("g")
             .attr("class", "node")
-            .attr("transform", function(d) { return "translate(" + (d.col)*gridSize + "," + (rows - d.row - 1)*gridSize  + ")"; });
+            .attr("transform", function(d) { return "translate(" + (rows - d.row - 1)*gridSize + "," + (d.col)*gridSize  + ")"; });
 
       /* this is necesary, when the icons are small/thin activate mouseout */
       nodes.append("text")

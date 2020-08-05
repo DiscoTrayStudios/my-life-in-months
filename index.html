@@ -18,16 +18,15 @@
           <h4>My Life in Months</h4>
           <div id="waffle"></div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
+        <p>
       <button id="camera" type="button" class="btn btn-primary">Download <i class="fa fa-camera" aria-hidden="true"></i>
-</button>
+      </button>
+        </p>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
+
         <table id="mainTable" class="table table-striped">
           <thead><tr><th>Life Event</th><th>Months</th><th>Color</th><th>Delete</th></tr></thead>
           <tbody>
@@ -44,12 +43,14 @@
     <div class="row">
       <div class="col-md-12">
         <button id="addrow" type="button" class="btn btn-primary">Add Event</button>
+        <button id="shrink" type="button" class="btn btn-primary">Shrink</button>
       </div>
     </div>
     <hr class="mt-2 mb-3"/>
     <div class="row">
       <div class="col-md-12">
-        <p>Inspired by <a href="https://github.com/isabellabenabaye/life-chart">Isabella Benabaye</a></p>
+        <p>Inspired by <a href="https://github.com/isabellabenabaye/life-chart">Isabella Benabaye</a> and
+        <a href="https://waitbutwhy.com/2014/05/life-weeks.html">Tim Urban</a></p>
 
         <p>Built by <a href="https://discotraystudios.github.io/">Disco Tray Studios</a>, cobbling together pieces from:</p>
         <ul>
@@ -98,6 +99,7 @@ $(document).ready(function() {
 { "name": "Hendrix College", "value":75}
     ]
   var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"]
+  var chart;
 
   function calculateData() {
     console.log("Recalculating...");
@@ -119,7 +121,7 @@ $(document).ready(function() {
     var domain = data.map(function(d){ return slugify(d.name); })
     var palette = d3.scale.ordinal().domain(domain).range(range);
 
-    var chart = d3waffle()
+    chart = d3waffle()
         .rows(12)
         .colorscale(palette)
         .adjust(.95);
@@ -128,6 +130,11 @@ $(document).ready(function() {
   			.datum(data)
   			.call(chart);
   }
+
+  $( "#shrink" ).click(function() {
+    chart.height(150);
+    d3.select("#waffle").call(chart);
+  });
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
   $( "#camera" ).click(function() {
