@@ -108,23 +108,6 @@ function d3waffle() {
             .duration(appearancetimes)
             .style("opacity", 1);
 
-/*      legend.append('text')
-            .attr('x', gridSize)
-            .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
-            .style("opacity", 1)
-            .html(function(d){ return icon; })
-            .attr('class', function(d){ return d.class; })
-            .attr('font-family', 'FontAwesome')
-            .attr("transform", function(d) { return "translate(" + gridSize/2 + "," + 5/6*gridSize  + ")"; })
-            .style('fill', function(d){ return colorscale(d.class); })
-            /*.style("font-size", function(d) {
-              val = 9;
-              val2 = 2.5;
-              textsize = Math.min(val2 * gridSize, (val2 * gridSize - val) / this.getComputedTextLength() * val);
-              return textsize * adjust + "px";
-            });*/
-
-
       legend.append('text')
             .attr('x', 1.5*gridSize + magic_padding)
             .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
