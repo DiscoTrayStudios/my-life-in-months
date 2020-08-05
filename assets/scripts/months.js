@@ -57,6 +57,22 @@ $(document).ready(function() {
     });
   });
 
+  $( "#addGallery" ).click(function() {
+    domtoimage.toPng(document.getElementById('capture'))
+    .then (function (dataUrl) {
+        var img = new Image();
+        img.src = dataUrl;
+        var galdiv = $("<div class='col-md-4'></div>").append(img);
+        // how to make the image have a class fluid?
+        galdiv.children(0).addClass("img-fluid");
+        $("#gallery").prepend(galdiv);
+          //img);
+    })
+    .catch(function (error) {
+        console.error('oops, something went wrong!', error);
+    });
+  });
+
   $( "#addrow" ).click(function() {
     var dataRows = $("#mainTable").find('tbody tr');
     $('#mainTable tr:last').after('<tr>' +
