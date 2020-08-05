@@ -9,8 +9,9 @@ $(document).ready(function() {
 { "name": "UW Madison - Ph.D.", "value":77},
 { "name": "Centenary College", "value":84},
 { "name": "Hendrix College", "value":75}
-    ]
-  var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"]
+];
+  var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
+  var defaultColors = d3.scale.category20();
   var chart;
 
   function calculateData() {
@@ -22,10 +23,10 @@ $(document).ready(function() {
       var row = $(this);
       data.push({ "name": row.children().eq(0).text(),
                   "value":row.children().eq(1).text()});
-      console.log(row.find('input')[0].value);
+      //console.log(row.find('input')[0].value);
       range.push(row.find('input')[0].value);
     });
-    console.log(range);
+    //console.log(range);
   }
 
   function makeWaffleChart() {
@@ -58,7 +59,12 @@ $(document).ready(function() {
 
   $( "#addrow" ).click(function() {
     var dataRows = $("#mainTable").find('tbody tr');
-    $('#mainTable tr:last').after('<tr><td>Event' + (dataRows.length + 1) + '</td><td>12</td><td class="colorpick"><input type="color" value="#e66465"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
+    $('#mainTable tr:last').after('<tr>' +
+          '<td>Event' + (dataRows.length + 1) + '</td>' +
+          '<td>' + getRandomIntInclusive(12, 48) + '</td>' +
+          '<td class="colorpick"><input type="color" value="' +
+          defaultColors('Event' + (dataRows.length + 1)) +
+          '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     calculateData();
     makeWaffleChart();
     $('#mainTable').editableTableWidget().numericInputExample()
@@ -73,6 +79,13 @@ $(document).ready(function() {
       str = str.replace(/^0+/, "") || "0";
       var n = Math.floor(Number(str));
       return n !== Infinity && String(n) === str && n > 0 && n <= 1200;
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
   }
 
   /* global $ */
@@ -100,6 +113,8 @@ $(document).ready(function() {
   	return this;
   };
 
+  defaultColors("Childhood");
+  defaultColors("High School");
   calculateData();
   makeWaffleChart();
 
