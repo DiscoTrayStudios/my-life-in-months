@@ -1,14 +1,14 @@
 $(document).ready(function() {
   var data = [
-{ "name": "Pennsylvania", "value":96},
-{ "name": "West Virginia", "value":96},
-{ "name": "Kenyon", "value":45},
+{ "name": "Bethlehem", "value":96},
+{ "name": "Canvas", "value":96},
+{ "name": "Gambier", "value":45},
 { "name": "Milwaukee", "value":3},
-{ "name": "UW Madison - M.S.", "value":21},
-{ "name": "San Antonio - SWRI", "value":7},
-{ "name": "UW Madison - Ph.D.", "value":77},
-{ "name": "Centenary College", "value":84},
-{ "name": "Hendrix College", "value":75}
+{ "name": "Madison", "value":21},
+{ "name": "San Antonio", "value":7},
+{ "name": "Madison II", "value":77},
+{ "name": "Shreveport", "value":84},
+{ "name": "Conway", "value":75}
 ];
   var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
   var defaultColors = d3.scale.category20();
