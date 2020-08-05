@@ -76,7 +76,7 @@ function d3waffle() {
             .data(detaildata)
             .enter().append("g")
             .attr("class", "node")
-            .attr("transform", function(d) { return "translate(" + (rows - d.row - 1)*gridSize + "," + (d.col)*gridSize  + ")"; });
+            .attr("transform", function(d) { return "translate(" + (d.row)*gridSize + "," + (d.col)*gridSize  + ")"; });
 
       /* this is necesary, when the icons are small/thin activate mouseout */
       nodes.append("text")
