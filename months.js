@@ -72,7 +72,7 @@ $(document).ready(function() {
       }
       str = str.replace(/^0+/, "") || "0";
       var n = Math.floor(Number(str));
-      return n !== Infinity && String(n) === str && n > 0;
+      return n !== Infinity && String(n) === str && n > 0 && n <= 1200;
   }
 
   /* global $ */
