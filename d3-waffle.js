@@ -58,20 +58,6 @@ function d3waffle() {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .style("cursor", "default");
 
-      var tooltip = d3.select("body")
-            .append("div")
-            .attr("class", "waffle-tooltip")
-            .style("position", "absolute")
-            .style("text-align", "right")
-            .style("background", "#333")
-            .style("margin", "3px")
-            .style("color","white")
-            .style("padding","3px")
-            .style("border","0px")
-            .style("border-radius","3px") // 3px rule
-            .style("opacity",0)
-            .style("cursor", "default");
-
       var nodes = svg.selectAll(".node")
             .data(detaildata)
             .enter().append("g")
@@ -96,8 +82,8 @@ function d3waffle() {
           .attr("transform", function(d) { return "translate(" + (rows*gridSize + magic_padding) + "," + magic_padding + ")"; })
 
       legend.append("rect")
-      .attr('x', gridSize)
-      .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
+            .attr('x', gridSize)
+            .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
             .style('fill', function(d){ return colorscale(d.class); })
             .attr('class', function(d){ return d.class; })
             .style("stroke", "white")
@@ -115,27 +101,6 @@ function d3waffle() {
             .html(function(d){ return d.name; })
             .attr('class', function(d){ return "waffle-legend-text" + " " + d.class; })
             .attr("transform", function(d) { return "translate(" + gridSize/2 + "," + 5/6*gridSize  + ")"; })
-
-      function mouseover(d){
-        tooltip.transition().duration(100).style("opacity", .9);
-        el = data.filter(function(e){ return e.name == d.name})[0]
-        txt = "<b>" +el.name + "</b><br>" + d3.format(',')(el.value) + "<br>(" + d3.format(".0%")(el.percent) + ")"
-        tooltip.html(txt);
-
-        d3.select("#" + idcontainer).selectAll("text").transition().duration(100).style("opacity", 0.2);
-        d3.select("#" + idcontainer).selectAll("text." + d.class).transition().duration(100).style("opacity", 1);
-      }
-
-      function mouseout(d){
-        tooltip.transition().duration(100).style("opacity", 0);
-        d3.select("#" + idcontainer).selectAll("text").transition().duration(100).style("opacity", 1);
-      }
-
-      function mousemove(d){
-        tooltip
-            .style("left", (d3.event.pageX + 0 ) + "px")
-            .style("top", (d3.event.pageY + - 70) + "px");
-      }
 
     });
   }

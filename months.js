@@ -50,19 +50,10 @@ $(document).ready(function() {
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
   $( "#camera" ).click(function() {
-
     domtoimage.toBlob(document.getElementById('capture'))
     .then(function (blob) {
         window.saveAs(blob, 'myLifeInMonths.png');
     });
-
-    /*
-    html2canvas(document.querySelector("#capture")).then(canvas => {
-      canvas.toBlob(function(blob) {
-          saveAs(blob, 'myLifeInMonths.png');
-      });
-    });
-    */
   });
 
   $( "#addrow" ).click(function() {
