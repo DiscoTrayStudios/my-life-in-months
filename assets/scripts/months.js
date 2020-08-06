@@ -61,11 +61,10 @@ $(document).ready(function() {
     domtoimage.toPng(document.getElementById('capture'))
     .then(function (dataUrl) {
         url="https://twitter.com/share?ref_src=" + dataUrl;
+        console.log(url);
         window.open(url);
     });
   });
-
-
 
   $( "#addGallery" ).click(function() {
     domtoimage.toPng(document.getElementById('capture'))
@@ -138,6 +137,16 @@ $(document).ready(function() {
   	});
   	return this;
   };
+
+  // https://stackoverflow.com/questions/9205164/validate-html-text-input-as-its-typed
+  $('#waffle-title-input').bind('input propertychange', function() {
+    var text = $(this).val();
+    if (text.length > 30) {
+      text = text.slice(0, -1);
+      $(this).val(text);
+    }
+    $('#waffle-title').html(text);
+  });
 
   defaultColors("Childhood");
   defaultColors("High School");
