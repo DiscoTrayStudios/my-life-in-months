@@ -142,12 +142,11 @@ $(document).ready(function() {
   $('#waffle-title-input').bind('input propertychange', function() {
     var text = $(this).val();
     //console.log($("#waffle-title").width());
-    $('#waffle-title').html(text);
-    if ($("#waffle-title").width() > 400) {
+    if (text.length > 30) {
       text = text.slice(0, -1);
       $(this).val(text);
-      $('#waffle-title').html(text);
     }
+    $('#waffle-title').html(text);
   });
 
   defaultColors("Childhood");
