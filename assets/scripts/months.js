@@ -56,24 +56,16 @@ $(document).ready(function() {
     return numMonths;
   }
 
+  $( "#shrink" ).click(function() {
+    chart.height(150);
+    d3.select("#waffle").call(chart);
+  });
+
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
   $( "#camera" ).click(function() {
     domtoimage.toBlob(document.getElementById('capture'))
     .then(function (blob) {
         window.saveAs(blob, 'myLifeInMonths.png');
-    });
-  });
-
-  // https://stackoverflow.com/questions/27798126/how-to-open-the-newly-created-image-in-a-new-tab
-  $( "#openWindow" ).click(function() {
-    domtoimage.toPng(document.getElementById('capture'))
-    .then(function (dataUrl) {
-
-      var image = new Image();
-      image.src = dataUrl;
-
-      var w = window.open("");
-      w.document.write(image.outerHTML);
     });
   });
 
