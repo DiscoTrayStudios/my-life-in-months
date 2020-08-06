@@ -57,6 +57,16 @@ $(document).ready(function() {
     });
   });
 
+  $( "#twitter" ).click(function() {
+    domtoimage.toPng(document.getElementById('capture'))
+    .then(function (dataUrl) {
+        url="https://twitter.com/share?ref_src=twsrc%5Etfw";
+        window.open(url);
+    });
+  });
+
+
+
   $( "#addGallery" ).click(function() {
     domtoimage.toPng(document.getElementById('capture'))
     .then (function (dataUrl) {
@@ -144,4 +154,5 @@ $(document).ready(function() {
   });
 
   $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+
 });
