@@ -5,7 +5,7 @@ function d3waffle() {
       rows = 10,
       adjust = 0.8,
       colorscale = d3.scale.category20(),
-      appearancetimes = function(d, i){ return 500; },
+      appearancetimes = function(d, i){ return i * 3; },
       height = 200,
       magic_padding = 5;
 
