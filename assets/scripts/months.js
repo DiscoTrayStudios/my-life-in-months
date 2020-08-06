@@ -26,6 +26,7 @@ $(document).ready(function() {
       //console.log(row.find('input')[0].value);
       range.push(row.find('input')[0].value);
     });
+    toggleFuture();
     //console.log(range);
   }
 
@@ -42,6 +43,17 @@ $(document).ready(function() {
     d3.select("#waffle")
   			.datum(data)
   			.call(chart);
+  }
+
+  function getCurrentNumMonths() {
+    var numMonths = 0;
+    var dataRows = $("#mainTable").find('tbody tr');
+    dataRows.each(function () {
+      var row = $(this);
+      numMonths += parseInt(row.children().eq(1).text());
+    })
+    console.log(numMonths);
+    return numMonths;
   }
 
   $( "#shrink" ).click(function() {
@@ -94,6 +106,22 @@ $(document).ready(function() {
     makeWaffleChart();
     $('#mainTable').editableTableWidget().numericInputExample()
   });
+
+  $( "#togglefuture" ).click(function() {
+    calculateData();
+    makeWaffleChart();
+  });
+
+  function toggleFuture() {
+    var lifeExpectancy = 80
+    var numMonths = getCurrentNumMonths();
+    if ($('#togglefuture').prop('checked') && (lifeExpectancy * 12) > numMonths) {
+      futureIndex = data.length;
+      data.push({ "name": "Future",
+                  "value": (lifeExpectancy * 12) - numMonths});
+      range.push("#bfbfbf");
+    }
+  };
 
   // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
   function isNormalPosInteger(str) {
