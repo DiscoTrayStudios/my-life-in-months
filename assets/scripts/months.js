@@ -141,11 +141,13 @@ $(document).ready(function() {
   // https://stackoverflow.com/questions/9205164/validate-html-text-input-as-its-typed
   $('#waffle-title-input').bind('input propertychange', function() {
     var text = $(this).val();
-    if (text.length > 30) {
+    //console.log($("#waffle-title").width());
+    $('#waffle-title').html(text);
+    if ($("#waffle-title").width() > 400) {
       text = text.slice(0, -1);
       $(this).val(text);
+      $('#waffle-title').html(text);
     }
-    $('#waffle-title').html(text);
   });
 
   defaultColors("Childhood");
