@@ -60,7 +60,7 @@ $(document).ready(function() {
   $( "#twitter" ).click(function() {
     domtoimage.toPng(document.getElementById('capture'))
     .then(function (dataUrl) {
-        url="https://twitter.com/share?ref_src=twsrc%5Etfw";
+        url="https://twitter.com/share?ref_src=" + dataUrl;
         window.open(url);
     });
   });
