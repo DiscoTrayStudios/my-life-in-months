@@ -17,6 +17,7 @@ $(document).ready(function() {
   function calculateData() {
     console.log("Recalculating...");
     data = []
+    color_data = []
     range = []
     var dataRows = $("#mainTable").find('tbody tr');
     dataRows.each(function () {
@@ -31,7 +32,7 @@ $(document).ready(function() {
 
   function makeWaffleChart() {
     /* to color elements we use the class name ( slugigy(name) ) */
-    var domain = data.map(function(d){ return slugify(d.name); })
+    var domain = data.map(function(d){ return slugify(d.name.concat(data.indexOf(d))); })
     var palette = d3.scale.ordinal().domain(domain).range(range);
 
     chart = d3waffle()
