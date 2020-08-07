@@ -190,8 +190,9 @@ $(document).ready(function() {
 
   var ua = navigator.userAgent;
 
+$("body").append($("<h1>This is on TESTING</h1>"));
   if (ua.indexOf("FBAN") != -1 || ua.indexOf("FBAV") != -1) {
-    document.append("<h1>This is on Facebook</h1>");
+    $("body").append($("<h1>This is on Facebook</h1>"));
   }
 
 
