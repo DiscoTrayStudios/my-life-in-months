@@ -1,1 +1,11 @@
 /* Add our own style here */
+.chart-area {
+  padding: 10px;
+  background: #fafafa;
+  display: inline-block;
+}
+
+.chart-title {
+  display: table-cell;
+  width:100%
+}
