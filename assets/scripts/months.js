@@ -188,4 +188,11 @@ $(document).ready(function() {
 
   $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
 
+  var ua = navigator.userAgent;
+
+  if (ua.indexOf("FBAN") != -1 || ua.indexOf("FBAV") != -1) {
+    document.append("<h1>This is on Facebook</h1>");
+  }
+
+
 });
