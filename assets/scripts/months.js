@@ -17,7 +17,6 @@ $(document).ready(function() {
   function calculateData() {
     console.log("Recalculating...");
     data = []
-    color_data = []
     range = []
     var dataRows = $("#mainTable").find('tbody tr');
     dataRows.each(function () {

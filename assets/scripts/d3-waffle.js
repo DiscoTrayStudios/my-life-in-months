@@ -24,7 +24,7 @@ function d3waffle() {
         data[i].class = slugify(d.name);
         data[i].scalevalue = Math.round(data[i].value*scale);
         data[i].percent = data[i].value/total;
-        data[i].class_index = d.name.concat(i);
+        data[i].class_index = d.class.concat(i);
       });
 
 
@@ -36,7 +36,7 @@ function d3waffle() {
 
       data.forEach(function(d){
         d3.range(d.scalevalue).forEach(function(e){
-          detaildata.push({ name: d.name, class: d.class,})
+          detaildata.push({ name: d.name, class: d.class, class_index: d.class_index})
         });
       });
 
