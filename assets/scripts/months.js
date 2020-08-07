@@ -56,11 +56,6 @@ $(document).ready(function() {
     return numMonths;
   }
 
-  $( "#shrink" ).click(function() {
-    chart.height(150);
-    d3.select("#waffle").call(chart);
-  });
-
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
   $( "#camera" ).click(function() {
     domtoimage.toBlob(document.getElementById('capture'))
@@ -174,7 +169,7 @@ $(document).ready(function() {
       text = text.slice(0, -1);
       $(this).val(text);
     }
-    $('#waffle-title').html(text);
+    $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
   });
 
   defaultColors("Childhood");
