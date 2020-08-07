@@ -24,7 +24,10 @@ function d3waffle() {
         data[i].class = slugify(d.name);
         data[i].scalevalue = Math.round(data[i].value*scale);
         data[i].percent = data[i].value/total;
+        data[i].class_index = d.class.concat(i);
       });
+
+
 
       var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
       var cols = Math.ceil(totalscales/rows);
@@ -33,7 +36,7 @@ function d3waffle() {
 
       data.forEach(function(d){
         d3.range(d.scalevalue).forEach(function(e){
-          detaildata.push({ name: d.name, class: d.class })
+          detaildata.push({ name: d.name, class: d.class, class_index: d.class_index})
         });
       });
 
@@ -65,7 +68,7 @@ function d3waffle() {
             .attr("transform", function(d) { return "translate(" + (d.row)*gridSize + "," + (d.col)*gridSize  + ")"; });
 
       nodes.append("rect")
-            .style('fill', function(d){ return colorscale(d.class); })
+            .style('fill', function(d){ return colorscale(d.class_index); })
             .attr('class', function(d){ return d.class; })
             .style("stroke", "white")
             .attr("width", gridSize)
@@ -84,7 +87,7 @@ function d3waffle() {
       legend.append("rect")
             .attr('x', gridSize)
             .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
-            .style('fill', function(d){ return colorscale(d.class); })
+            .style('fill', function(d){ return colorscale(d.class_index); })
             .attr('class', function(d){ return d.class; })
             .style("stroke", "white")
             .attr("width", gridSize)
