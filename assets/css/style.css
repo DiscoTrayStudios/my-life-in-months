@@ -5,6 +5,10 @@
   display: inline-block;
 }
 
+.chart-div {
+  padding-bottom: 10px;
+}
+
 .chart-title {
   display: table-cell;
   width:100%
