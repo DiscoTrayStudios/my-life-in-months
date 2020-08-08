@@ -49,7 +49,8 @@
       <div class="col-md-6">
 
         <table id="mainTable" class="table table-striped">
-          <thead><tr><th>Title</th><th colspan="3"><input type="text" id="waffle-title-input" class="chart-title" value="My Life in Months"></input></th></thead>
+          <thead><tr><th>Title</th>
+            <th colspan="3"><input type="text" id="waffle-title-input" class="chart-title" value="My Life in Months"></input></th></thead>
 
           <thead><tr><th>Life Event</th><th>Months</th><th>Color</th><th>Delete</th></tr></thead>
           <tbody>
@@ -61,49 +62,24 @@
                 value="#aec7e8"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>
           </tbody>
         </table>
-        <p><button id="addrow" type="button" class="btn btn-primary">Add Event</button></p>
+        <p><button id="addrow" type="button" class="btn btn-primary">Add Event</button> <button id="reset" type="button" class="btn btn-danger">Reset Chart</button></p>
         <p class="custom-control custom-switch">
           <input type="checkbox" class="custom-control-input" id="togglefuture">
           <label class="custom-control-label" for="togglefuture">Extend to 80 Years</label>
         </p>
-        <!-- <button id="shrink" type="button" class="btn btn-primary">Shrink</button> -->
       </div>
       <div class="col-md-6">
         <div id="capture" class="chart-area">
           <h4 id="waffle-title">My Life in Months</h4>
           <div id="waffle"></div>
-          <div class="float-right" style="opacity:0.2;">
-            <img height="50px" src="assets/images/discologo.png">
           </div>
-        </div>
         <p>&nbsp;</p>
         <p>
           <button id="camera" type="button" class="btn btn-primary">Download <i class="fa fa-camera" aria-hidden="true"></i>
           </button>
-          <button id="addGallery" type="button" class="btn btn-primary">Add to My Charts
-           </button>
-<!--           <button id="facebook" type="button" class="btn btn-primary">
-            <i class="fa fa-facebook"></i>
-          </button>
-          <button id="twitter" type="button" class="btn btn-primary">
-            <i class="fa fa-twitter"></i>
-          </button>
-        -->
         </p>
       </div>
     </div>
-
-    <hr class="mt-2 mb-3"/>
-    <div class="row">
-      <div class="col-md-12">
-        <h4>My Charts</h4>
-        <p>This is temporary storage right now. <strong>If you refresh the page, these images will be lost,
-          so please save your charts.</strong></p>
-      </div>
-    </div>
-    <div id="gallery" class="row">
-    </div>
-    <h4>&nbsp;</h4>
 
   <hr class="mt-2 mb-3"/>
   <div class="row">

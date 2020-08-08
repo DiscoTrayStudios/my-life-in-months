@@ -1,16 +1,25 @@
 $(document).ready(function() {
-  var data = [
-{ "name": "Bethlehem", "value":96},
-{ "name": "Canvas", "value":96},
-{ "name": "Gambier", "value":45},
-{ "name": "Milwaukee", "value":3},
-{ "name": "Madison", "value":21},
-{ "name": "San Antonio", "value":7},
-{ "name": "Madison II", "value":77},
-{ "name": "Shreveport", "value":84},
-{ "name": "Conway", "value":75}
-];
-  var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
+  var goadrichdata = [
+    { "name": "Bethlehem", "value":96},
+    { "name": "Canvas", "value":96},
+    { "name": "Gambier", "value":45},
+    { "name": "Milwaukee", "value":3},
+    { "name": "Madison", "value":21},
+    { "name": "San Antonio", "value":7},
+    { "name": "Madison II", "value":77},
+    { "name": "Shreveport", "value":84},
+    { "name": "Conway", "value":75}
+  ];
+  var goadrichrange = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
+
+  var originaldata = [
+    { "name": "Childhood", "value":184},
+    { "name": "High School", "value":45}
+  ];
+  var originalrange = ["#1f77b4", "#aec7e8"];
+
+  var data = [];
+  var range = [];
   var defaultColors = d3.scale.category20();
   var chart;
 
@@ -176,6 +185,16 @@ $(document).ready(function() {
   defaultColors("High School");
   calculateData();
   makeWaffleChart();
+
+  $( "#reset" ).click(function() {
+    //resetChart(originaldata, originalrange);
+  });
+
+  function resetChart(data, range) {
+    var tablebody = $("#mainTable").find('tbody');
+    tablebody.html("");
+    generateTable(data, range);
+  }
 
   $( document ).on( "click", ".remove", function(){
     var dataRows = $("#mainTable").find('tbody tr');
