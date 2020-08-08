@@ -9,3 +9,18 @@
   display: table-cell;
   width:100%
 }
+
+* {
+  border-radius: 0 !important;
+}
+
+.remove, .colorpick, .monthsevent {
+  text-align: center;
+}
+
+input[type="color"] {
+	-webkit-appearance: none;
+	border: none;
+	width: 24px;
+	height: 24px;
+}

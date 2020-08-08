@@ -102,7 +102,7 @@ $(document).ready(function() {
     var dataRows = $("#mainTable").find('tbody tr');
     $('#mainTable tr:last').after('<tr>' +
           '<td>Event' + (dataRows.length + 1) + '</td>' +
-          '<td>' + getRandomIntInclusive(12, 48) + '</td>' +
+          '<td class="monthsevent">' + getRandomIntInclusive(12, 48) + '</td>' +
           '<td class="colorpick"><input type="color" value="' +
           defaultColors('Event' + (dataRows.length + 1)) +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
