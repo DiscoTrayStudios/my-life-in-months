@@ -22,6 +22,7 @@
   text-align: center;
 }
 
+/* https://stackoverflow.com/questions/11167281/webkit-css-to-control-the-box-around-the-color-in-an-inputtype-color */
 input[type="color"] {
 	-webkit-appearance: none;
 	border: none;
