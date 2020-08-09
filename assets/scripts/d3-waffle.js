@@ -49,12 +49,15 @@ function d3waffle() {
 // MHG Trying to flip it      var gridWidth = 200 + margin.left + margin.right + gridSize * cols;
 
       var gridWidth = margin.top + margin.bottom + gridSize * cols;
-
+      var spots = data.length + 1;
+      var legendHeight = spots * gridSize + spots * magic_padding / 2;
+      console.log("" + legendHeight + ", " + gridWidth);
+      console.log(Math.max(gridWidth, legendHeight));
       /* setting the container */
       var svg = selection.append("svg")
         //        .attr("width",  "100%")
             .attr("width",  (height + 200) + "px")
-            .attr("height", gridWidth + "px")
+            .attr("height", Math.max(gridWidth, legendHeight) + "px")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .style("cursor", "default");
