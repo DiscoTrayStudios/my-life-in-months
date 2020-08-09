@@ -129,8 +129,8 @@ $(document).ready(function() {
   };
 
   function getRandomEventName(){
-    events = ["Went backpacking across Europe", "Went to Mars", "Started a pickle farm", "Went ghost hunting", "Studied", "Learned to unicycle", "Went on a business trip",
-    "Studied French", "Published an autobiography", "Sculpted ice", "Entered a surfing competition"];
+    events = ["Went backpacking", "Went to Mars", "Started pickle farm", "Went ghost hunting", "Studied", "Learned to unicycle", "Went to Antarctica",
+    "Studied French", "Published a book", "Sculpted ice", "Entered the Olympics"];
     return events[Math.floor(Math.random() * events.length)];
   }
 
