@@ -1,11 +1,9 @@
 function d3waffle() {
   var margin = {top: 10, right: 10, bottom: 10, left: 10},
-      icon = "&#9632;",
       scale = 1,
       rows = 10,
-      adjust = 0.8,
       colorscale = d3.scale.category20(),
-      appearancetimes = function(d, i){ return i * 3; },
+      appearancetimes = function(d, i){ return 100; },
       height = 200,
       magic_padding = 5;
 
@@ -26,8 +24,6 @@ function d3waffle() {
         data[i].percent = data[i].value/total;
         data[i].class_index = d.class.concat(i);
       });
-
-
 
       var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
       var cols = Math.ceil(totalscales/rows);
@@ -126,12 +122,6 @@ function d3waffle() {
     return chart;
   };
 
-  chart.icon = function(_) {
-    if (!arguments.length) return icon;
-    icon = _;
-    return chart;
-  };
-
   chart.scale = function(_) {
     if (!arguments.length) return scale;
     scale = _;
@@ -149,16 +139,6 @@ chart.appearancetimes = function(_) {
     appearancetimes = _;
     return chart;
   };
-
-chart.adjust = function(_) {
-    if (!arguments.length) return adjust;
-    adjust = _;
-    return chart;
-  };
-
-  return chart;
-
-}
 
 function slugify(text){
   return text.toString().toLowerCase()
