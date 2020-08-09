@@ -25,6 +25,8 @@ function d3waffle() {
         data[i].class_index = d.class.concat(i);
       });
 
+
+
       var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
       var cols = Math.ceil(totalscales/rows);
       var griddata = cartesianprod(d3.range(cols), d3.range(rows));
@@ -139,6 +141,10 @@ chart.appearancetimes = function(_) {
     appearancetimes = _;
     return chart;
   };
+
+  return chart;
+
+}
 
 function slugify(text){
   return text.toString().toLowerCase()

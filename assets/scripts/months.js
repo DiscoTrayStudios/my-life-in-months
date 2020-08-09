@@ -46,8 +46,7 @@ $(document).ready(function() {
 
     chart = d3waffle()
         .rows(12)
-        .colorscale(palette)
-        .adjust(.99);
+        .colorscale(palette);
 
     d3.select("#waffle")
   			.datum(data)
