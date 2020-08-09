@@ -99,12 +99,13 @@ $(document).ready(function() {
   });
 
   $( "#addrow" ).click(function() {
+    var eventName = getRandomEventName();
     var dataRows = $("#mainTable").find('tbody tr');
     $('#mainTable tr:last').after('<tr>' +
-          '<td>Event' + (dataRows.length + 1) + '</td>' +
+          '<td>' + eventName+ '</td>' +
           '<td class="monthsevent">' + getRandomIntInclusive(12, 48) + '</td>' +
           '<td class="colorpick"><input type="color" value="' +
-          defaultColors('Event' + (dataRows.length + 1)) +
+          defaultColors(eventName) +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     calculateData();
     makeWaffleChart();
@@ -126,6 +127,12 @@ $(document).ready(function() {
       range.push("#bfbfbf");
     }
   };
+
+  function getRandomEventName(){
+    events = ["Went backpacking", "Went to Mars", "Started pickle farm", "Went ghost hunting", "Studied", "Learned to unicycle", "Went to Antarctica",
+    "Studied French", "Published a book", "Sculpted ice", "Entered the Olympics"];
+    return events[Math.floor(Math.random() * events.length)];
+  }
 
   // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
   function isNormalPosInteger(str) {
