@@ -1,7 +1,7 @@
 function d3waffle() {
   var margin = {top: 10, right: 10, bottom: 10, left: 10},
       scale = 1,
-      rows = 10,
+      cols = 12,
       colorscale = d3.scale.category20(),
       appearancetimes = function(d, i){ return 100; },
       width = 200,
@@ -38,21 +38,17 @@ function d3waffle() {
         });
       });
 
+      // detailData is for the squares
       detaildata.forEach(function(d, i){
         detaildata[i].row = griddata[i][0];
         detaildata[i].col = griddata[i][1];
       })
 
-      /*console.log("detail data length: ", detaildata.length)*/
 
       var gridSize = ((width - margin.left - margin.right) / cols)
-// MHG Trying to flip it      var gridHeight = 200 + margin.left + margin.right + gridSize * cols;
-
       var gridHeight = margin.top + margin.bottom + gridSize * rows;
       var spots = data.length + 1;
       var legendHeight = spots * gridSize + spots * magic_padding / 2;
-      //console.log("" + legendHeight + ", " + gridHeight);
-      //console.log(Math.max(gridHeight, legendHeight));
 
       /* setting the container */
       var svg = selection.append("svg")
