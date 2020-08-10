@@ -4,7 +4,7 @@ function d3waffle() {
       rows = 10,
       colorscale = d3.scale.category20(),
       appearancetimes = function(d, i){ return 100; },
-      height = 200,
+      width = 200,
       magic_padding = 5;
 
   function chart(selection) {
@@ -28,8 +28,8 @@ function d3waffle() {
 
 
       var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
-      var cols = Math.ceil(totalscales/rows);
-      var griddata = cartesianprod(d3.range(cols), d3.range(rows));
+      var rows = Math.ceil(totalscales/cols);
+      var griddata = cartesianprod(d3.range(rows), d3.range(cols));
       var detaildata = [];
 
       data.forEach(function(d){
@@ -39,26 +39,26 @@ function d3waffle() {
       });
 
       detaildata.forEach(function(d, i){
-        detaildata[i].col = griddata[i][0];
-        detaildata[i].row = griddata[i][1];
+        detaildata[i].row = griddata[i][0];
+        detaildata[i].col = griddata[i][1];
       })
 
       /*console.log("detail data length: ", detaildata.length)*/
 
-      var gridSize = ((height - margin.top - margin.bottom) / rows)
-// MHG Trying to flip it      var gridWidth = 200 + margin.left + margin.right + gridSize * cols;
+      var gridSize = ((width - margin.left - margin.right) / cols)
+// MHG Trying to flip it      var gridHeight = 200 + margin.left + margin.right + gridSize * cols;
 
-      var gridWidth = margin.top + margin.bottom + gridSize * cols;
+      var gridHeight = margin.top + margin.bottom + gridSize * rows;
       var spots = data.length + 1;
       var legendHeight = spots * gridSize + spots * magic_padding / 2;
-      //console.log("" + legendHeight + ", " + gridWidth);
-      //console.log(Math.max(gridWidth, legendHeight));
-      
+      //console.log("" + legendHeight + ", " + gridHeight);
+      //console.log(Math.max(gridHeight, legendHeight));
+
       /* setting the container */
       var svg = selection.append("svg")
         //        .attr("width",  "100%")
-            .attr("width",  (height + 200) + "px")
-            .attr("height", Math.max(gridWidth, legendHeight) + "px")
+            .attr("width",  (width + 200) + "px")
+            .attr("height", Math.max(gridHeight, legendHeight) + "px")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .style("cursor", "default");
@@ -67,7 +67,7 @@ function d3waffle() {
             .data(detaildata)
             .enter().append("g")
             .attr("class", "node")
-            .attr("transform", function(d) { return "translate(" + (d.row)*gridSize + "," + (d.col)*gridSize  + ")"; });
+            .attr("transform", function(d) { return "translate(" + (d.col)*gridSize + "," + (d.row)*gridSize  + ")"; });
 
       nodes.append("rect")
             .style('fill', function(d){ return colorscale(d.class_index); })
@@ -84,7 +84,7 @@ function d3waffle() {
           .data(data)
           .enter().append('g')
           .attr('class', function(d){ return "legend" + " " + d.class; })
-          .attr("transform", function(d) { return "translate(" + (rows*gridSize + magic_padding) + "," + magic_padding + ")"; })
+          .attr("transform", function(d) { return "translate(" + (cols*gridSize + magic_padding) + "," + magic_padding + ")"; })
 
       legend.append("rect")
             .attr('x', gridSize)
@@ -122,9 +122,9 @@ function d3waffle() {
     return chart;
   };
 
-  chart.rows = function(_) {
-    if (!arguments.length) return rows;
-    rows = _;
+  chart.cols = function(_) {
+    if (!arguments.length) return cols;
+    cols = _;
     return chart;
   };
 

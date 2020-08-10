@@ -45,7 +45,7 @@ $(document).ready(function() {
     var palette = d3.scale.ordinal().domain(domain).range(range);
 
     chart = d3waffle()
-        .rows(12)
+        .cols(12)
         .colorscale(palette);
 
     d3.select("#waffle")
