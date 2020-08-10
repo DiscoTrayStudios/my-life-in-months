@@ -40,11 +40,14 @@
           Edit the table below to map out where you've lived, your
           career path, trials and tribulations, or other meaningful life events.
           Then, click <strong>Download</strong> to save your chart!</p>
-          <div class="alert alert-warning" role="alert">
-    The download function will not work in the Facebook browser.
-    Please <a href="https://www.phonearena.com/news/Facebook-Messenger-open-external-safari-chrome-browser_id114893">open this
-    page in either Safari or Chrome</a> to be able to save your chart.
-  </div>
+          <div class="alert alert-warning alert-dismissible show fade" role="alert">
+            <strong>Warning!</strong> The download function will not work in the Facebook browser.
+            Please <a href="https://www.phonearena.com/news/Facebook-Messenger-open-external-safari-chrome-browser_id114893">open this
+            page in either Safari or Chrome</a> to be able to save your chart.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
       </div>
     </div>
@@ -67,6 +70,9 @@
               <td class="remove"><i class="fa fa-trash-o"></i></td></tr>
           </tbody>
         </table>
+        <div id="showAlertHere">
+
+        </div>
         <p><button id="addrow" type="button" class="btn btn-primary">Add Event</button>
         <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
         </p>
@@ -74,12 +80,6 @@
           <input type="checkbox" class="custom-control-input" id="togglefuture">
           <label class="custom-control-label" for="togglefuture">Extend to 80 Years</label>
         </p>
-        <div class="alert alert-danger alert-dismissible fade" role="alert" id="alert-event-name-length">
-          <strong>Warning!</strong> Event names can only be up to 20 characters long!
-          <button type="button" class="close" aria-label="Close" id="event-name-dismiss-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
       </div>
 
 
@@ -111,6 +111,9 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-md-4">
+      <img class="img-fluid" src="assets/images/isabella.png">
+    </div>
     <div class="col-md-4">
       <img class="img-fluid" src="assets/images/goadrich.png">
     </div>
@@ -152,16 +155,13 @@
 
 
   <!-- JS, Popper.js, and jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" type="text/javascript"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
   <!-- using https://github.com/jbkunst/d3-waffle/ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js" type="text/javascript"></script>
   <script src="assets/scripts/d3-waffle.js" type="text/javascript"></script>
-
-  <!-- using http://html2canvas.hertzen.com/ -->
-  <script src="assets/scripts/html2canvas.min.js" type="text/javascript"></script>
 
   <!-- using https://github.com/tsayen/dom-to-image -->
   <script src="assets/scripts/dom-to-image.min.js" type="text/javascript"></script>

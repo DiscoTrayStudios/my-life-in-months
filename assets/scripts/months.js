@@ -20,7 +20,7 @@ $(document).ready(function() {
 
   var data = [];
   var range = [];
-  var defaultColors = d3.scale.category20();
+  var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
   var chart;
 
   function calculateData() {
@@ -42,10 +42,9 @@ $(document).ready(function() {
   function makeWaffleChart() {
     /* to color elements we use the class name ( slugigy(name) ) */
     var domain = data.map(function(d){ return slugify(d.name.concat(data.indexOf(d))); })
-    var palette = d3.scale.ordinal().domain(domain).range(range);
+    var palette = d3.scaleOrdinal().domain(domain).range(range);
 
     chart = d3waffle()
-        .rows(12)
         .colorscale(palette);
 
     d3.select("#waffle")
@@ -166,9 +165,14 @@ $(document).ready(function() {
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
-  		  if (value.length>20){
-  		    $('#alert-event-name-length').addClass('show');
-          }
+  		  if (value.trim().length >= 20){
+  		    $('#showAlertHere').html('<div class="alert alert-danger alert-dismissible show fade" role="alert" id="alert-event-name-length">' +
+            '<strong>Warning!</strong> Event names must be less than 20 characters long!' +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+            '  <span aria-hidden="true">&times;</span>' +
+            '</button>' +
+          '</div>');
+        }
   			return !!value && value.trim().length > 0 && value.trim().length < 20;
   		} else if (column === 1){
   			return isNormalPosInteger(value);
@@ -216,9 +220,5 @@ $(document).ready(function() {
 
   $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
 
-
-});
-
-$('#event-name-dismiss-button').click(function (){
-  $('#alert-event-name-length').removeClass('show');
+  $(".alert").alert();
 });
