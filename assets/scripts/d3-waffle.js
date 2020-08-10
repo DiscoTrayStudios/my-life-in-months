@@ -1,5 +1,5 @@
 function d3waffle() {
-  var margin = {top: 10, right: 10, bottom: 10, left: 20},
+  var margin = {top: 20, right: 10, bottom: 10, left: 20},
       scale = 1,
       cols = 12,
       colorscale = d3.scaleOrdinal(d3.schemeCategory10),
@@ -60,7 +60,7 @@ function d3waffle() {
       var maxyear = (rows - 1) - (rows - 1) % 10;
       var y = d3.scaleLinear()
           .domain([0, maxyear])
-          .range([margin.top - 2, gridSize * maxyear + margin.top - 2]);
+          .range([margin.top - 13, gridSize * maxyear + margin.top - 13]);
 
       // Draw the axis
       svg
@@ -68,6 +68,23 @@ function d3waffle() {
         .attr("transform", "translate(0,0)")
         .call(d3.axisLeft(y).tickSize(0).ticks(Math.floor(maxyear/10)))
         .select(".domain").remove();
+
+        // Add X axis label:
+        svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("x", gridSize * cols / 2)
+            .attr("y", -5)
+            .text("1 year")
+            .style("font", "10px sans-serif");
+
+        // Y axis label:
+     svg.append("text")
+         .attr("text-anchor", "end")
+         .attr("transform", "rotate(-90)")
+         .attr("y", -margin.left+14)
+         .attr("x", -65)
+         .text("age")
+          .style("font", "10px sans-serif");
 
       var nodes = svg.selectAll(".node")
             .data(detaildata)
