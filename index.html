@@ -40,11 +40,14 @@
           Edit the table below to map out where you've lived, your
           career path, trials and tribulations, or other meaningful life events.
           Then, click <strong>Download</strong> to save your chart!</p>
-          <div class="alert alert-warning" role="alert">
-    The download function will not work in the Facebook browser.
-    Please <a href="https://www.phonearena.com/news/Facebook-Messenger-open-external-safari-chrome-browser_id114893">open this
-    page in either Safari or Chrome</a> to be able to save your chart.
-  </div>
+          <div class="alert alert-warning alert-dismissible show fade" role="alert">
+            <strong>Warning!</strong> The download function will not work in the Facebook browser.
+            Please <a href="https://www.phonearena.com/news/Facebook-Messenger-open-external-safari-chrome-browser_id114893">open this
+            page in either Safari or Chrome</a> to be able to save your chart.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
 
       </div>
     </div>
@@ -67,6 +70,9 @@
               <td class="remove"><i class="fa fa-trash-o"></i></td></tr>
           </tbody>
         </table>
+        <div id="showAlertHere">
+
+        </div>
         <p><button id="addrow" type="button" class="btn btn-primary">Add Event</button>
         <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
         </p>
@@ -74,12 +80,6 @@
           <input type="checkbox" class="custom-control-input" id="togglefuture">
           <label class="custom-control-label" for="togglefuture">Extend to 80 Years</label>
         </p>
-        <div class="alert alert-danger alert-dismissible fade" role="alert" id="alert-event-name-length">
-          <strong>Warning!</strong> Event names can only be up to 20 characters long!
-          <button type="button" class="close" aria-label="Close" id="event-name-dismiss-button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
       </div>
 
 

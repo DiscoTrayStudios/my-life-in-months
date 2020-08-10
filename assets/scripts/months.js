@@ -166,8 +166,13 @@ $(document).ready(function() {
   			column = cell.index();
   		if (column === 0) {
   		  if (value.length>20){
-  		    $('#alert-event-name-length').addClass('show');
-          }
+  		    $('#showAlertHere').html('<div class="alert alert-danger alert-dismissible show fade" role="alert" id="alert-event-name-length">' +
+            '<strong>Warning!</strong> Event names can only be up to 20 characters long!' +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+            '  <span aria-hidden="true">&times;</span>' +
+            '</button>' +
+          '</div>');
+        }
   			return !!value && value.trim().length > 0 && value.trim().length < 20;
   		} else if (column === 1){
   			return isNormalPosInteger(value);
@@ -215,9 +220,5 @@ $(document).ready(function() {
 
   $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
 
-
-});
-
-$('#event-name-dismiss-button').click(function (){
-  $('#alert-event-name-length').removeClass('show');
+  $(".alert").alert();
 });
