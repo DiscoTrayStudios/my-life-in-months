@@ -150,6 +150,15 @@ $(document).ready(function() {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
   }
 
+  function alertMaker(text) {
+    return '<div class="alert alert-danger alert-dismissible show fade" role="alert" id="alert-event-name-length">' +
+      '<strong>Warning!</strong> ' + text + ' ' +
+      '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+      '  <span aria-hidden="true">&times;</span>' +
+      '</button>' +
+    '</div>'
+  }
+
   /* global $ */
   /* this is an example for validation and change events */
   $.fn.numericInputExample = function () {
@@ -166,15 +175,13 @@ $(document).ready(function() {
   			column = cell.index();
   		if (column === 0) {
   		  if (value.trim().length >= 20){
-  		    $('#showAlertHere').html('<div class="alert alert-danger alert-dismissible show fade" role="alert" id="alert-event-name-length">' +
-            '<strong>Warning!</strong> Event names must be less than 20 characters long!' +
-            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-            '  <span aria-hidden="true">&times;</span>' +
-            '</button>' +
-          '</div>');
+  		    $('#showEventAlertHere').html(alertMaker("Event names must be less than 20 characters long!"));
         }
   			return !!value && value.trim().length > 0 && value.trim().length < 20;
   		} else if (column === 1){
+        if (!isNormalPosInteger(value)) {
+          $('#showMonthsAlertHere').html(alertMaker("Events must be less than 1200 months long!"));
+        }
   			return isNormalPosInteger(value);
   		} else {
         return false;
