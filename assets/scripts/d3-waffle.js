@@ -1,5 +1,5 @@
 function d3waffle() {
-  var margin = {top: 10, right: 10, bottom: 10, left: 10},
+  var margin = {top: 10, right: 10, bottom: 10, left: 20},
       scale = 1,
       cols = 12,
       colorscale = d3.scaleOrdinal(d3.schemeCategory10),
@@ -24,8 +24,6 @@ function d3waffle() {
         data[i].percent = data[i].value/total;
         data[i].class_index = d.class.concat(i);
       });
-
-
 
       var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
       var rows = Math.ceil(totalscales/cols);
@@ -52,12 +50,24 @@ function d3waffle() {
 
       /* setting the container */
       var svg = selection.append("svg")
-        //        .attr("width",  "100%")
             .attr("width",  (width + 200) + "px")
             .attr("height", Math.max(gridHeight, legendHeight) + "px")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .style("cursor", "default");
+
+      // Create the scale (with help from https://www.d3-graph-gallery.com/graph/custom_axis.html)
+      var maxyear = (rows - 1) - (rows - 1) % 10;
+      var y = d3.scaleLinear()
+          .domain([0, maxyear])
+          .range([margin.top - 2, gridSize * maxyear + margin.top - 2]);
+
+      // Draw the axis
+      svg
+        .append("g")
+        .attr("transform", "translate(0,0)")
+        .call(d3.axisLeft(y).tickSize(0).ticks(Math.floor(maxyear/10)))
+        .select(".domain").remove();
 
       var nodes = svg.selectAll(".node")
             .data(detaildata)
