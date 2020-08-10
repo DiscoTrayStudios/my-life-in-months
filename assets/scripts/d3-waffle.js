@@ -51,8 +51,9 @@ function d3waffle() {
       var gridWidth = margin.top + margin.bottom + gridSize * cols;
       var spots = data.length + 1;
       var legendHeight = spots * gridSize + spots * magic_padding / 2;
-      console.log("" + legendHeight + ", " + gridWidth);
-      console.log(Math.max(gridWidth, legendHeight));
+      //console.log("" + legendHeight + ", " + gridWidth);
+      //console.log(Math.max(gridWidth, legendHeight));
+      
       /* setting the container */
       var svg = selection.append("svg")
         //        .attr("width",  "100%")
