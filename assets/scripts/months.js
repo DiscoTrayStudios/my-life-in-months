@@ -20,7 +20,7 @@ $(document).ready(function() {
 
   var data = [];
   var range = [];
-  var defaultColors = d3.scale.category20();
+  var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
   var chart;
 
   function calculateData() {
@@ -42,7 +42,7 @@ $(document).ready(function() {
   function makeWaffleChart() {
     /* to color elements we use the class name ( slugigy(name) ) */
     var domain = data.map(function(d){ return slugify(d.name.concat(data.indexOf(d))); })
-    var palette = d3.scale.ordinal().domain(domain).range(range);
+    var palette = d3.scaleOrdinal().domain(domain).range(range);
 
     chart = d3waffle()
         .colorscale(palette);

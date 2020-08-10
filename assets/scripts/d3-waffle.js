@@ -2,7 +2,7 @@ function d3waffle() {
   var margin = {top: 10, right: 10, bottom: 10, left: 10},
       scale = 1,
       cols = 12,
-      colorscale = d3.scale.category20(),
+      colorscale = d3.scaleOrdinal(d3.schemeCategory10),
       appearancetimes = function(d, i){ return 100; },
       width = 200,
       magic_padding = 5;
@@ -14,7 +14,7 @@ function d3waffle() {
       selection.selectAll("*").remove();
 
       /* setting parameters and data */
-      var idcontainer = selection[0][0].id; // I need to change thiz plz
+      //var idcontainer = selection[0][0].id; // I need to change thiz plz
       var total = d3.sum(data, function(d) { return d.value; });
 
       /* updating data */
