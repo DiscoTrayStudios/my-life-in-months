@@ -165,6 +165,9 @@ $(document).ready(function() {
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
+  		  if (value.length>20){
+  		    $('#alert-event-name-length').addClass('show');
+          }
   			return !!value && value.trim().length > 0 && value.trim().length < 20;
   		} else if (column === 1){
   			return isNormalPosInteger(value);
@@ -213,4 +216,8 @@ $(document).ready(function() {
   $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
 
 
+});
+
+$('#event-name-dismiss-button').click(function (){
+  $('#alert-event-name-length').removeClass('show');
 });
