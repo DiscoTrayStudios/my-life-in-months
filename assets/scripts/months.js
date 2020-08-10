@@ -165,9 +165,9 @@ $(document).ready(function() {
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
-  		  if (value.length>20){
+  		  if (value.trim().length >= 20){
   		    $('#showAlertHere').html('<div class="alert alert-danger alert-dismissible show fade" role="alert" id="alert-event-name-length">' +
-            '<strong>Warning!</strong> Event names can only be up to 20 characters long!' +
+            '<strong>Warning!</strong> Event names must be less than 20 characters long!' +
             '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
             '  <span aria-hidden="true">&times;</span>' +
             '</button>' +
