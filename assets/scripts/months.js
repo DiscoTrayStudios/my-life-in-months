@@ -1,4 +1,26 @@
 $(document).ready(function() {
+
+  var obamadata = [
+      { "name": "Hawaii", "value":72},
+      { "name": "Jakarta", "value":45},
+      { "name": "Hawaii", "value":96},
+      { "name": "Occidental College", "value":24},
+      { "name": "Columbia University", "value":21},
+      { "name": "Business Int. Co.", "value":15},
+      { "name": "NYPIRG", "value":5},
+      { "name": "Chicago Comm. Org.", "value":38},
+      { "name": "Harvard Law", "value":39},
+      { "name": "U. Chicago Prof.", "value":60},
+      { "name": "Illinois Senator", "value":96},
+      { "name": "US Senator", "value":48},
+      { "name": "President", "value":96},
+      { "name": "Private Citizen", "value":44}
+    ];
+
+  var obamarange = ["#1f77b4", "#ff7f0e", "#1f77b4", "#2ca02c", "#d62728",
+  "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
+  "#0fffb7", "#d728a0", "#a9b9cb"];
+
   var goadrichdata = [
     { "name": "Northampton", "value":96},
     { "name": "Canvas", "value":96},
@@ -11,6 +33,17 @@ $(document).ready(function() {
     { "name": "Conway", "value":75}
   ];
   var goadrichrange = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
+
+  var isabelladata = [
+    { "name": "childhood", "value":160},
+    { "name": "high school", "value":46},
+    { "name": "college", "value":48},
+    { "name": "adulting", "value":30},
+    { "name": "moved back to U.S.", "value":9},
+    { "name": "time left", "value":559},
+  ];
+
+  var isabellarange = ["#EF476F","#FCA311","#FFD166","#0EAD69","#4ECDC4","#118AB2"];
 
   var originaldata = [
     { "name": "Childhood", "value":184},
