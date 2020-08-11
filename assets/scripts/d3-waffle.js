@@ -14,7 +14,6 @@ function d3waffle() {
       selection.selectAll("*").remove();
 
       /* setting parameters and data */
-      //var idcontainer = selection[0][0].id; // I need to change thiz plz
       var total = d3.sum(data, function(d) { return d.value; });
 
       /* updating data */
@@ -45,7 +44,7 @@ function d3waffle() {
 
       var gridSize = ((width - margin.left - margin.right) / cols)
       var gridHeight = margin.top + margin.bottom + gridSize * rows;
-      var spots = data.length + 1;
+      var spots = data.length + 2;
       var legendHeight = spots * gridSize + spots * magic_padding / 2;
 
       /* setting the container */
@@ -62,12 +61,23 @@ function d3waffle() {
           .domain([0, maxyear])
           .range([margin.top - 13, gridSize * maxyear + margin.top - 13]);
 
-      // Draw the axis
+      // Draw the Y axis
       svg
         .append("g")
         .attr("transform", "translate(0,0)")
         .call(d3.axisLeft(y).tickSize(0).ticks(Math.floor(maxyear/10)))
         .select(".domain").remove();
+
+        var y = d3.scaleLinear()
+            .domain([0, maxyear])
+            .range([margin.top - 13, gridSize * maxyear + margin.top - 13]);
+
+        // Draw the X axis
+        svg
+          .append("g")
+          .attr("transform", "translate(0,0)")
+          .call(d3.axisLeft(y).tickSize(0).ticks(Math.floor(maxyear/10)))
+
 
         // Add X axis label:
         svg.append("text")
