@@ -1,12 +1,12 @@
 $(document).ready(function() {
   var goadrichdata = [
-    { "name": "Bethlehem", "value":96},
+    { "name": "Northampton", "value":96},
     { "name": "Canvas", "value":96},
     { "name": "Gambier", "value":45},
     { "name": "Milwaukee", "value":3},
     { "name": "Madison", "value":21},
     { "name": "San Antonio", "value":7},
-    { "name": "Madison II", "value":77},
+    { "name": "Madison", "value":77},
     { "name": "Shreveport", "value":84},
     { "name": "Conway", "value":75}
   ];
