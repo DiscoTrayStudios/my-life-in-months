@@ -98,9 +98,23 @@ $(document).ready(function() {
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
   $( "#camera" ).click(function() {
-    domtoimage.toBlob(document.getElementById('capture'))
+
+    var cameraClone = $("<div></div>").html($("#capture").html());
+    cameraClone.css("width", "1000px");
+    cameraClone.attr("id", "captureClone");
+    cameraClone.addClass("chart-area");
+    $("body").append(cameraClone);
+/*
+    var fontSize = parseInt($(".waffle-title").css("font-size"));
+    fontSize = (fontSize * 2) + "px";
+    console.log(fontSize);
+    $(".waffle-title").css('font-size', fontSize);
+    */
+
+    domtoimage.toBlob(document.getElementById('captureClone'))
     .then(function (blob) {
         window.saveAs(blob, 'myLifeInMonths.png');
+        $("#captureClone").remove();
     });
   });
 

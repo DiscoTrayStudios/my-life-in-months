@@ -49,8 +49,14 @@ function d3waffle() {
 
       /* setting the container */
       var svg = selection.append("svg")
-            .attr("width",  (width + 200) + "px")
-            .attr("height", Math.max(gridHeight, legendHeight) + "px")
+            //.attr("width",  (width + 200) + "px")
+            //.attr("height", Math.max(gridHeight, legendHeight) + "px")
+            // Made the svg responsive
+            // https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js
+            .classed("svg-content-responsive", true)
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 " + (width + 200) + " " + Math.max(gridHeight, legendHeight))
+
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .style("cursor", "default");

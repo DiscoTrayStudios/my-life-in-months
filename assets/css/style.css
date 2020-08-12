@@ -3,15 +3,21 @@
   padding: 10px;
   background: #fafafa;
   display: inline-block;
+  width: 100%;
 }
 
 .chart-div {
   padding-bottom: 10px;
 }
 
+.waffle-title {
+  display: inline-block;
+  width:100%;
+}
+
 .chart-title {
   display: table-cell;
-  width:100%
+  width:100%;
 }
 
 * {
