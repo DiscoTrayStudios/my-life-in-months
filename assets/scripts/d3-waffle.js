@@ -94,12 +94,12 @@ function d3waffle() {
             .style("font", "10px sans-serif");
 
         // Y axis label:
-     svg.append("text")
-         .attr("text-anchor", "end")
-         .attr("transform", "rotate(-90)")
-         .attr("y", -margin.left+14)
-         .attr("x", -65)
-         .text("age")
+        svg.append("text")
+          .attr("text-anchor", "end")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -margin.left+14)
+          .attr("x", getYPosForAgeLabel(rows))
+          .text("age")
           .style("font", "10px sans-serif");
 
       var nodes = svg.selectAll(".node")
@@ -195,6 +195,20 @@ function slugify(text){
     .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
     .replace(/\-\-+/g, '-')         // Replace multiple - with single -
     .trim();                        // Trim - from end of text
+}
+
+function getYPosForAgeLabel(rows) {
+  var ageLabelYPosition;
+      if (rows <= 4 && rows > 1) {
+        ageLabelYPosition = -20;
+      }
+      else if (rows < 10 && rows > 1) {
+        ageLabelYPosition = (-10 * rows) / 2;
+      }
+      else {
+        ageLabelYPosition = -65;
+      }
+    return ageLabelYPosition;
 }
 
 /* http://stackoverflow.com/questions/12303989/cartesian-product-of-multiple-arrays-in-javascript */
