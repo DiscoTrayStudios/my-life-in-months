@@ -101,20 +101,14 @@ $(document).ready(function() {
   $( "#camera" ).click(function() {
 
     var cameraClone = $("<div></div>").html($("#capture").html());
-    cameraClone.css("width", "1000px");
+    cameraClone.css("width", "800px");
     cameraClone.attr("id", "captureClone");
-    cameraClone.addClass("chart-area");
+    cameraClone.addClass("chart-clone-area");
     $("body").append(cameraClone);
-/*
-    var fontSize = parseInt($(".waffle-title").css("font-size"));
-    fontSize = (fontSize * 2) + "px";
-    console.log(fontSize);
-    $(".waffle-title").css('font-size', fontSize);
-    */
 
     domtoimage.toBlob(document.getElementById('captureClone'))
     .then(function (blob) {
-        window.saveAs(blob, 'myLifeInMonths.png');
+        window.saveAs(blob, 'my-life-in-months.png');
         $("#captureClone").remove();
     });
   });

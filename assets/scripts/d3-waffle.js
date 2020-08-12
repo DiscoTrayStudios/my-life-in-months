@@ -2,7 +2,7 @@ function d3waffle() {
   var margin = {top: 20, right: 10, bottom: 10, left: 20},
       scale = 1,
       title = "My Life in Months",
-      titleHeight = 40,
+      titleHeight = 35,
       cols = 12,
       colorscale = d3.scaleOrdinal(d3.schemeCategory10),
       appearancetimes = function(d, i){ return 100; },
@@ -88,10 +88,11 @@ function d3waffle() {
         // Add title:
         svg.append("text")
             .attr("text-anchor", "start")
-            .attr("x", -15)
+            .attr("x", -20)
             .attr("y", -35)
             .text(title)
-            .style("font", "24px sans-serif");
+            .style("font", "24px sans-serif")
+            .style("font-weight", "bold");
 
         // Add X axis label:
         svg.append("text")
