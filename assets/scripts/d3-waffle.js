@@ -92,7 +92,7 @@ function d3waffle() {
             .attr("x", -20)
             .attr("y", -35)
             .text(title)
-            .style("font", "24px sans-serif")
+            .style("font", "24px 'Helvetica Neue', Helvetica, Arial, sans-serif")
             .style("font-weight", "bold");
 
         // Add X axis label:
@@ -101,7 +101,7 @@ function d3waffle() {
             .attr("x", gridSize * cols / 2)
             .attr("y", -5)
             .text("1 year")
-            .style("font", "10px sans-serif");
+            .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif");
 
         // Y axis label:
         svg.append("text")
@@ -110,7 +110,7 @@ function d3waffle() {
           .attr("y", -margin.left+14)
           .attr("x", getYPosForAgeLabel(rows))
           .text("age")
-          .style("font", "10px sans-serif");
+          .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif");
 
       var nodes = svg.selectAll(".node")
             .data(detaildata)
