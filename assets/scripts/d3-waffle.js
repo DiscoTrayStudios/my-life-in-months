@@ -79,12 +79,6 @@ function d3waffle() {
             .domain([0, maxyear])
             .range([margin.top - 13, gridSize * maxyear + margin.top - 13]);
 
-        // Draw the X axis
-        svg
-          .append("g")
-          .attr("transform", "translate(0,0)")
-          .call(d3.axisLeft(y).tickSize(0).ticks(Math.floor(maxyear/10)))
-
         // Add title:
         svg.append("text")
             .attr("id", "waffle-title")
