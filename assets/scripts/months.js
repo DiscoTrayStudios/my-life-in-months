@@ -262,7 +262,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
+  $('#mainTable').editableTableWidget().numericInputExample();
 
   $(".alert").alert();
 });
