@@ -78,6 +78,7 @@ $(document).ready(function() {
     var palette = d3.scaleOrdinal().domain(domain).range(range);
 
     chart = d3waffle()
+        .title($("#waffle-title-input").val())
         .colorscale(palette);
 
     d3.select("#waffle")
@@ -115,31 +116,6 @@ $(document).ready(function() {
     .then(function (blob) {
         window.saveAs(blob, 'myLifeInMonths.png');
         $("#captureClone").remove();
-    });
-  });
-
-  $( "#twitter" ).click(function() {
-    domtoimage.toPng(document.getElementById('capture'))
-    .then(function (dataUrl) {
-        url="https://twitter.com/share?ref_src=" + dataUrl;
-        console.log(url);
-        window.open(url);
-    });
-  });
-
-  $( "#addGallery" ).click(function() {
-    domtoimage.toPng(document.getElementById('capture'))
-    .then (function (dataUrl) {
-        var img = new Image();
-        img.src = dataUrl;
-        var galdiv = $("<div class='col-md-4'></div>").append(img);
-        // how to make the image have a class fluid?
-        galdiv.children(0).addClass("img-fluid");
-        $("#gallery").prepend(galdiv);
-          //img);
-    })
-    .catch(function (error) {
-        console.error('oops, something went wrong!', error);
     });
   });
 

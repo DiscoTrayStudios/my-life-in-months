@@ -1,6 +1,8 @@
 function d3waffle() {
   var margin = {top: 20, right: 10, bottom: 10, left: 20},
       scale = 1,
+      title = "My Life in Months",
+      titleHeight = 40,
       cols = 12,
       colorscale = d3.scaleOrdinal(d3.schemeCategory10),
       appearancetimes = function(d, i){ return 100; },
@@ -20,7 +22,6 @@ function d3waffle() {
       data.forEach(function(d, i){
         data[i].class = slugify(d.name);
         data[i].scalevalue = Math.round(data[i].value*scale);
-        data[i].percent = data[i].value/total;
         data[i].class_index = d.class.concat(i);
       });
 
@@ -55,10 +56,10 @@ function d3waffle() {
             // https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js
             .classed("svg-content-responsive", true)
             .attr("preserveAspectRatio", "xMinYMin meet")
-            .attr("viewBox", "0 0 " + (width + 200) + " " + Math.max(gridHeight, legendHeight))
+            .attr("viewBox", "0 0 " + (width + 200) + " " + (titleHeight + Math.max(gridHeight, legendHeight)))
 
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("transform", "translate(" + margin.left + "," + (margin.top + titleHeight) + ")")
             .style("cursor", "default");
 
       // Create the scale (with help from https://www.d3-graph-gallery.com/graph/custom_axis.html)
@@ -84,6 +85,13 @@ function d3waffle() {
           .attr("transform", "translate(0,0)")
           .call(d3.axisLeft(y).tickSize(0).ticks(Math.floor(maxyear/10)))
 
+        // Add title:
+        svg.append("text")
+            .attr("text-anchor", "start")
+            .attr("x", -15)
+            .attr("y", -35)
+            .text(title)
+            .style("font", "24px sans-serif");
 
         // Add X axis label:
         svg.append("text")
@@ -155,6 +163,12 @@ function d3waffle() {
     return chart;
   };
 
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+
   chart.height = function(_) {
     if (!arguments.length) return height;
     height = _;
@@ -179,7 +193,7 @@ function d3waffle() {
     return chart;
   };
 
-chart.appearancetimes = function(_) {
+  chart.appearancetimes = function(_) {
     if (!arguments.length) return appearancetimes;
     appearancetimes = _;
     return chart;
