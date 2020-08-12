@@ -1,17 +1,59 @@
 $(document).ready(function() {
-  var data = [
-{ "name": "Bethlehem", "value":96},
-{ "name": "Canvas", "value":96},
-{ "name": "Gambier", "value":45},
-{ "name": "Milwaukee", "value":3},
-{ "name": "Madison", "value":21},
-{ "name": "San Antonio", "value":7},
-{ "name": "Madison II", "value":77},
-{ "name": "Shreveport", "value":84},
-{ "name": "Conway", "value":75}
-];
-  var range = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
-  var defaultColors = d3.scale.category20();
+
+  var obamadata = [
+      { "name": "Hawaii", "value":72},
+      { "name": "Jakarta", "value":45},
+      { "name": "Hawaii", "value":96},
+      { "name": "Occidental College", "value":24},
+      { "name": "Columbia University", "value":21},
+      { "name": "Business Int. Co.", "value":15},
+      { "name": "NYPIRG", "value":5},
+      { "name": "Chicago Comm. Org.", "value":38},
+      { "name": "Harvard Law", "value":39},
+      { "name": "U. Chicago Prof.", "value":60},
+      { "name": "Illinois Senator", "value":96},
+      { "name": "US Senator", "value":48},
+      { "name": "President", "value":96},
+      { "name": "Private Citizen", "value":44}
+    ];
+
+  var obamarange = ["#1f77b4", "#ff7f0e", "#1f77b4", "#2ca02c", "#d62728",
+  "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
+  "#0fffb7", "#d728a0", "#a9b9cb"];
+
+  var goadrichdata = [
+    { "name": "Northampton", "value":96},
+    { "name": "Canvas", "value":96},
+    { "name": "Gambier", "value":45},
+    { "name": "Milwaukee", "value":3},
+    { "name": "Madison", "value":21},
+    { "name": "San Antonio", "value":7},
+    { "name": "Madison", "value":77},
+    { "name": "Shreveport", "value":84},
+    { "name": "Conway", "value":75}
+  ];
+  var goadrichrange = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
+
+  var isabelladata = [
+    { "name": "childhood", "value":160},
+    { "name": "high school", "value":46},
+    { "name": "college", "value":48},
+    { "name": "adulting", "value":30},
+    { "name": "moved back to U.S.", "value":9},
+    { "name": "time left", "value":559},
+  ];
+
+  var isabellarange = ["#EF476F","#FCA311","#FFD166","#0EAD69","#4ECDC4","#118AB2"];
+
+  var originaldata = [
+    { "name": "Childhood", "value":184},
+    { "name": "High School", "value":45}
+  ];
+  var originalrange = ["#1f77b4", "#aec7e8"];
+
+  var data = [];
+  var range = [];
+  var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
   var chart;
 
   function calculateData() {
@@ -33,12 +75,10 @@ $(document).ready(function() {
   function makeWaffleChart() {
     /* to color elements we use the class name ( slugigy(name) ) */
     var domain = data.map(function(d){ return slugify(d.name.concat(data.indexOf(d))); })
-    var palette = d3.scale.ordinal().domain(domain).range(range);
+    var palette = d3.scaleOrdinal().domain(domain).range(range);
 
     chart = d3waffle()
-        .rows(12)
-        .colorscale(palette)
-        .adjust(.99);
+        .colorscale(palette);
 
     d3.select("#waffle")
   			.datum(data)
@@ -90,12 +130,13 @@ $(document).ready(function() {
   });
 
   $( "#addrow" ).click(function() {
+    var eventName = getRandomEventName();
     var dataRows = $("#mainTable").find('tbody tr');
     $('#mainTable tr:last').after('<tr>' +
-          '<td>Event' + (dataRows.length + 1) + '</td>' +
-          '<td>' + getRandomIntInclusive(12, 48) + '</td>' +
+          '<td>' + eventName+ '</td>' +
+          '<td class="monthsevent">' + getRandomIntInclusive(12, 48) + '</td>' +
           '<td class="colorpick"><input type="color" value="' +
-          defaultColors('Event' + (dataRows.length + 1)) +
+          defaultColors(eventName) +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     calculateData();
     makeWaffleChart();
@@ -118,6 +159,12 @@ $(document).ready(function() {
     }
   };
 
+  function getRandomEventName(){
+    events = ["Went backpacking", "Went to Mars", "Started pickle farm", "Went ghost hunting", "Studied", "Learned to unicycle", "Went to Antarctica",
+    "Studied French", "Published a book", "Sculpted ice", "Entered the Olympics"];
+    return events[Math.floor(Math.random() * events.length)];
+  }
+
   // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
   function isNormalPosInteger(str) {
       str = str.trim();
@@ -136,6 +183,15 @@ $(document).ready(function() {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
   }
 
+  function alertMaker(text) {
+    return '<div class="alert alert-danger alert-dismissible show fade" role="alert" id="alert-event-name-length">' +
+      '<strong>Warning!</strong> ' + text + ' ' +
+      '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+      '  <span aria-hidden="true">&times;</span>' +
+      '</button>' +
+    '</div>'
+  }
+
   /* global $ */
   /* this is an example for validation and change events */
   $.fn.numericInputExample = function () {
@@ -151,8 +207,14 @@ $(document).ready(function() {
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
+  		  if (value.trim().length >= 20){
+  		    $('#showEventAlertHere').html(alertMaker("Event names must be less than 20 characters long!"));
+        }
   			return !!value && value.trim().length > 0 && value.trim().length < 20;
   		} else if (column === 1){
+        if (!isNormalPosInteger(value)) {
+          $('#showMonthsAlertHere').html(alertMaker("Events must be less than 1200 months long!"));
+        }
   			return isNormalPosInteger(value);
   		} else {
         return false;
@@ -177,6 +239,16 @@ $(document).ready(function() {
   calculateData();
   makeWaffleChart();
 
+  $( "#reset" ).click(function() {
+    //resetChart(originaldata, originalrange);
+  });
+
+  function resetChart(data, range) {
+    var tablebody = $("#mainTable").find('tbody');
+    tablebody.html("");
+    generateTable(data, range);
+  }
+
   $( document ).on( "click", ".remove", function(){
     var dataRows = $("#mainTable").find('tbody tr');
     if (dataRows.length > 1) {
@@ -188,4 +260,5 @@ $(document).ready(function() {
 
   $('#mainTable').editableTableWidget().numericInputExample().find('td:first').focus();
 
+  $(".alert").alert();
 });

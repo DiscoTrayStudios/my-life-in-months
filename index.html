@@ -23,84 +23,103 @@
 
   <div class="container">
     <a href="https://github.com/discotraystudios/myLifeInMonths" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#1f77b4; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+
+
     <div class="row">
       <div class="col-md-12">
         <h4>&nbsp;</h4>
-        <p class="fancy">Inspired by <a href="https://github.com/isabellabenabaye/life-chart">Isabella Benabaye</a>,
-        <a href="https://github.com/sharlagelfand/mylifeinmonths">Sharla Gelfand</a>, and
-        <a href="https://waitbutwhy.com/2014/05/life-weeks.html">Tim Urban</a>,
-        <strong>My Life in Months</strong> is a
-        chart that can help you see the larger picture of your life.
-        Edit the table below to map out where you've lived, your
-        career path, trials and tribulations, or other meaningful life events,
-        then download and share your chart! </p>
+        <p>Inspired by <a href="https://github.com/isabellabenabaye/life-chart">Isabella Benabaye</a>,
+          <a href="https://github.com/sharlagelfand/mylifeinmonths">Sharla Gelfand</a>, and
+          <a href="https://waitbutwhy.com/2014/05/life-weeks.html">Tim Urban</a>,
+          <strong>My Life in Months</strong> is a
+          chart that can help you see the larger picture of your life. Each square represents
+          one month, and each row captures one year.
+        </p>
+        <p>
+          Edit the table below to map out where you've lived, your
+          career path, trials and tribulations, or other meaningful life events.
+          Then, click <strong>Download</strong> to save your chart!</p>
+
+          <div class="alert alert-warning alert-dismissible show fade" role="alert">
+            <strong>Warning!</strong> The download function will not work in the Facebook mobile browser.
+            Please <a href="https://www.phonearena.com/news/Facebook-Messenger-open-external-safari-chrome-browser_id114893">open this
+            page in either Safari or Chrome</a> to be able to save your chart.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-6">
-
+      <div class="col-md-6 chart-div">
         <table id="mainTable" class="table table-striped">
-          <thead><tr><th>Title</th><th colspan="3"><input type="text" id="waffle-title-input" class="chart-title" value="My Life in Months"></input></th></thead>
+          <thead><tr><th>Title</th>
+            <th colspan="3"><input type="text" id="waffle-title-input" class="chart-title" value="My Life in Months"></input></th></thead>
 
-          <thead><tr><th>Life Event</th><th>Months</th><th>Color</th><th>Delete</th></tr></thead>
+          <thead><tr><th>Life Event</th><th class="monthsevent">Months</th><th class="colorpick">Color</th><th class="remove">Delete</th></tr></thead>
           <tbody>
-            <tr><td>Childhood</td><td>184</td><td class="colorpick" >
-              <input type="color" name="head"
-                value="#1f77b4"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>
-            <tr><td>High School</td><td>45</td><td class="colorpick" >
-              <input type="color" name="head"
-                value="#aec7e8"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>
+            <tr>
+              <td>Childhood</td><td class="monthsevent">184</td>
+              <td class="colorpick" ><input type="color" name="head" value="#1f77b4"></td>
+              <td class="remove"><i class="fa fa-trash-o"></i></td></tr>
+            <tr><td>High School</td><td class="monthsevent">45</td>
+              <td class="colorpick" ><input type="color" name="head" value="#ff7f0e"></td>
+              <td class="remove"><i class="fa fa-trash-o"></i></td></tr>
           </tbody>
         </table>
-        <p><button id="addrow" type="button" class="btn btn-primary">Add Event</button></p>
-        <p class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="togglefuture">
-          <label class="custom-control-label" for="togglefuture">Extend to 80 Years</label>
-        </p>
-        <!-- <button id="shrink" type="button" class="btn btn-primary">Shrink</button> -->
-      </div>
-      <div class="col-md-6">
-        <div id="capture" class="chart-area">
-          <h4 id="waffle-title">My Life in Months</h4>
-          <div id="waffle"></div>
+        <div id="showEventAlertHere">
         </div>
-        <p>&nbsp;</p>
+        <div id="showMonthsAlertHere">
+        </div>
+        <div class="form-row align-items-center">
+          <div class="col-4 my-1">
+            <button id="addrow" type="button" class="btn btn-primary">Add Event</button>
+        <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
+          </div>
+          <div class="col-auto my-1">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="togglefuture">
+              <label class="custom-control-label" for="togglefuture">Extend Chart to 80 Years</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-6">
+        <div class="chart-div">
+          <div id="capture" class="chart-area">
+            <h4 id="waffle-title">My Life in Months</h4>
+            <div id="waffle"></div>
+          </div>
+        </div>
         <p>
           <button id="camera" type="button" class="btn btn-primary">Download <i class="fa fa-camera" aria-hidden="true"></i>
           </button>
-          <button id="addGallery" type="button" class="btn btn-primary">Add to My Charts
-           </button>
-<!--           <button id="facebook" type="button" class="btn btn-primary">
-            <i class="fa fa-facebook"></i>
-          </button>
-          <button id="twitter" type="button" class="btn btn-primary">
-            <i class="fa fa-twitter"></i>
-          </button>
-        -->
         </p>
       </div>
     </div>
-
-    <hr class="mt-2 mb-3"/>
-    <div class="row">
-      <div class="col-md-12">
-        <h4>My Charts</h4>
-        <p>This is temporary storage right now. <strong>If you refresh the page, these images will be lost,
-          so please save your charts.</strong></p>
-      </div>
-    </div>
-    <div id="gallery" class="row">
-    </div>
-    <h4>&nbsp;</h4>
 
   <hr class="mt-2 mb-3"/>
   <div class="row">
     <div class="col-md-12">
       <h4>Featured Gallery</h4>
+      <p>
+        We would love to see your creations! Please share them with us on
+        <a href="https://www.facebook.com/discotraystudios">Facebook</a> or
+        <a href="https://twitter.com/disco_tray">Twitter</a>, and use the
+        <a href="https://twitter.com/search?q=%23mylifeinmonths">#mylifeinmonths</a> hashtag. Here are some of our favorites:
+      </p>
+
     </div>
   </div>
   <div class="row">
+    <div class="col-md-4">
+      <img class="img-fluid" src="assets/images/isabella.png">
+    </div>
     <div class="col-md-4">
       <img class="img-fluid" src="assets/images/goadrich.png">
     </div>
@@ -118,10 +137,9 @@
   <footer class="py-4 bg-light">
       <div class="container">
         <div class="row">
-          <div class="col-md-3">
-            <a href="https://discotraystudios.github.io/"><img width="100px" src="assets/images/discologo.png"></a>
-          </div>
-          <div class="col-md-6">
+          <div class="col-md-9">
+            <p>Built by <a href="https://discotraystudios.github.io/">Disco Tray Studios</a>, bringing you
+              serendipitious projects since 2020.</p>
             <p class="m-0"><small>Powered by
               <a href="https://getbootstrap.com/">Bootstrap</a>,
               <a href="https://www.javascript.com/">JavaScript</a>,
@@ -134,7 +152,7 @@
           </div>
           <div class="col-md-3">
             <div class="float-right">
-            <!--<a href="https://discotraystudios.github.io/"><img width="100px" src="assets/images/discologo.png"></a> -->
+            <a href="https://discotraystudios.github.io/"><img height="75px" src="assets/images/discologo.png"></a>
             </div>
           </div>
         </div>
@@ -143,16 +161,13 @@
 
 
   <!-- JS, Popper.js, and jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" type="text/javascript"></script>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
   <!-- using https://github.com/jbkunst/d3-waffle/ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js" type="text/javascript"></script>
   <script src="assets/scripts/d3-waffle.js" type="text/javascript"></script>
-
-  <!-- using http://html2canvas.hertzen.com/ -->
-  <script src="assets/scripts/html2canvas.min.js" type="text/javascript"></script>
 
   <!-- using https://github.com/tsayen/dom-to-image -->
   <script src="assets/scripts/dom-to-image.min.js" type="text/javascript"></script>
@@ -166,13 +181,14 @@
   <script src="assets/scripts/months.js"></script>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120206506-1"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-175031297-1"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'UA-120206506-1');
+    gtag('config', 'UA-175031297-1');
   </script>
+
 </body>
 </html>

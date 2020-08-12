@@ -14,7 +14,7 @@ career path, or other meaningful life events.
 
 # Live Website
 
-Try it out at https://discotraystudios.github.io/myLifeInMonths/
+Try it out at https://discotraystudios.github.io/my-life-in-months/
 
 # Credits
 

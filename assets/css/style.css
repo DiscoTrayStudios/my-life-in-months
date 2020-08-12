@@ -5,7 +5,30 @@
   display: inline-block;
 }
 
+.chart-div {
+  padding-bottom: 10px;
+}
+
 .chart-title {
   display: table-cell;
   width:100%
+}
+
+* {
+  border-radius: 0 !important;
+}
+
+.remove, .colorpick, .monthsevent {
+  text-align: center;
+}
+
+/* https://stackoverflow.com/a/63344767/14082090 */
+input[type="color"] {
+    border: none;
+    width: 24px;
+    height: 24px;
+    border:0;
+    margin:0;
+    padding:0;
+
 }
