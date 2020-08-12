@@ -87,6 +87,7 @@ function d3waffle() {
 
         // Add title:
         svg.append("text")
+            .attr("id", "waffle-title")
             .attr("text-anchor", "start")
             .attr("x", -20)
             .attr("y", -35)

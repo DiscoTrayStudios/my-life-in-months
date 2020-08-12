@@ -34,7 +34,7 @@ $(document).ready(function() {
   ];
   var goadrichrange = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
 
-  var isabelladata = [
+  var data = [
     { "name": "childhood", "value":160},
     { "name": "high school", "value":46},
     { "name": "college", "value":48},
@@ -43,7 +43,7 @@ $(document).ready(function() {
     { "name": "time left", "value":559},
   ];
 
-  var isabellarange = ["#EF476F","#FCA311","#FFD166","#0EAD69","#4ECDC4","#118AB2"];
+  var range = ["#EF476F","#FCA311","#FFD166","#0EAD69","#4ECDC4","#118AB2"];
 
   var originaldata = [
     { "name": "Childhood", "value":184},
@@ -51,8 +51,8 @@ $(document).ready(function() {
   ];
   var originalrange = ["#1f77b4", "#aec7e8"];
 
-  var data = [];
-  var range = [];
+  //var data = [];
+  //var range = [];
   var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
   var chart;
 
@@ -78,7 +78,8 @@ $(document).ready(function() {
     var palette = d3.scaleOrdinal().domain(domain).range(range);
 
     chart = d3waffle()
-        .title($("#waffle-title-input").val())
+    //    .title($("#waffle-title-input").val())
+        .title("Isabella's Life in Months")
         .colorscale(palette);
 
     d3.select("#waffle")
@@ -226,12 +227,13 @@ $(document).ready(function() {
       text = text.slice(0, -1);
       $(this).val(text);
     }
+    console.log($("waffle-title").text());
     $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
   });
 
   defaultColors("Childhood");
   defaultColors("High School");
-  calculateData();
+  //calculateData();
   makeWaffleChart();
 
   $( "#reset" ).click(function() {
