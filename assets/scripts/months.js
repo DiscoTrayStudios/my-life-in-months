@@ -173,8 +173,8 @@ $(document).ready(function() {
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
   }
 
-  function alertMaker(text) {
-    return '<div class="alert alert-danger alert-dismissible show fade" role="alert" id="alert-event-name-length">' +
+  function alertMaker(id, text) {
+    return '<div class="alert alert-danger alert-dismissible show fade" role="alert" id="' + id + '">' +
       '<strong>Warning!</strong> ' + text + ' ' +
       '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
       '  <span aria-hidden="true">&times;</span>' +
@@ -197,14 +197,25 @@ $(document).ready(function() {
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
-  		  if (value.trim().length >= 20){
-  		    $('#showEventAlertHere').html(alertMaker("Event names must be less than 20 characters long!"));
+        if (!value){
+  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must not be empty!"));
+        }
+        else if (value.trim().length == 0){
+  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must be at least 1 character long!"));
+        }
+        else if (value.trim().length >= 20){
+  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must be less than 20 characters long!"));
+        } else {
+          $("#alert-event-name-length").remove();
         }
   			return !!value && value.trim().length > 0 && value.trim().length < 20;
   		} else if (column === 1){
         if (!isNormalPosInteger(value)) {
-          $('#showMonthsAlertHere').html(alertMaker("Events must be less than 1200 months long!"));
+          $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
+        } else {
+          $("#alert-event-month-length").remove();
         }
+
   			return isNormalPosInteger(value);
   		} else {
         return false;
