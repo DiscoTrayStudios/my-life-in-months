@@ -99,18 +99,26 @@ $(document).ready(function() {
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
   $( "#camera" ).click(function() {
-
+    $(this).html("Processing");
+    $(this).removeClass("btn-primary");
+    $(this).addClass("btn-danger");
+    console.log("Testing");
     var cameraClone = $("<div></div>").html($("#capture").html());
     cameraClone.css("width", "800px");
     cameraClone.attr("id", "captureClone");
     cameraClone.addClass("chart-clone-area");
     $("body").append(cameraClone);
 
+    setTimeout(function() {
     domtoimage.toBlob(document.getElementById('captureClone'))
     .then(function (blob) {
         window.saveAs(blob, 'my-life-in-months.png');
         $("#captureClone").remove();
+        $("#camera" ).html("Download <i class='fa fa-camera' aria-hidden='true'></i>");
+        $("#camera" ).removeClass("btn-danger");
+        $("#camera" ).addClass("btn-primary");
     });
+  }, 500);
   });
 
   $( "#addrow" ).click(function() {
