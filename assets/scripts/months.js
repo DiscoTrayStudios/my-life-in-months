@@ -121,69 +121,6 @@ $(document).ready(function() {
   }, 500);
   });
 
-  $( "#addrow" ).click(function() {
-    var eventName = getRandomEventName();
-    var dataRows = $("#mainTable").find('tbody tr');
-    $('#mainTable tr:last').after('<tr>' +
-          '<td>' + eventName+ '</td>' +
-          '<td class="monthsevent">' + getRandomIntInclusive(12, 48) + '</td>' +
-          '<td class="colorpick"><input type="color" value="' +
-          defaultColors(eventName) +
-          '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
-    calculateData();
-    makeWaffleChart();
-    $('#mainTable').editableTableWidget().numericInputExample()
-  });
-
-  $( "#togglefuture" ).click(function() {
-    calculateData();
-    makeWaffleChart();
-  });
-
-  function toggleFuture() {
-    var lifeExpectancy = 80
-    var numMonths = getCurrentNumMonths();
-    if ($('#togglefuture').prop('checked') && (lifeExpectancy * 12) > numMonths) {
-      futureIndex = data.length;
-      data.push({ "name": "Future",
-                  "value": (lifeExpectancy * 12) - numMonths});
-      range.push("#bfbfbf");
-    }
-  };
-
-  function getRandomEventName(){
-    events = ["Went backpacking", "Went to Mars", "Started pickle farm", "Went ghost hunting", "Studied", "Learned to unicycle", "Went to Antarctica",
-    "Studied French", "Published a book", "Sculpted ice", "Entered the Olympics"];
-    return events[Math.floor(Math.random() * events.length)];
-  }
-
-  // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
-  function isNormalPosInteger(str) {
-      str = str.trim();
-      if (!str) {
-          return false;
-      }
-      str = str.replace(/^0+/, "") || "0";
-      var n = Math.floor(Number(str));
-      return n !== Infinity && String(n) === str && n > 0 && n <= 1200;
-  }
-
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-  function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
-  }
-
-  function alertMaker(id, text) {
-    return '<div class="alert alert-danger alert-dismissible show fade" role="alert" id="' + id + '">' +
-      '<strong>Warning!</strong> ' + text + ' ' +
-      '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-      '  <span aria-hidden="true">&times;</span>' +
-      '</button>' +
-    '</div>'
-  }
-
   /* global $ */
   /* this is an example for validation and change events */
   $.fn.numericInputExample = function () {
@@ -226,6 +163,83 @@ $(document).ready(function() {
   	return this;
   };
 
+  function addNewEventRow(event, months, color) {
+    var dataRows = $("#mainTable").find('tbody tr');
+    $('#mainTable tr:last').after('<tr>' +
+          '<td>' + event + '</td>' +
+          '<td class="monthsevent">' + months + '</td>' +
+          '<td class="colorpick"><input type="color" value="' + color +
+          '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
+    calculateData();
+    makeWaffleChart();
+    $('#mainTable').editableTableWidget().numericInputExample()
+  }
+
+  function randomEventRow() {
+    var eventName = getRandomEventName();
+    var m = getRandomIntInclusive(12, 48);
+    var c = randomColor();
+    addNewEventRow(eventName, m, c);
+  }
+
+  $( "#addrow" ).click(function() {
+    randomEventRow();
+  });
+
+  $( "#togglefuture" ).click(function() {
+    calculateData();
+    makeWaffleChart();
+  });
+
+  function toggleFuture() {
+    const lifeExpectancy = 80
+    var numMonths = getCurrentNumMonths();
+    if ($('#togglefuture').prop('checked') && (lifeExpectancy * 12) > numMonths) {
+      futureIndex = data.length;
+      data.push({ "name": "Future",
+                  "value": (lifeExpectancy * 12) - numMonths});
+      range.push("#bfbfbf");
+    }
+  };
+
+  function getRandomEventName(){
+    events = ["Backpacked Andes", "Visited Mars", "Started pickle farm", "Went ghost hunting",
+    "Raised dinosaurs", "Learned to unicycle", "Went to Antarctica", "Studied arachnids",
+    "Studied French", "Published a book", "Sculpted ice", "Entered the Olympics",
+    "Composed an opera", "Busked in subway", "Perfected sourdough", "Shrunk to 1/12 size",
+    "Robot uprising", "Created vaccine", "Worked in Moria", "Unemployed", "Netflix binge",
+    "Ant army invasion", "Kaiju attacks", "The Long Nap", "Unexplained illness",
+    "Worked three jobs", "Worked at Ponderosa", "Delivered Mail"];
+    return events[Math.floor(Math.random() * events.length)];
+  }
+
+  // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
+  function isNormalPosInteger(str) {
+      str = str.trim();
+      if (!str) {
+          return false;
+      }
+      str = str.replace(/^0+/, "") || "0";
+      var n = Math.floor(Number(str));
+      return n !== Infinity && String(n) === str && n > 0 && n <= 1200;
+  }
+
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+  }
+
+  function alertMaker(id, text) {
+    return '<div class="alert alert-danger alert-dismissible show fade" role="alert" id="' + id + '">' +
+      '<strong>Warning!</strong> ' + text + ' ' +
+      '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+      '  <span aria-hidden="true">&times;</span>' +
+      '</button>' +
+    '</div>'
+  }
+
   // https://stackoverflow.com/questions/9205164/validate-html-text-input-as-its-typed
   $('#waffle-title-input').bind('input propertychange', function() {
     var text = $(this).val();
@@ -238,8 +252,9 @@ $(document).ready(function() {
     $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
   });
 
-  defaultColors("Childhood");
-  defaultColors("High School");
+  for (var i = 0; i < 3; i++) {
+    randomEventRow();
+  }
   calculateData();
   makeWaffleChart();
 
