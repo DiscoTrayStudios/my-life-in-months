@@ -45,6 +45,26 @@ $(document).ready(function() {
 
   var isabellarange = ["#EF476F","#FCA311","#FFD166","#0EAD69","#4ECDC4","#118AB2"];
 
+  exampleData = [
+    [      
+      { "name": "Bethlehem", "value": 96},
+      { "name": "Canvas", "value": 96},
+      { "name": "Gambier", "value": 45},
+      { "name": "Milwaukee", "value": 3},
+      { "name": "Madison", "value": 21},
+      { "name": "San Antonio", "value": 7},
+      { "name": "Madison II", "value": 77},
+      { "name": "Shreveport", "value": 84},
+      { "name": "Conway", "value": 75}
+    ],
+    [
+      {"name": "Paris", "value": 57},
+      {"name": "Warren", "value": 48},
+      {"name": "Charleston", "value": 98},
+      {"name": "Conway", "value": 24}
+    ]
+  ]
+
   var originaldata = [
     { "name": "Childhood", "value":184},
     { "name": "High School", "value":45}
@@ -134,6 +154,30 @@ $(document).ready(function() {
     makeWaffleChart();
     $('#mainTable').editableTableWidget().numericInputExample()
   });
+
+  $( ".exampleCharts" ).click(function() {
+    var value = $(this).attr('value');
+    var populateData = exampleData[parseInt(value)];
+    populateTable(populateData);
+    calculateData();
+    makeWaffleChart();
+    $('#mainTable').editableTableWidget().numericInputExample()
+  });
+
+  function populateTable(newData) {
+    $("#mainTable").find("tbody").html("");
+    var toAdd = "";
+    newData.forEach(function(row) {
+      toAdd += '<tr>' + '<td>' + row["name"] + '</td>' +
+      '<td class="monthsevent">' + row["value"] + '</td>' +
+      '<td class="colorpick"><input type="color" value="' +
+      defaultColors(row["name"]) +
+      '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>';
+    })
+    $("#mainTable").find("tbody").html(toAdd);
+    data = newData;
+    range = goadrichrange;
+  }
 
   $( "#togglefuture" ).click(function() {
     calculateData();
