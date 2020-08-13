@@ -165,14 +165,15 @@ $(document).ready(function() {
 
   function addNewEventRow(event, months, color) {
     var dataRows = $("#mainTable").find('tbody tr');
-    $('#mainTable tr:last').after('<tr>' +
+    var newRow = $('<tr>' +
           '<td>' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
           '<td class="colorpick"><input type="color" value="' + color +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
+    $('#mainTable tr:last').after(newRow);
     calculateData();
     makeWaffleChart();
-    $('#mainTable').editableTableWidget().numericInputExample()
+    newRow.editableTableWidget().numericInputExample()
   }
 
   function randomEventRow() {
@@ -209,7 +210,7 @@ $(document).ready(function() {
     "Composed an opera", "Busked in subway", "Perfected sourdough", "Shrunk to 1/12 size",
     "Robot uprising", "Created vaccine", "Worked in Moria", "Unemployed", "Netflix binge",
     "Ant army invasion", "Kaiju attacks", "The Long Nap", "Unexplained illness",
-    "Worked three jobs", "Worked at Ponderosa", "Delivered Mail"];
+    "Worked three jobs", "Worked at Ponderosa", "Delivered mail", "Rescued lemurs"];
     return events[Math.floor(Math.random() * events.length)];
   }
 
