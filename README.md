@@ -8,9 +8,9 @@ chart that can help you see the larger picture of your life.
 You can use it to map out where you've lived, your
 career path, or other meaningful life events.
 
-# Examples
+# Example
 
-![Obama MLIM](assets/images/obama.png)
+![MLIM](assets/images/random.png)
 
 # Live Website
 
@@ -19,6 +19,7 @@ Try it out at https://discotraystudios.github.io/my-life-in-months/
 # Credits
 
 * [d3-waffle](https://github.com/jbkunst/d3-waffle/)
+* [randomColor](https://github.com/davidmerfield/randomColor)
 * [dom-to-image](https://github.com/tsayen/dom-to-image)
 * [editable-table](https://mindmup.github.io/editable-table/)
 * [FileSaver.js](https://github.com/eligrey/FileSaver.js/)

@@ -3,15 +3,28 @@
   padding: 10px;
   background: #fafafa;
   display: inline-block;
+  width: 100%;
+}
+
+.chart-clone-area {
+  padding: 20px;
+  background: #fafafa;
+  display: inline-block;
+  width: 100%;
 }
 
 .chart-div {
   padding-bottom: 10px;
 }
 
+.waffle-title {
+  display: inline-block;
+  width:100%;
+}
+
 .chart-title {
   display: table-cell;
-  width:100%
+  width:100%;
 }
 
 * {
@@ -33,6 +46,25 @@ input[type="color"] {
 
 }
 
+
 .img-padding {
   padding-bottom: 20px;
+
+.mybanner {
+  font-size: 6vw;
+}
+@media screen and (min-width: 400px) {
+  .mybanner {
+     font-size: 30px;
+  }
+}
+
+.social-media {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.social-media-li {
+  float: left;
+  padding: 16px;
 }

@@ -1,6 +1,7 @@
 function d3waffle() {
-  var margin = {top: 20, right: 10, bottom: 10, left: 20},
+  var margin = {top: 20, right: 10, bottom: 10, left: 20, title: 35, footer: 15},
       scale = 1,
+      title = "My Life in Months",
       cols = 12,
       colorscale = d3.scaleOrdinal(d3.schemeCategory10),
       appearancetimes = function(d, i){ return 100; },
@@ -20,7 +21,6 @@ function d3waffle() {
       data.forEach(function(d, i){
         data[i].class = slugify(d.name);
         data[i].scalevalue = Math.round(data[i].value*scale);
-        data[i].percent = data[i].value/total;
         data[i].class_index = d.class.concat(i);
       });
 
@@ -49,10 +49,16 @@ function d3waffle() {
 
       /* setting the container */
       var svg = selection.append("svg")
-            .attr("width",  (width + 200) + "px")
-            .attr("height", Math.max(gridHeight, legendHeight) + "px")
+            //.attr("width",  (width + 200) + "px")
+            //.attr("height", Math.max(gridHeight, legendHeight) + "px")
+            // Made the svg responsive
+            // https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js
+            .classed("svg-content-responsive", true)
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 " + (width + 200) + " " + (margin.title + margin.footer + Math.max(gridHeight, legendHeight)))
+
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+            .attr("transform", "translate(" + margin.left + "," + (margin.top + margin.title) + ")")
             .style("cursor", "default");
 
       // Create the scale (with help from https://www.d3-graph-gallery.com/graph/custom_axis.html)
@@ -72,12 +78,15 @@ function d3waffle() {
             .domain([0, maxyear])
             .range([margin.top - 13, gridSize * maxyear + margin.top - 13]);
 
-        // Draw the X axis
-        svg
-          .append("g")
-          .attr("transform", "translate(0,0)")
-          .call(d3.axisLeft(y).tickSize(0).ticks(Math.floor(maxyear/10)))
-
+        // Add title:
+        svg.append("text")
+            .attr("id", "waffle-title")
+            .attr("text-anchor", "start")
+            .attr("x", -20)
+            .attr("y", -35)
+            .text(title)
+            .style("font", "24px 'Helvetica Neue', Helvetica, Arial, sans-serif")
+            .style("font-weight", "bold");
 
         // Add X axis label:
         svg.append("text")
@@ -85,16 +94,27 @@ function d3waffle() {
             .attr("x", gridSize * cols / 2)
             .attr("y", -5)
             .text("1 year")
-            .style("font", "10px sans-serif");
+            .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif");
 
         // Y axis label:
-     svg.append("text")
-         .attr("text-anchor", "end")
-         .attr("transform", "rotate(-90)")
-         .attr("y", -margin.left+14)
-         .attr("x", -65)
-         .text("age")
-          .style("font", "10px sans-serif");
+        svg.append("text")
+          .attr("text-anchor", "end")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -margin.left+14)
+          .attr("x", getYPosForAgeLabel(rows))
+          .text("age")
+          .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif");
+
+          // Add footer label:
+          svg.append("text")
+              .attr("text-anchor", "start")
+              .attr("x", 0)
+              .attr("y", Math.max(gridHeight, legendHeight) - 10)
+              .text("https://discotraystudios.github.io/my-life-in-months")
+              .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif")
+              .style("opacity", "0.5");
+
+
 
       var nodes = svg.selectAll(".node")
             .data(detaildata)
@@ -149,6 +169,12 @@ function d3waffle() {
     return chart;
   };
 
+  chart.title = function(_) {
+    if (!arguments.length) return title;
+    title = _;
+    return chart;
+  };
+
   chart.height = function(_) {
     if (!arguments.length) return height;
     height = _;
@@ -173,7 +199,7 @@ function d3waffle() {
     return chart;
   };
 
-chart.appearancetimes = function(_) {
+  chart.appearancetimes = function(_) {
     if (!arguments.length) return appearancetimes;
     appearancetimes = _;
     return chart;
@@ -189,6 +215,20 @@ function slugify(text){
     .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
     .replace(/\-\-+/g, '-')         // Replace multiple - with single -
     .trim();                        // Trim - from end of text
+}
+
+function getYPosForAgeLabel(rows) {
+  var ageLabelYPosition;
+      if (rows <= 4 && rows > 1) {
+        ageLabelYPosition = -20;
+      }
+      else if (rows < 10 && rows > 1) {
+        ageLabelYPosition = (-10 * rows) / 2;
+      }
+      else {
+        ageLabelYPosition = -65;
+      }
+    return ageLabelYPosition;
 }
 
 /* http://stackoverflow.com/questions/12303989/cartesian-product-of-multiple-arrays-in-javascript */
