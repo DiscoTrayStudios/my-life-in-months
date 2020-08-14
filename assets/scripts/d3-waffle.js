@@ -1,8 +1,7 @@
 function d3waffle() {
-  var margin = {top: 20, right: 10, bottom: 10, left: 20},
+  var margin = {top: 20, right: 10, bottom: 10, left: 20, title: 35, footer: 15},
       scale = 1,
       title = "My Life in Months",
-      titleHeight = 35,
       cols = 12,
       colorscale = d3.scaleOrdinal(d3.schemeCategory10),
       appearancetimes = function(d, i){ return 100; },
@@ -56,10 +55,10 @@ function d3waffle() {
             // https://stackoverflow.com/questions/16265123/resize-svg-when-window-is-resized-in-d3-js
             .classed("svg-content-responsive", true)
             .attr("preserveAspectRatio", "xMinYMin meet")
-            .attr("viewBox", "0 0 " + (width + 200) + " " + (titleHeight + Math.max(gridHeight, legendHeight)))
+            .attr("viewBox", "0 0 " + (width + 200) + " " + (margin.title + margin.footer + Math.max(gridHeight, legendHeight)))
 
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + (margin.top + titleHeight) + ")")
+            .attr("transform", "translate(" + margin.left + "," + (margin.top + margin.title) + ")")
             .style("cursor", "default");
 
       // Create the scale (with help from https://www.d3-graph-gallery.com/graph/custom_axis.html)
@@ -105,6 +104,17 @@ function d3waffle() {
           .attr("x", getYPosForAgeLabel(rows))
           .text("age")
           .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif");
+
+          // Add footer label:
+          svg.append("text")
+              .attr("text-anchor", "start")
+              .attr("x", 0)
+              .attr("y", Math.max(gridHeight, legendHeight) - 10)
+              .text("https://discotraystudios.github.io/my-life-in-months")
+              .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif")
+              .style("opacity", "0.5");
+
+
 
       var nodes = svg.selectAll(".node")
             .data(detaildata)
