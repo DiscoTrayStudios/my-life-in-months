@@ -71,7 +71,7 @@ function d3waffle() {
       svg
         .append("g")
         .attr("transform", "translate(0,0)")
-        .call(d3.axisLeft(y).tickSize(0).ticks(Math.floor(maxyear/10)))
+        .call(d3.axisLeft(y).tickSize(0).ticks(Math.max(1, Math.floor(maxyear/10))))
         .select(".domain").remove();
 
         var y = d3.scaleLinear()
