@@ -45,3 +45,22 @@ input[type="color"] {
     padding:0;
 
 }
+
+.mybanner {
+  font-size: 6vw;
+}
+@media screen and (min-width: 400px) {
+  .mybanner {
+     font-size: 30px;
+  }
+}
+
+.social-media {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.social-media-li {
+  float: left;
+  padding: 16px;
+}
