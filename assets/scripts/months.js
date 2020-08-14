@@ -112,12 +112,19 @@ $(document).ready(function() {
     setTimeout(function() {
       domtoimage.toBlob(document.getElementById('captureClone'))
       .then(function (blob) {
-          window.saveAs(blob, 'my-life-in-months.png');
-          $("#captureClone").remove();
-          $("#camera" ).html("Download <i class='fa fa-camera' aria-hidden='true'></i>");
-          $("#camera" ).removeClass("btn-danger");
-          $("#camera" ).addClass("btn-primary");
-      }, function (blob) {
+
+          watermark([blob, 'assets/images/discologo-watermark.png'])
+          .image(watermark.image.lowerRight(0.25))
+          .then(function (img) {
+            window.saveAs(img, 'my-life-in-months.png');
+            $("#captureClone").remove();
+            $("#camera" ).html("Download <i class='fa fa-camera' aria-hidden='true'></i>");
+            $("#camera" ).removeClass("btn-danger");
+            $("#camera" ).addClass("btn-primary");
+          }, function(img) {
+            alert("Error in watermark");
+          });
+      }).finally(function () {
           alert("Error in downloading.");
           $("#captureClone").remove();
           $("#camera" ).html("Download <i class='fa fa-camera' aria-hidden='true'></i>");
@@ -287,12 +294,4 @@ $(document).ready(function() {
   $('#mainTable').editableTableWidget().numericInputExample();
 
   $(".alert").alert();
-
-  watermark(['assets/images/goadrich.png', 'assets/images/discologo.png'])
-  .image(watermark.image.lowerRight(0.5))
-  .then(function (img) {
-    document.body.appendChild(img);
-  }, function(img) {
-    alert("Error in watermark");
-  });
 });
