@@ -106,7 +106,7 @@ $(document).ready(function() {
     var cameraClone = $("<div></div>").html($("#capture").html());
     cameraClone.css("width", "800px");
     cameraClone.attr("id", "captureClone");
-    cameraClone.addClass("chart-clone-area");
+    cameraClone.addClass("chart-area");
     $("body").append(cameraClone);
 
     setTimeout(function() {
@@ -198,7 +198,7 @@ $(document).ready(function() {
     var numMonths = getCurrentNumMonths();
     if ($('#togglefuture').prop('checked') && (lifeExpectancy * 12) > numMonths) {
       futureIndex = data.length;
-      data.push({ "name": "Future",
+      data.push({ "name": "The Future",
                   "value": (lifeExpectancy * 12) - numMonths});
       range.push("#bfbfbf");
     }

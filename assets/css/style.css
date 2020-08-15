@@ -1,14 +1,5 @@
 /* Add our own style here */
 .chart-area {
-  padding: 10px;
-  background: #fafafa;
-  display: inline-block;
-  width: 100%;
-}
-
-.chart-clone-area {
-  padding: 20px;
-  background: #fafafa;
   display: inline-block;
   width: 100%;
 }

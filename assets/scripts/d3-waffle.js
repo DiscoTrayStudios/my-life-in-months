@@ -1,5 +1,5 @@
 function d3waffle() {
-  var margin = {top: 20, right: 10, bottom: 10, left: 20, title: 35, footer: 15},
+  var margin = {top: 30, right: 20, bottom: 20, left: 30, title: 35, footer: 15},
       scale = 1,
       title = "My Life in Months",
       cols = 12,
@@ -45,7 +45,7 @@ function d3waffle() {
       var gridSize = ((width - margin.left - margin.right) / cols)
       var gridHeight = margin.top + margin.bottom + gridSize * rows;
       var spots = data.length + 2;
-      var legendHeight = spots * gridSize + spots * magic_padding / 2;
+      var legendHeight = margin.top + spots * gridSize + spots * magic_padding / 2;
 
       /* setting the container */
       var svg = selection.append("svg")
@@ -56,7 +56,7 @@ function d3waffle() {
             .classed("svg-content-responsive", true)
             .attr("preserveAspectRatio", "xMinYMin meet")
             .attr("viewBox", "0 0 " + (width + 200) + " " + (margin.title + margin.footer + Math.max(gridHeight, legendHeight)))
-
+            .style("background-color", "#fafafa")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + (margin.top + margin.title) + ")")
             .style("cursor", "default");
@@ -65,7 +65,7 @@ function d3waffle() {
       var maxyear = (rows - 1) - (rows - 1) % 10;
       var y = d3.scaleLinear()
           .domain([0, maxyear])
-          .range([margin.top - 13, gridSize * maxyear + margin.top - 13]);
+          .range([margin.top - 23, gridSize * maxyear + margin.top - 23]);
 
       // Draw the Y axis
       svg
@@ -73,10 +73,6 @@ function d3waffle() {
         .attr("transform", "translate(0,0)")
         .call(d3.axisLeft(y).tickSize(0).ticks(Math.max(1, Math.floor(maxyear/10))))
         .select(".domain").remove();
-
-        var y = d3.scaleLinear()
-            .domain([0, maxyear])
-            .range([margin.top - 13, gridSize * maxyear + margin.top - 13]);
 
         // Add title:
         svg.append("text")
@@ -100,7 +96,7 @@ function d3waffle() {
         svg.append("text")
           .attr("text-anchor", "end")
           .attr("transform", "rotate(-90)")
-          .attr("y", -margin.left+14)
+          .attr("y", -margin.left+24)
           .attr("x", getYPosForAgeLabel(rows))
           .text("age")
           .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif");
@@ -109,7 +105,7 @@ function d3waffle() {
           svg.append("text")
               .attr("text-anchor", "start")
               .attr("x", 0)
-              .attr("y", Math.max(gridHeight, legendHeight) - 10)
+              .attr("y", Math.max(gridHeight, legendHeight) - margin.top)
               .text("https://discotraystudios.github.io/my-life-in-months")
               .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif")
               .style("opacity", "0.5");
@@ -219,14 +215,14 @@ function slugify(text){
 
 function getYPosForAgeLabel(rows) {
   var ageLabelYPosition;
-      if (rows <= 4 && rows > 1) {
+      if (rows <= 4 && rows >= 1) {
         ageLabelYPosition = -20;
       }
-      else if (rows < 10 && rows > 1) {
+      else if (rows < 10 && rows > 4) {
         ageLabelYPosition = (-10 * rows) / 2;
       }
       else {
-        ageLabelYPosition = -65;
+        ageLabelYPosition = -60;
       }
     return ageLabelYPosition;
 }
