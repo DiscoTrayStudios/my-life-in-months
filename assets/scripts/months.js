@@ -247,7 +247,17 @@ $(document).ready(function() {
     var text = $(this).val();
     //console.log($("#waffle-title").width());
     if (text.length > 30) {
-      text = text.slice(0, -1);
+      text = text.slice(0, 30);
+      $(this).val(text);
+    }
+    console.log($("waffle-title").text());
+    $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+  });
+  $("#waffle-title-input").bind("paste", function(){
+    var text = $(this).val();
+    //console.log($("#waffle-title").width());
+    if (text.length > 30) {
+      text = text.slice(0, 30);
       $(this).val(text);
     }
     console.log($("waffle-title").text());
