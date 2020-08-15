@@ -111,7 +111,6 @@ function d3waffle() {
               .style("opacity", "0.5");
 
 
-
       var nodes = svg.selectAll(".node")
             .data(detaildata)
             .enter().append("g")

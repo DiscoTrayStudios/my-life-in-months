@@ -84,6 +84,12 @@ $(document).ready(function() {
     d3.select("#waffle")
   			.datum(data)
   			.call(chart);
+
+    // closest watermark yet.
+/*    d3.xml("https://discotraystudios.github.io/my-life-in-months/assets/images/discotray.svg")
+      .then(data => {
+        d3.select("#watermark").node().append(data.documentElement)
+      });*/
   }
 
   function getCurrentNumMonths() {
