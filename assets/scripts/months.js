@@ -184,10 +184,10 @@ $(document).ready(function() {
   }
 
   function randomEventRow() {
-    var eventName = getRandomEventName();
+    var eventNames = getRandomEventName(1);
     var m = getRandomIntInclusive(12, 48);
     var c = randomColor();
-    addNewEventRow(eventName, m, c);
+    addNewEventRow(eventNames[0], m, c);
   }
 
   $( "#addrow" ).click(function() {
@@ -210,15 +210,30 @@ $(document).ready(function() {
     }
   };
 
-  function getRandomEventName(){
-    events = ["Backpacked Andes", "Visited Mars", "Started pickle farm", "Went ghost hunting",
+  // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  /* Randomize array in-place using Durstenfeld shuffle algorithm */
+  function shuffleArray(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+      }
+  }
+
+  function getRandomEventName(count){
+    events = ["Backpacked Andes", "Mars Vacation", "Started pickle farm", "Went ghost hunting",
     "Raised dinosaurs", "Learned to unicycle", "Went to Antarctica", "Studied arachnids",
     "Studied French", "Published a book", "Sculpted ice", "Entered the Olympics",
     "Composed an opera", "Busked in subway", "Perfected sourdough", "Shrunk to 1/12 size",
-    "Robot uprising", "Created vaccine", "Worked in Moria", "Unemployed", "Netflix binge",
+    "Robot uprising", "Developed vaccine", "Worked in Moria", "Unemployed", "Netflix binge",
     "Ant army invasion", "Kaiju attacks", "The Long Nap", "Unexplained illness",
-    "Worked three jobs", "Worked at Ponderosa", "Delivered mail", "Rescued lemurs"];
-    return events[Math.floor(Math.random() * events.length)];
+    "Worked three jobs", "Worked at Ponderosa", "Delivered mail", "Rescued lemurs",
+    "Camino de Santiago", "Red Cross Volunteer", "Southwest Roadtrip"];
+
+    shuffleArray(events);
+
+    return events.slice(0, count);
   }
 
   // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
@@ -270,10 +285,13 @@ $(document).ready(function() {
     $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
   });
 
-  for (var i = 0; i < 3; i++) {
-    randomEventRow();
+  var eventNames = getRandomEventName(3);
+  for (var i = 0; i < eventNames.length; i++) {
+    var m = getRandomIntInclusive(12, 48);
+    var c = randomColor();
+    addNewEventRow(eventNames[i], m, c);
   }
-  calculateData();
+  //calculateData();
   makeWaffleChart();
 
   $( "#reset" ).click(function() {
