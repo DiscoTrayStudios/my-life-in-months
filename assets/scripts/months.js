@@ -22,15 +22,15 @@ $(document).ready(function() {
   "#d728a0", "#a9b9cb", "#0fffb7"];
 
   var goadrichdata = [
-    { "name": "Northampton", "value":120},
-    { "name": "Canvas", "value":96},
-    { "name": "Gambier", "value":45},
-    { "name": "Milwaukee", "value":3},
-    { "name": "Madison", "value":21},
-    { "name": "San Antonio", "value":7},
-    { "name": "Madison", "value":77},
-    { "name": "Shreveport", "value":84},
-    { "name": "Conway", "value":75}
+    { "name": "Northampton, PA", "value":120},
+    { "name": "Canvas, WV", "value":96},
+    { "name": "Gambier, OH", "value":45},
+    { "name": "Milwaukee, WI", "value":3},
+    { "name": "Madison, WI", "value":21},
+    { "name": "San Antonio, TX", "value":7},
+    { "name": "Madison, WI", "value":77},
+    { "name": "Shreveport, LA", "value":84},
+    { "name": "Conway, AR", "value":75}
   ];
   var goadrichrange = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
 
