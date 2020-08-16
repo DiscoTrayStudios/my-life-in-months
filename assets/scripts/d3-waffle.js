@@ -72,6 +72,7 @@ function d3waffle() {
         .append("g")
         .attr("transform", "translate(0,0)")
         .call(d3.axisLeft(y).tickSize(0).ticks(Math.max(1, Math.floor(maxyear/10))))
+        .style("font", "10px 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif")
         .select(".domain").remove();
 
         // Add title:
@@ -81,7 +82,7 @@ function d3waffle() {
             .attr("x", -20)
             .attr("y", -35)
             .text(title)
-            .style("font", "24px 'Helvetica Neue', Helvetica, Arial, sans-serif")
+            .style("font", "24px 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif")
             .style("font-weight", "bold");
 
         // Add X axis label:
@@ -90,7 +91,7 @@ function d3waffle() {
             .attr("x", gridSize * cols / 2)
             .attr("y", -5)
             .text("1 year")
-            .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif");
+            .style("font", "10px 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif");
 
         // Y axis label:
         svg.append("text")
@@ -99,7 +100,7 @@ function d3waffle() {
           .attr("y", -margin.left+24)
           .attr("x", getYPosForAgeLabel(rows))
           .text("age")
-          .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif");
+          .style("font", "10px 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif");
 
           // Add footer label:
           svg.append("text")
@@ -107,7 +108,7 @@ function d3waffle() {
               .attr("x", 0)
               .attr("y", Math.max(gridHeight, legendHeight) - margin.top)
               .text("https://discotraystudios.github.io/my-life-in-months")
-              .style("font", "10px 'Helvetica Neue', Helvetica, Arial, sans-serif")
+              .style("font", "10px 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif")
               .style("opacity", "0.5");
 
 
@@ -150,6 +151,7 @@ function d3waffle() {
       legend.append('text')
             .attr('x', 1.5*gridSize + magic_padding)
             .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
+            .style("font", "12px 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif")
             .style("opacity", 1)
             .html(function(d){ return d.name; })
             .attr('class', function(d){ return "waffle-legend-text" + " " + d.class; })

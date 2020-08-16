@@ -43,10 +43,12 @@ input[type="color"] {
 }
 
 .mybanner {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 6vw;
 }
 @media screen and (min-width: 400px) {
   .mybanner {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
      font-size: 30px;
   }
 }
