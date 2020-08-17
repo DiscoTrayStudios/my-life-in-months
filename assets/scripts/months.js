@@ -149,12 +149,12 @@ $(document).ready(function() {
         else if (value.trim().length == 0){
   		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must be at least 1 character long!"));
         }
-        else if (value.trim().length >= 20){
-  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must be less than 20 characters long!"));
+        else if (value.trim().length >= 25){
+  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must be less than 25 characters long!"));
         } else {
           $("#alert-event-name-length").remove();
         }
-  			return !!value && value.trim().length > 0 && value.trim().length < 20;
+  			return !!value && value.trim().length > 0 && value.trim().length < 25;
   		} else if (column === 1){
         if (!isNormalPosInteger(value)) {
           $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
@@ -270,6 +270,9 @@ $(document).ready(function() {
     if (text.length > 30) {
       text = text.slice(0, 30);
       $(this).val(text);
+      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Title must be less than 30 characters long!"));
+    } else {
+      $("#alert-event-name-length").remove();
     }
     console.log($("waffle-title").text());
     $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
@@ -280,6 +283,9 @@ $(document).ready(function() {
     if (text.length > 30) {
       text = text.slice(0, 30);
       $(this).val(text);
+      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Title must be less than 30 characters long!"));
+    } else {
+      $("#alert-event-name-length").remove();
     }
     console.log($("waffle-title").text());
     $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
