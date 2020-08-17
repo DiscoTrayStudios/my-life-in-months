@@ -41,6 +41,21 @@ function d3waffle() {
         detaildata[i].col = griddata[i][1];
       })
 
+      // Remove duplicates in the legend, should be safe here
+      var cleandata = [];
+      for (var i = 0; i < data.length; i++) {
+        var found = false;
+        for (var j = 0; j < i; j++) {
+          if (data[i].class == data[j].class &&
+              colorscale(data[i].class_index) == colorscale(data[j].class_index)) {
+            found = true;
+          }
+        }
+        if (!found) {
+          cleandata.push(data[i]);
+        }
+      }
+      data = cleandata;
 
       var gridSize = ((width - margin.left - margin.right) / cols)
       var gridHeight = margin.top + margin.bottom + gridSize * rows;
