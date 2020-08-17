@@ -37,6 +37,13 @@ input[type="color"] {
 
 }
 
+body {
+  font-family: 'Merriweather', serif;
+}
+
+table {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 
 .img-padding {
   padding-bottom: 20px;
