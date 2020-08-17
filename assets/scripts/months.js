@@ -223,13 +223,13 @@ $(document).ready(function() {
 
   function getRandomEventName(count){
     events = ["Backpacked Andes", "Mars Vacation", "Started pickle farm", "Went ghost hunting",
-    "Raised dinosaurs", "Learned to unicycle", "Went to Antarctica", "Studied arachnids",
+    "Raised dinosaurs", "Learned to unicycle", "Surveyed Antarctica", "Studied arachnids",
     "Studied French", "Published a book", "Sculpted ice", "Entered the Olympics",
-    "Composed an opera", "Busked in subway", "Perfected sourdough", "Shrunk to 1/12 size",
+    "Composed an opera", "Busked in subway", "Perfected sourdough", "Shrunk to 1:12 size",
     "Robot uprising", "Developed vaccine", "Worked in Moria", "Unemployed", "Netflix binge",
-    "Ant army invasion", "Kaiju attacks", "The Long Nap", "Unexplained illness",
+    "Ant invasion", "Kaiju attacks", "The Long Nap", "Unexplained illness",
     "Worked three jobs", "Worked at Ponderosa", "Delivered mail", "Rescued lemurs",
-    "Camino de Santiago", "Red Cross Volunteer", "Southwest Roadtrip"];
+    "Camino de Santiago", "Red Cross Volunteer", "Southwest Roadtrip", "Lived with squirrels"];
 
     shuffleArray(events);
 
