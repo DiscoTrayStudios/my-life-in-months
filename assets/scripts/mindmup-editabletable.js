@@ -15,7 +15,7 @@ $.fn.editableTableWidget = function (options) {
 			showEditor = function (select) {
 				active = element.find('td:focus');
 				console.log(active);
-				if (!(active.hasClass( "colorpick" ) || active.hasClass("remove"))) {
+				if (!(active.hasClass( "colorpick" ) || active.hasClass("remove") || active.hasClass("linked"))) {
 
 					if (active.length) {
 						editor.val(active.text())
