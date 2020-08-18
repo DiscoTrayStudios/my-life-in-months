@@ -22,15 +22,15 @@ $(document).ready(function() {
   "#d728a0", "#a9b9cb", "#0fffb7"];
 
   var goadrichdata = [
-    { "name": "Northampton", "value":120},
-    { "name": "Canvas", "value":96},
-    { "name": "Gambier", "value":45},
-    { "name": "Milwaukee", "value":3},
-    { "name": "Madison", "value":21},
-    { "name": "San Antonio", "value":7},
-    { "name": "Madison", "value":77},
-    { "name": "Shreveport", "value":84},
-    { "name": "Conway", "value":75}
+    { "name": "Northampton, PA", "value":120},
+    { "name": "Canvas, WV", "value":96},
+    { "name": "Gambier, OH", "value":45},
+    { "name": "Milwaukee, WI", "value":3},
+    { "name": "Madison, WI", "value":21},
+    { "name": "San Antonio, TX", "value":7},
+    { "name": "Madison, WI", "value":77},
+    { "name": "Shreveport, LA", "value":84},
+    { "name": "Conway, AR", "value":75}
   ];
   var goadrichrange = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
 
@@ -104,6 +104,12 @@ $(document).ready(function() {
     d3.select("#waffle")
   			.datum(data)
   			.call(chart);
+
+    // closest watermark yet.
+/*    d3.xml("https://discotraystudios.github.io/my-life-in-months/assets/images/discotray.svg")
+      .then(data => {
+        d3.select("#watermark").node().append(data.documentElement)
+      });*/
   }
 
   function getCurrentNumMonths() {
@@ -126,33 +132,86 @@ $(document).ready(function() {
     var cameraClone = $("<div></div>").html($("#capture").html());
     cameraClone.css("width", "800px");
     cameraClone.attr("id", "captureClone");
-    cameraClone.addClass("chart-clone-area");
+    cameraClone.addClass("chart-area");
     $("body").append(cameraClone);
 
     setTimeout(function() {
-    domtoimage.toBlob(document.getElementById('captureClone'))
-    .then(function (blob) {
-        window.saveAs(blob, 'my-life-in-months.png');
-        $("#captureClone").remove();
-        $("#camera" ).html("Download <i class='fa fa-camera' aria-hidden='true'></i>");
-        $("#camera" ).removeClass("btn-danger");
-        $("#camera" ).addClass("btn-primary");
-    });
-  }, 500);
+      domtoimage.toBlob(document.getElementById('captureClone'))
+      .then(function (blob) {
+          window.saveAs(blob, 'my-life-in-months.png');
+      }).finally(function (blob) {
+          $("#captureClone").remove();
+          $("#camera" ).html("Download <i class='fa fa-camera' aria-hidden='true'></i>");
+          $("#camera" ).removeClass("btn-danger");
+          $("#camera" ).addClass("btn-primary");
+      });
+    }, 500);
   });
 
-  $( "#addrow" ).click(function() {
-    var eventName = getRandomEventName();
+  /* global $ */
+  /* this is an example for validation and change events */
+  $.fn.numericInputExample = function () {
+  	'use strict';
+  	var element = $(this);
+
+    element.find('td').off('change').off('validate');
+
+  	element.find('td').on('change', function (evt) {
+      calculateData();
+      makeWaffleChart();
+  	}).on('validate', function (evt, value) {
+  		var cell = $(this),
+  			column = cell.index();
+  		if (column === 0) {
+        if (!value){
+  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must not be empty!"));
+        }
+        else if (value.trim().length == 0){
+  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must be at least 1 character long!"));
+        }
+        else if (value.trim().length >= 25){
+  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must be less than 25 characters long!"));
+        } else {
+          $("#alert-event-name-length").remove();
+        }
+  			return !!value && value.trim().length > 0 && value.trim().length < 25;
+  		} else if (column === 1){
+        if (!isNormalPosInteger(value)) {
+          $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
+        } else {
+          $("#alert-event-month-length").remove();
+        }
+
+  			return isNormalPosInteger(value);
+  		} else {
+        return false;
+      }
+  	});
+  	return this;
+  };
+
+  function addNewEventRow(event, months, color) {
     var dataRows = $("#mainTable").find('tbody tr');
-    $('#mainTable tr:last').after('<tr>' +
-          '<td>' + eventName+ '</td>' +
-          '<td class="monthsevent">' + getRandomIntInclusive(12, 48) + '</td>' +
-          '<td class="colorpick"><input type="color" value="' +
-          defaultColors(eventName) +
+    var newRow = $('<tr>' +
+          '<td>' + event + '</td>' +
+          '<td class="monthsevent">' + months + '</td>' +
+          '<td class="colorpick"><input type="color" value="' + color +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
+    $('#mainTable tr:last').after(newRow);
     calculateData();
     makeWaffleChart();
-    $('#mainTable').editableTableWidget().numericInputExample()
+    newRow.editableTableWidget().numericInputExample()
+  }
+
+  function randomEventRow() {
+    var eventNames = getRandomEventName(1);
+    var m = getRandomIntInclusive(12, 48);
+    var c = randomColor();
+    addNewEventRow(eventNames[0], m, c);
+  }
+
+  $( "#addrow" ).click(function() {
+    randomEventRow();
   });
 
   $( ".exampleCharts" ).click(function() {
@@ -185,20 +244,40 @@ $(document).ready(function() {
   });
 
   function toggleFuture() {
-    var lifeExpectancy = 80
+    const lifeExpectancy = 80
     var numMonths = getCurrentNumMonths();
     if ($('#togglefuture').prop('checked') && (lifeExpectancy * 12) > numMonths) {
       futureIndex = data.length;
-      data.push({ "name": "Future",
+      data.push({ "name": "The Future",
                   "value": (lifeExpectancy * 12) - numMonths});
       range.push("#bfbfbf");
     }
   };
 
-  function getRandomEventName(){
-    events = ["Went backpacking", "Went to Mars", "Started pickle farm", "Went ghost hunting", "Studied", "Learned to unicycle", "Went to Antarctica",
-    "Studied French", "Published a book", "Sculpted ice", "Entered the Olympics"];
-    return events[Math.floor(Math.random() * events.length)];
+  // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  /* Randomize array in-place using Durstenfeld shuffle algorithm */
+  function shuffleArray(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+      }
+  }
+
+  function getRandomEventName(count){
+    events = ["Backpacked Andes", "Mars Vacation", "Started pickle farm", "Went ghost hunting",
+    "Raised dinosaurs", "Learned to unicycle", "Surveyed Antarctica", "Studied arachnids",
+    "Studied French", "Published a book", "Sculpted ice", "Entered the Olympics",
+    "Composed an opera", "Busked in subway", "Perfected sourdough", "Shrunk to 1:12 size",
+    "Robot uprising", "Developed vaccine", "Worked in Moria", "Unemployed", "Netflix binge",
+    "Ant invasion", "Kaiju attacks", "The Long Nap", "Unexplained illness",
+    "Worked three jobs", "Worked at Ponderosa", "Delivered mail", "Rescued lemurs",
+    "Camino de Santiago", "Red Cross Volunteer", "Southwest Roadtrip", "Lived with squirrels"];
+
+    shuffleArray(events);
+
+    return events.slice(0, count);
   }
 
   // https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
@@ -228,63 +307,41 @@ $(document).ready(function() {
     '</div>'
   }
 
-  /* global $ */
-  /* this is an example for validation and change events */
-  $.fn.numericInputExample = function () {
-  	'use strict';
-  	var element = $(this);
-
-    element.find('td').off('change').off('validate');
-
-  	element.find('td').on('change', function (evt) {
-      calculateData();
-      makeWaffleChart();
-  	}).on('validate', function (evt, value) {
-  		var cell = $(this),
-  			column = cell.index();
-  		if (column === 0) {
-        if (!value){
-  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must not be empty!"));
-        }
-        else if (value.trim().length == 0){
-  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must be at least 1 character long!"));
-        }
-        else if (value.trim().length >= 20){
-  		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must be less than 20 characters long!"));
-        } else {
-          $("#alert-event-name-length").remove();
-        }
-  			return !!value && value.trim().length > 0 && value.trim().length < 20;
-  		} else if (column === 1){
-        if (!isNormalPosInteger(value)) {
-          $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
-        } else {
-          $("#alert-event-month-length").remove();
-        }
-
-  			return isNormalPosInteger(value);
-  		} else {
-        return false;
-      }
-  	});
-  	return this;
-  };
-
   // https://stackoverflow.com/questions/9205164/validate-html-text-input-as-its-typed
   $('#waffle-title-input').bind('input propertychange', function() {
     var text = $(this).val();
     //console.log($("#waffle-title").width());
     if (text.length > 30) {
-      text = text.slice(0, -1);
+      text = text.slice(0, 30);
       $(this).val(text);
+      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Title must be less than 30 characters long!"));
+    } else {
+      $("#alert-event-name-length").remove();
+    }
+    console.log($("waffle-title").text());
+    $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
+  });
+  $("#waffle-title-input").bind("paste", function(){
+    var text = $(this).val();
+    //console.log($("#waffle-title").width());
+    if (text.length > 30) {
+      text = text.slice(0, 30);
+      $(this).val(text);
+      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Title must be less than 30 characters long!"));
+    } else {
+      $("#alert-event-name-length").remove();
     }
     console.log($("waffle-title").text());
     $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
   });
 
-  defaultColors("Childhood");
-  defaultColors("High School");
-  calculateData();
+  var eventNames = getRandomEventName(3);
+  for (var i = 0; i < eventNames.length; i++) {
+    var m = getRandomIntInclusive(12, 48);
+    var c = randomColor();
+    addNewEventRow(eventNames[i], m, c);
+  }
+  //calculateData();
   makeWaffleChart();
 
   $( "#reset" ).click(function() {

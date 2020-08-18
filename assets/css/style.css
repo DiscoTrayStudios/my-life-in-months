@@ -1,14 +1,5 @@
 /* Add our own style here */
 .chart-area {
-  padding: 10px;
-  background: #fafafa;
-  display: inline-block;
-  width: 100%;
-}
-
-.chart-clone-area {
-  padding: 20px;
-  background: #fafafa;
   display: inline-block;
   width: 100%;
 }
@@ -44,4 +35,37 @@ input[type="color"] {
     margin:0;
     padding:0;
 
+}
+
+body {
+  font-family: 'Merriweather', serif;
+}
+
+table {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.img-padding {
+  padding-bottom: 20px;
+}
+
+.mybanner {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 6vw;
+}
+@media screen and (min-width: 400px) {
+  .mybanner {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+     font-size: 30px;
+  }
+}
+
+.social-media {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.social-media-li {
+  float: left;
+  padding: 16px;
 }
