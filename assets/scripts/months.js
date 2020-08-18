@@ -46,7 +46,7 @@ $(document).ready(function() {
   var isabellarange = ["#EF476F","#FCA311","#FFD166","#0EAD69","#4ECDC4","#118AB2"];
 
   exampleData = [
-    [
+    [      
       { "name": "Bethlehem", "value": 96},
       { "name": "Canvas", "value": 96},
       { "name": "Gambier", "value": 45},
@@ -196,7 +196,7 @@ $(document).ready(function() {
           '<td>' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
           '<td class="colorpick"><input type="color" value="' + color +
-          '"></td><td class="linked"><i class="fa fa-link" aria-hidden="true"></i></td><td class="remove"><i class="fa fa-trash-o" aria-hidden="true"></i></td></tr>');
+          '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     $('#mainTable tr:last').after(newRow);
     calculateData();
     makeWaffleChart();
@@ -231,7 +231,7 @@ $(document).ready(function() {
       '<td class="monthsevent">' + row["value"] + '</td>' +
       '<td class="colorpick"><input type="color" value="' +
       defaultColors(row["name"]) +
-      '"></td><td class="linked"></td><td class="remove"><i class="fa fa-trash-o" aria-hidden="true"></i></td></tr>';
+      '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>';
     })
     $("#mainTable").find("tbody").html(toAdd);
     data = newData;
