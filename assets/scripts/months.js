@@ -157,9 +157,21 @@ $(document).ready(function() {
     element.find('td').off('change').off('validate');
 
   	element.find('td').on('change', function (evt) {
+
+
       calculateData();
       makeWaffleChart();
   	}).on('validate', function (evt, value) {
+
+  	  console.log(`Our current event is: ${value}`);
+
+      var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
+      var colors_list = $(".colorpick").map(function(){return this.innerHTML;}).get();
+
+
+      console.log(`Our events are: ${events_list}`);
+      console.log(`Our colors are: ${colors_list}`);
+
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
@@ -193,7 +205,7 @@ $(document).ready(function() {
   function addNewEventRow(event, months, color) {
     var dataRows = $("#mainTable").find('tbody tr');
     var newRow = $('<tr>' +
-          '<td>' + event + '</td>' +
+          '<td class="eventname">' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
           '<td class="colorpick"><input type="color" value="' + color +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
@@ -368,10 +380,10 @@ $(document).ready(function() {
   $(".alert").alert();
 });
 
-$(document).on('keyup', '.monthseventname', function (e) {
-  console.log(`The user has entered: ${e.key}`);
-  if (e.keyCode === 13) {
-    e.preventDefault();
-    alert("The user has pressed enter!");
-  }
-});
+// $(document).on('keyup', '.monthseventname', function (e) {
+//   console.log(`The user has entered: ${e.key}`);
+//   if (e.key === 'Enter' || e.keyCode === 13) {
+//     e.preventDefault();
+//     alert("The user has pressed enter!");
+//   }
+// });
