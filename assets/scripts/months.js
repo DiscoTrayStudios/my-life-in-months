@@ -156,16 +156,10 @@ $(document).ready(function() {
 
     element.find('td').off('change').off('validate');
 
-  	element.find('td').on('change', function (evt) {
+    $('.eventname').on('change', function (evt, value){
+      console.log(`Our current event is: ${value}`);
 
-
-      calculateData();
-      makeWaffleChart();
-  	}).on('validate', function (evt, value) {
-
-  	  console.log(`Our current event is: ${value}`);
-
-  	  //Events_list and colors_list are used to help set up the linking system.
+      //Events_list and colors_list are used to help set up the linking system.
       var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
       var colors_list = $(".colorpick").map(function(){
         var inner_html = this.innerHTML;
@@ -177,6 +171,13 @@ $(document).ready(function() {
       console.log(`Our events are: ${events_list}`);
       console.log(`Our colors are: ${colors_list}`);
 
+    });
+
+  	element.find('td').on('change', function (evt) {
+      calculateData();
+      makeWaffleChart();
+  	}).on('validate', function (evt, value) {
+  	  
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
