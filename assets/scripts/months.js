@@ -367,3 +367,11 @@ $(document).ready(function() {
 
   $(".alert").alert();
 });
+
+$(document).on('keyup', '.monthseventname', function (e) {
+  console.log(`The user has entered: ${e.key}`);
+  if (e.keyCode === 13) {
+    e.preventDefault();
+    alert("The user has pressed enter!");
+  }
+});
