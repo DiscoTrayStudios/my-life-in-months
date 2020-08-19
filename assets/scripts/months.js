@@ -161,11 +161,7 @@ $(document).ready(function() {
 
       //Events_list and colors_list are used to help set up the linking system.
       var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-      var colors_list = $(".colorpick").map(function(){
-        var inner_html = this.innerHTML;
-        var hex = `#${inner_html.split('#')[1]}`.substring(0,7);
-        return hex;
-      }).get();
+      var colors_list = $(".colorpick").map(function(){return this.value;}).get();
 
 
       console.log(`Our events are: ${events_list}`);
@@ -213,7 +209,7 @@ $(document).ready(function() {
     var newRow = $('<tr>' +
           '<td class="eventname">' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
-          '<td class="colorpick"><input type="color" value="' + color +
+          '<td><input class="colorpick" type="color" value="' + color +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     $('#mainTable tr:last').after(newRow);
     calculateData();
