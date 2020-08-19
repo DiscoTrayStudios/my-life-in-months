@@ -165,8 +165,13 @@ $(document).ready(function() {
 
   	  console.log(`Our current event is: ${value}`);
 
+  	  //Events_list and colors_list are used to help set up the linking system.
       var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-      var colors_list = $(".colorpick").map(function(){return this.innerHTML;}).get();
+      var colors_list = $(".colorpick").map(function(){
+        var inner_html = this.innerHTML;
+        var hex = `#${inner_html.split('#')[1]}`.substring(0,7);
+        return hex;
+      }).get();
 
 
       console.log(`Our events are: ${events_list}`);
@@ -379,11 +384,3 @@ $(document).ready(function() {
 
   $(".alert").alert();
 });
-
-// $(document).on('keyup', '.monthseventname', function (e) {
-//   console.log(`The user has entered: ${e.key}`);
-//   if (e.key === 'Enter' || e.keyCode === 13) {
-//     e.preventDefault();
-//     alert("The user has pressed enter!");
-//   }
-// });
