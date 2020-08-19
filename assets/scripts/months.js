@@ -156,10 +156,28 @@ $(document).ready(function() {
 
     element.find('td').off('change').off('validate');
 
+    $('.eventname').on('change', function (evt, value){
+      console.log(`Our current event is: ${value}`);
+
+      //Events_list and colors_list are used to help set up the linking system.
+      var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
+      var colors_list = $(".colorpick").map(function(){
+        var inner_html = this.innerHTML;
+        var hex = `#${inner_html.split('#')[1]}`.substring(0,7);
+        return hex;
+      }).get();
+
+
+      console.log(`Our events are: ${events_list}`);
+      console.log(`Our colors are: ${colors_list}`);
+
+    });
+
   	element.find('td').on('change', function (evt) {
       calculateData();
       makeWaffleChart();
   	}).on('validate', function (evt, value) {
+  	  
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
@@ -193,7 +211,7 @@ $(document).ready(function() {
   function addNewEventRow(event, months, color) {
     var dataRows = $("#mainTable").find('tbody tr');
     var newRow = $('<tr>' +
-          '<td>' + event + '</td>' +
+          '<td class="eventname">' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
           '<td class="colorpick"><input type="color" value="' + color +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
