@@ -156,16 +156,24 @@ $(document).ready(function() {
 
     element.find('td').off('change').off('validate');
 
-    $('.eventname').on('change', function (evt, value){
-      console.log(`Our current event is: ${value}`);
-
+    $('.eventname').on('change', function (evt, event_name){
       //Events_list and colors_list are used to help set up the linking system.
-      var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-      var colors_list = $(".colorpick").map(function(){return this.value;}).get();
+      let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
+      let colors_list = $(".colorpick").map(function(){return this.value;}).get();
 
+      //If the event list contains the current event, we should link the current event to the last occurrence of the event.
+      if(events_list.includes(event_name)){
+        let linked_color = colors_list[events_list.indexOf(event_name)];
+        console.log(`Our linked color is ${linked_color}`);
+        let current_id = $(this).attr('id').split('eventname-')[1];
+        let colorpicker_id = "colorpick-" + current_id;
+        console.log(colorpicker_id);
+        //change the colorpicker's value to the desired color
+        $(`#${colorpicker_id}`).val(linked_color);
 
-      console.log(`Our events are: ${events_list}`);
-      console.log(`Our colors are: ${colors_list}`);
+      }
+
+      console.log(colors_list);
 
     });
 
@@ -204,12 +212,14 @@ $(document).ready(function() {
   	return this;
   };
 
-  function addNewEventRow(event, months, color) {
+  function addNewEventRow(event, months, color, row) {
     var dataRows = $("#mainTable").find('tbody tr');
+    var color_picker_id = `colorpick-${row}`;
+    var eventname_id = `eventname-${row}`;
     var newRow = $('<tr>' +
-          '<td class="eventname">' + event + '</td>' +
+          '<td id='+eventname_id+' class="eventname">' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
-          '<td><input class="colorpick" type="color" value="' + color +
+          '<td><input id='+color_picker_id+' class="colorpick" type="color" value="' + color +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     $('#mainTable tr:last').after(newRow);
     calculateData();
@@ -221,7 +231,8 @@ $(document).ready(function() {
     var eventNames = getRandomEventName(1);
     var m = getRandomIntInclusive(12, 48);
     var c = randomColor();
-    addNewEventRow(eventNames[0], m, c);
+    var numRows = document.getElementById("mainTable").rows.length-1; //The headers add 1 row
+    addNewEventRow(eventNames[0], m, c, numRows);
   }
 
   $( "#addrow" ).click(function() {
@@ -353,7 +364,8 @@ $(document).ready(function() {
   for (var i = 0; i < eventNames.length; i++) {
     var m = getRandomIntInclusive(12, 48);
     var c = randomColor();
-    addNewEventRow(eventNames[i], m, c);
+    var numRows = document.getElementById("mainTable").rows.length-1; //The headers add 1 row
+    addNewEventRow(eventNames[i], m, c, numRows);
   }
   //calculateData();
   makeWaffleChart();
