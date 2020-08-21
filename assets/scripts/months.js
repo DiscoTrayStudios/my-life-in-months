@@ -111,6 +111,19 @@ $(document).ready(function() {
         d3.select("#watermark").node().append(data.documentElement)
       });*/
   }
+  function link_events(event_id, colors_list, events_list, event_name) {
+    let linked_color = colors_list[events_list.indexOf(event_name)];
+    console.log(`Our linked color is ${linked_color}`);
+    let current_id = $(event_id).attr('id').split('eventname-')[1];
+    let colorpicker_id = "colorpick-" + current_id;
+    console.log(colorpicker_id);
+    //change the colorpicker's value to the desired color
+    $(`#${colorpicker_id}`).val(linked_color);
+    $(`#${colorpicker_id}`).css("display", "none");
+    $(`#${colorpicker_id}`).prop("disabled", true);
+
+  }
+
 
   function getCurrentNumMonths() {
     var numMonths = 0;
@@ -163,14 +176,7 @@ $(document).ready(function() {
 
       //If the event list contains the current event, we should link the current event to the last occurrence of the event.
       if(events_list.includes(event_name)){
-        let linked_color = colors_list[events_list.indexOf(event_name)];
-        console.log(`Our linked color is ${linked_color}`);
-        let current_id = $(this).attr('id').split('eventname-')[1];
-        let colorpicker_id = "colorpick-" + current_id;
-        console.log(colorpicker_id);
-        //change the colorpicker's value to the desired color
-        $(`#${colorpicker_id}`).val(linked_color);
-
+        link_events(this, colors_list, events_list, event_name);
       }
 
       console.log(colors_list);
