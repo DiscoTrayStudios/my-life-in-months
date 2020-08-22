@@ -111,8 +111,8 @@ $(document).ready(function() {
         d3.select("#watermark").node().append(data.documentElement)
       });*/
   }
-  function link_events(event_id, colors_list, events_list, event_name) {
-    let linked_color = colors_list[events_list.indexOf(event_name)];
+  function linkEvents(event_id, colors_list, events_list, colors_map, event_name) {
+    let linked_color = colors_map[event_name];
     console.log(`Our linked color is ${linked_color}`);
     let current_id = $(event_id).attr('id').split('eventname-')[1];
     let colorpicker_id = "colorpick-" + current_id;
@@ -179,12 +179,20 @@ $(document).ready(function() {
       let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
       let colors_list = $(".colorpick").map(function(){return this.value;}).get();
 
-      //If the event list contains the current event, we should link the current event to the last occurrence of the event.
-      if(events_list.includes(event_name)){
-        link_events(this, colors_list, events_list, event_name);
+      var colors_map = new Map();
+
+      //For all events, if the event does not exist in the map, set the color to the first color in the list.
+      var event_list_name;
+      for (event_list_name in events_list){
+        if(!colors_map.has(event_list_name)){
+          colors_map[events_list[event_list_name]]=colors_list[events_list.indexOf(events_list[event_list_name])];
+        }
       }
 
-      console.log(colors_list);
+      //If the event list contains the current event, we should link the current event to the last occurrence of the event.
+      if(events_list.includes(event_name)){
+        linkEvents(this, colors_list, events_list, colors_map, event_name);
+      }
 
     });
 
