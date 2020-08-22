@@ -188,9 +188,8 @@ $(document).ready(function() {
           colors_map[events_list[event_list_name]]=colors_list[events_list.indexOf(events_list[event_list_name])];
         }
       }
-
-      //If the event list contains the current event, we should link the current event to the last occurrence of the event.
-      if(events_list.includes(event_name)){
+      //If the events_list contains more than 1 event with the same name, we should link the events
+      if(events_list.filter(x=> x==event_name).length>1){
         linkEvents(this, colors_map, event_name);
       }
 
