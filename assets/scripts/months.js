@@ -123,7 +123,7 @@ $(document).ready(function() {
     $(`#${colorpicker_id}`).prop("disabled", true);
 
     //Insert unlink icon
-    let unlink_icon = `<i id="unlink-${current_id}" class="fa fa-chain-broken"></i>`
+    let unlink_icon = `<i id="unlink-${current_id}" class="fa fa-link"></i>`
     $(`#${colorpicker_id}`).parent().append(unlink_icon);
 
 
