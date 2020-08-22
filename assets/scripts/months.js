@@ -238,7 +238,7 @@ $(document).ready(function() {
     var newRow = $('<tr>' +
           '<td id='+eventname_id+' class="eventname">' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
-          '<td><input id='+color_picker_id+' class="colorpick" type="color" value="' + color +
+          '<td class="color-col"><input id='+color_picker_id+' class="colorpick" type="color" value="' + color +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     $('#mainTable tr:last').after(newRow);
     calculateData();

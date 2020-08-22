@@ -22,7 +22,7 @@
   border-radius: 0 !important;
 }
 
-.remove, .colorpick, .monthsevent {
+.remove, .colorpick, .monthsevent .color-col{
   text-align: center;
 }
 
