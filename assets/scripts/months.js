@@ -111,7 +111,7 @@ $(document).ready(function() {
         d3.select("#watermark").node().append(data.documentElement)
       });*/
   }
-  function linkEvents(event_id, colors_list, events_list, colors_map, event_name) {
+  function linkEvents(event_id,colors_map, event_name) {
     let linked_color = colors_map[event_name];
     console.log(`Our linked color is ${linked_color}`);
     let current_id = $(event_id).attr('id').split('eventname-')[1];
@@ -191,7 +191,7 @@ $(document).ready(function() {
 
       //If the event list contains the current event, we should link the current event to the last occurrence of the event.
       if(events_list.includes(event_name)){
-        linkEvents(this, colors_list, events_list, colors_map, event_name);
+        linkEvents(this, colors_map, event_name);
       }
 
     });
