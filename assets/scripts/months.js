@@ -37,15 +37,15 @@ $(document).ready(function() {
     { "name": "Conway, AR", "value":75}
   ];
 
-  var colormap = new Map();
-  colormap.set("Northampton, PA", "#008080");
-  colormap.set("Canvas, WV", "#002855");
-  colormap.set("Gambier, OH", "#4B2E84");
-  colormap.set("Milwaukee, WI", "#008B2B");
-  colormap.set("Madison, WI", "#c5050c");
-  colormap.set("San Antonio, TX", "#0f52ba");
-  colormap.set("Shreveport, LA", "#8a2432");
-  colormap.set("Conway, AR", "#E96B10");
+  var colors_map = new Map();
+  colors_map.set("Northampton, PA", "#008080");
+  colors_map.set("Canvas, WV", "#002855");
+  colors_map.set("Gambier, OH", "#4B2E84");
+  colors_map.set("Milwaukee, WI", "#008B2B");
+  colors_map.set("Madison, WI", "#c5050c");
+  colors_map.set("San Antonio, TX", "#0f52ba");
+  colors_map.set("Shreveport, LA", "#8a2432");
+  colors_map.set("Conway, AR", "#E96B10");
 
   var isabelladata = [
     { "name": "childhood", "value":160},
@@ -91,28 +91,52 @@ $(document).ready(function() {
 
   function calculateData() {
     console.log("Recalculating...");
+
+    //Events_list and colors_list are used to help set up the linking system.
+    let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
+    let months_list = $(".monthsevent").map(function(){return this.innerHTML;}).get();
+    let colors_list = $(".colorpick").map(function(){return this.value;}).get();
+    let dataRows = $(".color-col");
+
     data = []
-    range = []
-    var dataRows = $("#mainTable").find('tbody tr');
-    dataRows.each(function () {
-      var row = $(this);
-      data.push({ "name": row.children().eq(0).text(),
-                  "value":row.children().eq(1).text()});
-      //console.log(row.find('input')[0].value);
-      range.push(row.find('input')[0].value);
+    colors_map = new Map();
+
+    //For all events, if the event does not exist in the map, set the color to the first color in the list.
+    events_list.forEach((item, i) => {
+      data.push({ "name": events_list[i],
+                  "value": months_list[i]});
+
+      let color_td = dataRows[i];
+      let cpick = $(color_td).find(".colorpick");
+      let clink = $(color_td).find(".clink");
+
+      if(!colors_map.has(item)){
+        console.log("found " + item);
+        colors_map.set(item, colors_list[i]);
+
+        cpick.css("display", "initial");
+        cpick.prop("disabled", false);
+
+        clink.css("display", "none");
+        clink.prop("disabled", true);
+      } else {
+        cpick.val(colors_map.get(item));
+        cpick.css("display", "none");
+        cpick.prop("disabled", true);
+
+        //Insert unlink icon
+        clink.prop("disabled", false);
+      }
     });
-    toggleFuture();
+
+    checkFuture();
     //console.log(range);
   }
 
   function makeWaffleChart() {
-    /* to color elements we use the class name ( slugigy(name) ) */
-    //var domain = data.map(function(d){ return slugify(d.name.concat(data.indexOf(d))); })
-    //var palette = d3.scaleOrdinal().domain(domain).range(range);
-
     chart = d3waffle()
         .title($("#waffle-title-input").val())
-        .colorscale(colormap);
+        .colorscale(colors_map);
 
     d3.select("#waffle")
   			.datum(data)
@@ -124,25 +148,6 @@ $(document).ready(function() {
         d3.select("#watermark").node().append(data.documentElement)
       });*/
   }
-
-  function linkEvents(event_id,colors_map, event_name) {
-    let linked_color = colors_map[event_name];
-    console.log(`Our linked color is ${linked_color}`);
-    let current_id = $(event_id).attr('id').split('eventname-')[1];
-    let colorpicker_id = "colorpick-" + current_id;
-    console.log(colorpicker_id);
-    //change the colorpicker's value to the desired color
-    $(`#${colorpicker_id}`).val(linked_color);
-    $(`#${colorpicker_id}`).css("display", "none");
-    $(`#${colorpicker_id}`).prop("disabled", true);
-
-    //Insert unlink icon
-    let unlink_icon = `<i id="unlink-${current_id}" class="fa fa-link"></i>`
-    $(`#${colorpicker_id}`).parent().append(unlink_icon);
-
-
-  }
-
 
   function getCurrentNumMonths() {
     var numMonths = 0;
@@ -188,27 +193,6 @@ $(document).ready(function() {
 
     element.find('td').off('change').off('validate');
 
-    $('.eventname').on('change', function (evt, event_name){
-      //Events_list and colors_list are used to help set up the linking system.
-      let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-      let colors_list = $(".colorpick").map(function(){return this.value;}).get();
-
-      var colors_map = new Map();
-
-      //For all events, if the event does not exist in the map, set the color to the first color in the list.
-      var event_list_name;
-      for (event_list_name in events_list){
-        if(!colors_map.has(event_list_name)){
-          colors_map[events_list[event_list_name]]=colors_list[events_list.indexOf(events_list[event_list_name])];
-        }
-      }
-      //If the events_list contains more than 1 event with the same name, we should link the events
-      if(events_list.filter(x=> x==event_name).length>1){
-        linkEvents(this, colors_map, event_name);
-      }
-
-    });
-
   	element.find('td').on('change', function (evt) {
       calculateData();
       makeWaffleChart();
@@ -252,7 +236,7 @@ $(document).ready(function() {
           '<td id='+eventname_id+' class="eventname">' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
           '<td class="color-col"><input id='+color_picker_id+' class="colorpick" type="color" value="' + color +
-          '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
+          '"><span class="clink"><i class="fa fa-link"></i></span></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     $('#mainTable tr:last').after(newRow);
     calculateData();
     makeWaffleChart();
@@ -287,8 +271,8 @@ $(document).ready(function() {
       toAdd += '<tr>' + '<td>' + row["name"] + '</td>' +
       '<td class="monthsevent">' + row["value"] + '</td>' +
       '<td class="colorpick"><input type="color" value="' +
-      randomColor() +
-      '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>';
+      randomColor() + '">' +
+      '<i class="clink" class="fa fa-link"></i></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>';
     })
     $("#mainTable").find("tbody").html(toAdd);
     data = newData;
@@ -300,7 +284,7 @@ $(document).ready(function() {
     makeWaffleChart();
   });
 
-  function toggleFuture() {
+  function checkFuture() {
     const lifeExpectancy = 80
     var numMonths = getCurrentNumMonths();
     if ($('#togglefuture').prop('checked') && (lifeExpectancy * 12) > numMonths) {
