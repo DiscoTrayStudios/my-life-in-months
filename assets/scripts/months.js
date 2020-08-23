@@ -103,6 +103,7 @@ $(document).ready(function() {
 
     //For all events, if the event does not exist in the map, set the color to the first color in the list.
     events_list.forEach((item, i) => {
+      // should we slugify the event name? Why do we need to slugify things?
       data.push({ "name": events_list[i],
                   "value": months_list[i]});
 
@@ -111,7 +112,7 @@ $(document).ready(function() {
       let clink = $(color_td).find(".clink");
 
       if(!colors_map.has(item)){
-        console.log("found " + item);
+        console.log("found " + item + " " + colors_list[i]);
         colors_map.set(item, colors_list[i]);
 
         cpick.css("display", "initial");
@@ -130,7 +131,8 @@ $(document).ready(function() {
     });
 
     checkFuture();
-    //console.log(range);
+    console.log(colors_map);
+    console.log(data);
   }
 
   function makeWaffleChart() {

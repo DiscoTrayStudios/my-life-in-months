@@ -3,7 +3,7 @@ function d3waffle() {
       scale = 1,
       title = "My Life in Months",
       cols = 12,
-      colorscale = d3.scaleOrdinal(d3.schemeCategory10),
+      colorscale = new Map(),
       appearancetimes = function(d, i){ return 100; },
       width = 200,
       magic_padding = 5;
@@ -21,7 +21,6 @@ function d3waffle() {
       data.forEach(function(d, i){
         data[i].class = slugify(d.name);
         data[i].scalevalue = Math.round(data[i].value*scale);
-        data[i].class_index = d.class.concat(i);
       });
 
       var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
@@ -31,7 +30,8 @@ function d3waffle() {
 
       data.forEach(function(d){
         d3.range(d.scalevalue).forEach(function(e){
-          detaildata.push({ name: d.name, class: d.class, class_index: d.class_index})
+          detaildata.push({ name: d.name, class: d.class})
+          console.log(d.name);
         });
       });
 
