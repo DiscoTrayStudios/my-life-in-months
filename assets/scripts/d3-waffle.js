@@ -31,7 +31,6 @@ function d3waffle() {
       data.forEach(function(d){
         d3.range(d.scalevalue).forEach(function(e){
           detaildata.push({ name: d.name, class: d.class})
-          console.log(d.name);
         });
       });
 
