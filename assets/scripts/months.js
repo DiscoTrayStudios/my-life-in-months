@@ -111,6 +111,24 @@ $(document).ready(function() {
         d3.select("#watermark").node().append(data.documentElement)
       });*/
   }
+  function linkEvents(event_id,colors_map, event_name) {
+    let linked_color = colors_map[event_name];
+    console.log(`Our linked color is ${linked_color}`);
+    let current_id = $(event_id).attr('id').split('eventname-')[1];
+    let colorpicker_id = "colorpick-" + current_id;
+    console.log(colorpicker_id);
+    //change the colorpicker's value to the desired color
+    $(`#${colorpicker_id}`).val(linked_color);
+    $(`#${colorpicker_id}`).css("display", "none");
+    $(`#${colorpicker_id}`).prop("disabled", true);
+
+    //Insert unlink icon
+    let unlink_icon = `<i id="unlink-${current_id}" class="fa fa-link"></i>`
+    $(`#${colorpicker_id}`).parent().append(unlink_icon);
+
+
+  }
+
 
   function getCurrentNumMonths() {
     var numMonths = 0;
@@ -156,20 +174,24 @@ $(document).ready(function() {
 
     element.find('td').off('change').off('validate');
 
-    $('.eventname').on('change', function (evt, value){
-      console.log(`Our current event is: ${value}`);
-
+    $('.eventname').on('change', function (evt, event_name){
       //Events_list and colors_list are used to help set up the linking system.
-      var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-      var colors_list = $(".colorpick").map(function(){
-        var inner_html = this.innerHTML;
-        var hex = `#${inner_html.split('#')[1]}`.substring(0,7);
-        return hex;
-      }).get();
+      let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
+      let colors_list = $(".colorpick").map(function(){return this.value;}).get();
 
+      var colors_map = new Map();
 
-      console.log(`Our events are: ${events_list}`);
-      console.log(`Our colors are: ${colors_list}`);
+      //For all events, if the event does not exist in the map, set the color to the first color in the list.
+      var event_list_name;
+      for (event_list_name in events_list){
+        if(!colors_map.has(event_list_name)){
+          colors_map[events_list[event_list_name]]=colors_list[events_list.indexOf(events_list[event_list_name])];
+        }
+      }
+      //If the events_list contains more than 1 event with the same name, we should link the events
+      if(events_list.filter(x=> x==event_name).length>1){
+        linkEvents(this, colors_map, event_name);
+      }
 
     });
 
@@ -208,12 +230,14 @@ $(document).ready(function() {
   	return this;
   };
 
-  function addNewEventRow(event, months, color) {
+  function addNewEventRow(event, months, color, row) {
     var dataRows = $("#mainTable").find('tbody tr');
+    var color_picker_id = `colorpick-${row}`;
+    var eventname_id = `eventname-${row}`;
     var newRow = $('<tr>' +
-          '<td class="eventname">' + event + '</td>' +
+          '<td id='+eventname_id+' class="eventname">' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
-          '<td class="colorpick"><input type="color" value="' + color +
+          '<td class="color-col"><input id='+color_picker_id+' class="colorpick" type="color" value="' + color +
           '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     $('#mainTable tr:last').after(newRow);
     calculateData();
@@ -225,7 +249,8 @@ $(document).ready(function() {
     var eventNames = getRandomEventName(1);
     var m = getRandomIntInclusive(12, 48);
     var c = randomColor();
-    addNewEventRow(eventNames[0], m, c);
+    var numRows = document.getElementById("mainTable").rows.length-1; //The headers add 1 row
+    addNewEventRow(eventNames[0], m, c, numRows);
   }
 
   $( "#addrow" ).click(function() {
@@ -357,7 +382,8 @@ $(document).ready(function() {
   for (var i = 0; i < eventNames.length; i++) {
     var m = getRandomIntInclusive(12, 48);
     var c = randomColor();
-    addNewEventRow(eventNames[i], m, c);
+    var numRows = document.getElementById("mainTable").rows.length-1; //The headers add 1 row
+    addNewEventRow(eventNames[i], m, c, numRows);
   }
   //calculateData();
   makeWaffleChart();
