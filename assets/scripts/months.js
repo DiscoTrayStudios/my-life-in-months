@@ -126,6 +126,7 @@ $(document).ready(function() {
         cpick.prop("disabled", true);
 
         //Insert unlink icon
+        clink.css("display","initial");
         clink.prop("disabled", false);
       }
     });
