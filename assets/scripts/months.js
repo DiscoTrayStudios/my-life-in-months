@@ -21,10 +21,14 @@ $(document).ready(function() {
   "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
   "#d728a0", "#a9b9cb", "#0fffb7"];
 
-  var goadrichdata = [
+  var data = [
     { "name": "Northampton, PA", "value":120},
     { "name": "Canvas, WV", "value":96},
-    { "name": "Gambier, OH", "value":45},
+    { "name": "Gambier, OH", "value":9},
+    { "name": "Canvas, WV", "value":3},
+    { "name": "Gambier, OH", "value":9},
+    { "name": "Canvas, WV", "value":3},
+    { "name": "Gambier, OH", "value":21},
     { "name": "Milwaukee, WI", "value":3},
     { "name": "Madison, WI", "value":21},
     { "name": "San Antonio, TX", "value":7},
@@ -32,7 +36,16 @@ $(document).ready(function() {
     { "name": "Shreveport, LA", "value":84},
     { "name": "Conway, AR", "value":75}
   ];
-  var goadrichrange = ["#008080", "#002855", "#4B2E84", "#008B2B", "#c5050c", "#0f52ba","#c5050c", "#8a2432", "#E96B10"];
+
+  var colormap = new Map();
+  colormap.set("Northampton, PA", "#008080");
+  colormap.set("Canvas, WV", "#002855");
+  colormap.set("Gambier, OH", "#4B2E84");
+  colormap.set("Milwaukee, WI", "#008B2B");
+  colormap.set("Madison, WI", "#c5050c");
+  colormap.set("San Antonio, TX", "#0f52ba");
+  colormap.set("Shreveport, LA", "#8a2432");
+  colormap.set("Conway, AR", "#E96B10");
 
   var isabelladata = [
     { "name": "childhood", "value":160},
@@ -46,7 +59,7 @@ $(document).ready(function() {
   var isabellarange = ["#EF476F","#FCA311","#FFD166","#0EAD69","#4ECDC4","#118AB2"];
 
   exampleData = [
-    [      
+    [
       { "name": "Bethlehem", "value": 96},
       { "name": "Canvas", "value": 96},
       { "name": "Gambier", "value": 45},
@@ -71,9 +84,9 @@ $(document).ready(function() {
   ];
   var originalrange = ["#1f77b4", "#aec7e8"];
 
-  var data = [];
-  var range = [];
-  var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
+  //var data = [];
+  //var range = [];
+  //var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
   var chart;
 
   function calculateData() {
@@ -94,12 +107,12 @@ $(document).ready(function() {
 
   function makeWaffleChart() {
     /* to color elements we use the class name ( slugigy(name) ) */
-    var domain = data.map(function(d){ return slugify(d.name.concat(data.indexOf(d))); })
-    var palette = d3.scaleOrdinal().domain(domain).range(range);
+    //var domain = data.map(function(d){ return slugify(d.name.concat(data.indexOf(d))); })
+    //var palette = d3.scaleOrdinal().domain(domain).range(range);
 
     chart = d3waffle()
         .title($("#waffle-title-input").val())
-        .colorscale(palette);
+        .colorscale(colormap);
 
     d3.select("#waffle")
   			.datum(data)
@@ -111,6 +124,7 @@ $(document).ready(function() {
         d3.select("#watermark").node().append(data.documentElement)
       });*/
   }
+
   function linkEvents(event_id,colors_map, event_name) {
     let linked_color = colors_map[event_name];
     console.log(`Our linked color is ${linked_color}`);
@@ -199,7 +213,7 @@ $(document).ready(function() {
       calculateData();
       makeWaffleChart();
   	}).on('validate', function (evt, value) {
-  	  
+
   		var cell = $(this),
   			column = cell.index();
   		if (column === 0) {
@@ -273,7 +287,7 @@ $(document).ready(function() {
       toAdd += '<tr>' + '<td>' + row["name"] + '</td>' +
       '<td class="monthsevent">' + row["value"] + '</td>' +
       '<td class="colorpick"><input type="color" value="' +
-      defaultColors(row["name"]) +
+      randomColor() +
       '"></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>';
     })
     $("#mainTable").find("tbody").html(toAdd);
@@ -383,7 +397,7 @@ $(document).ready(function() {
     var m = getRandomIntInclusive(12, 48);
     var c = randomColor();
     var numRows = document.getElementById("mainTable").rows.length-1; //The headers add 1 row
-    addNewEventRow(eventNames[i], m, c, numRows);
+    //addNewEventRow(eventNames[i], m, c, numRows);
   }
   //calculateData();
   makeWaffleChart();
