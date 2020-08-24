@@ -189,7 +189,6 @@ $(document).ready(function() {
 
   $( "#csv-button" ).click(function() {
     var title = document.getElementById("waffle-title-input").getAttribute("value");
-    title.replace(" ", "");
     download(title, convertDataToCSVFormat(data));
   });
 
