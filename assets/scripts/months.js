@@ -189,13 +189,13 @@ $(document).ready(function() {
 
   $( "#csv-button" ).click(function() {
     var title = document.getElementById("waffle-title-input").getAttribute("value");
-    download(title, convertDataToCSVFormat(data));
+    download(title, convertDataToCSVFormat(data, colors_map));
   });
 
-  function convertDataToCSVFormat(dataToConvert) {
+  function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
     var toReturn = "";
     dataToConvert.forEach(element => {
-      toReturn += element["name"] + "," + element["value"] + "\n";
+      toReturn += element["name"] + "," + element["value"] + "," + colorsMapToConvert.get(element["name"]) + "\n";
     }); 
     return toReturn
   }
