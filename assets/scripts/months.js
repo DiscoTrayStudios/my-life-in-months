@@ -100,7 +100,7 @@ $(document).ready(function() {
 
     data = []
     colors_map = new Map();
-    
+
     //For all events, if the event does not exist in the map, set the color to the first color in the list.
     events_list.forEach((item, i) => {
       // should we slugify the event name? Why do we need to slugify things?
@@ -112,7 +112,7 @@ $(document).ready(function() {
       let clink = $(color_td).find(".clink");
 
       if(!colors_map.has(item)){
-        console.log("found " + item + " " + colors_list[i]);
+        //console.log("found " + item + " " + colors_list[i]);
         colors_map.set(item, colors_list[i]);
 
         cpick.css("display", "initial");
@@ -140,8 +140,8 @@ $(document).ready(function() {
     });
 
     checkFuture();
-    console.log(colors_map);
-    console.log(data);
+    //console.log(colors_map);
+    //console.log(data);
   }
 
   function makeWaffleChart() {
@@ -205,7 +205,7 @@ $(document).ready(function() {
     var toReturn = "";
     dataToConvert.forEach(element => {
       toReturn += element["name"] + "," + element["value"] + "," + colorsMapToConvert.get(element["name"]) + "\n";
-    }); 
+    });
     return toReturn
   }
 
@@ -214,12 +214,12 @@ $(document).ready(function() {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename + ".csv");
-  
+
     element.style.display = 'none';
     document.body.appendChild(element);
-  
+
     element.click();
-  
+
     document.body.removeChild(element);
   }
 
@@ -274,8 +274,6 @@ $(document).ready(function() {
           '<td class="color-col"><input class="colorpick" type="color" value="' + color +
           '"><span class="clink"><i class="fa fa-link"></i></span></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     $('#mainTable tr:last').after(newRow);
-    calculateData();
-    makeWaffleChart();
     newRow.editableTableWidget().numericInputExample()
   }
 
@@ -284,6 +282,8 @@ $(document).ready(function() {
     var m = getRandomIntInclusive(12, 48);
     var c = randomColor();
     addNewEventRow(eventNames[0], m, c);
+    calculateData();
+    makeWaffleChart();
   }
 
   $( "#addrow" ).click(function() {
@@ -301,17 +301,17 @@ $(document).ready(function() {
 
   function populateTable(newData) {
     $("#mainTable").find("tbody").html("");
-    var toAdd = "";
+    colors_map = new Map();
     newData.forEach(function(row) {
-      toAdd += '<tr>' + '<td>' + row["name"] + '</td>' +
-      '<td class="monthsevent">' + row["value"] + '</td>' +
-      '<td class="colorpick"><input type="color" value="' +
-      randomColor() + '">' +
-      '<i class="clink" class="fa fa-link"></i></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>';
+      if (!colors_map.has(row["name"])) {
+        let c = randomColor();
+        addNewEventRow(row["name"], row["value"], c);
+        colors_map.set(row["name"], c);
+      } else {
+        addNewEventRow(row["name"], row["value"], colors_map.get(row["name"]));
+      }
     })
-    $("#mainTable").find("tbody").html(toAdd);
     data = newData;
-    range = goadrichrange;
   }
 
   $( "#togglefuture" ).click(function() {
@@ -326,7 +326,7 @@ $(document).ready(function() {
       futureIndex = data.length;
       data.push({ "name": "The Future",
                   "value": (lifeExpectancy * 12) - numMonths});
-      range.push("#bfbfbf");
+      colors_map.set("The Future", "#bfbfbf");
     }
   };
 
@@ -417,18 +417,9 @@ $(document).ready(function() {
     var c = randomColor();
     addNewEventRow(eventNames[i], m, c);
   }
-  //calculateData();
+
+  calculateData();
   makeWaffleChart();
-
-  $( "#reset" ).click(function() {
-    //resetChart(originaldata, originalrange);
-  });
-
-  function resetChart(data, range) {
-    var tablebody = $("#mainTable").find('tbody');
-    tablebody.html("");
-    generateTable(data, range);
-  }
 
   $( document ).on( "click", ".remove", function(){
     var dataRows = $("#mainTable").find('tbody tr');
