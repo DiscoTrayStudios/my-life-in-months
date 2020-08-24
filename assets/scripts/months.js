@@ -202,7 +202,7 @@ $(document).ready(function() {
   });
 
   function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
-    var toReturn = "";
+    var toReturn = "Life Event,Months,Color\n";
     dataToConvert.forEach(element => {
       toReturn += element["name"] + "," + element["value"] + "," + colorsMapToConvert.get(element["name"]) + "\n";
     });
