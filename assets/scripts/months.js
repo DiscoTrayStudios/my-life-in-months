@@ -95,12 +95,12 @@ $(document).ready(function() {
     //Events_list and colors_list are used to help set up the linking system.
     let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
     let months_list = $(".monthsevent").map(function(){return this.innerHTML;}).get();
-    let colors_list = $(".colorpick").map(function(){return this.value;}).get();
+    var colors_list = $(".colorpick").map(function(){return this.value;}).get();
     let dataRows = $(".color-col");
 
     data = []
     colors_map = new Map();
-
+    
     //For all events, if the event does not exist in the map, set the color to the first color in the list.
     events_list.forEach((item, i) => {
       // should we slugify the event name? Why do we need to slugify things?
@@ -118,6 +118,14 @@ $(document).ready(function() {
         cpick.css("display", "initial");
         cpick.prop("disabled", false);
 
+        //This bit of code is for the unlinking of events!
+        if (clink.prop("disabled")===false){
+          let new_color=randomColor();
+          colors_list[i]=new_color;
+          colors_map.set(item, colors_list[i]);
+          cpick.val(colors_map.get(item));
+        }
+
         clink.css("display", "none");
         clink.prop("disabled", true);
       } else {
@@ -126,6 +134,7 @@ $(document).ready(function() {
         cpick.prop("disabled", true);
 
         //Insert unlink icon
+        clink.css("display","initial");
         clink.prop("disabled", false);
       }
     });
