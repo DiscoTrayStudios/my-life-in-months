@@ -196,6 +196,33 @@ $(document).ready(function() {
     }, 500);
   });
 
+  $( "#csv-button" ).click(function() {
+    var title = document.getElementById("waffle-title-input").getAttribute("value");
+    download(title, convertDataToCSVFormat(data, colors_map));
+  });
+
+  function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
+    var toReturn = "";
+    dataToConvert.forEach(element => {
+      toReturn += element["name"] + "," + element["value"] + "," + colorsMapToConvert.get(element["name"]) + "\n";
+    }); 
+    return toReturn
+  }
+
+  // Taken from https://ourcodeworld.com/articles/read/189/how-to-create-a-file-and-generate-a-download-with-javascript-in-the-browser-without-a-server
+  function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename + ".csv");
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+  }
+
   /* global $ */
   /* this is an example for validation and change events */
   $.fn.numericInputExample = function () {
