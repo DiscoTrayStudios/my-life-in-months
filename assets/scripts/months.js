@@ -66,7 +66,7 @@ $(document).ready(function() {
       { "name": "Milwaukee", "value": 3},
       { "name": "Madison", "value": 21},
       { "name": "San Antonio", "value": 7},
-      { "name": "Madison II", "value": 77},
+      { "name": "Madison", "value": 77},
       { "name": "Shreveport", "value": 84},
       { "name": "Conway", "value": 75}
     ],
@@ -95,7 +95,7 @@ $(document).ready(function() {
     //Events_list and colors_list are used to help set up the linking system.
     let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
     let months_list = $(".monthsevent").map(function(){return this.innerHTML;}).get();
-    let colors_list = $(".colorpick").map(function(){return this.value;}).get();
+    var colors_list = $(".colorpick").map(function(){return this.value;}).get();
     let dataRows = $(".color-col");
 
     data = []
@@ -112,11 +112,19 @@ $(document).ready(function() {
       let clink = $(color_td).find(".clink");
 
       if(!colors_map.has(item)){
-        console.log("found " + item + " " + colors_list[i]);
+        //console.log("found " + item + " " + colors_list[i]);
         colors_map.set(item, colors_list[i]);
 
         cpick.css("display", "initial");
         cpick.prop("disabled", false);
+
+        //This bit of code is for the unlinking of events!
+        if (clink.prop("disabled")===false){
+          let new_color=randomColor();
+          colors_list[i]=new_color;
+          colors_map.set(item, colors_list[i]);
+          cpick.val(colors_map.get(item));
+        }
 
         clink.css("display", "none");
         clink.prop("disabled", true);
@@ -126,18 +134,19 @@ $(document).ready(function() {
         cpick.prop("disabled", true);
 
         //Insert unlink icon
+        clink.css("display","initial");
         clink.prop("disabled", false);
       }
     });
 
     checkFuture();
-    console.log(colors_map);
-    console.log(data);
+    //console.log(colors_map);
+    //console.log(data);
   }
 
   function makeWaffleChart() {
     chart = d3waffle()
-        .title($("#waffle-title-input").val())
+        .title($("#title-input").text())
         .colorscale(colors_map);
 
     d3.select("#waffle")
@@ -196,7 +205,7 @@ $(document).ready(function() {
     var toReturn = "";
     dataToConvert.forEach(element => {
       toReturn += element["name"] + "," + element["value"] + "," + colorsMapToConvert.get(element["name"]) + "\n";
-    }); 
+    });
     return toReturn
   }
 
@@ -205,12 +214,12 @@ $(document).ready(function() {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename + ".csv");
-  
+
     element.style.display = 'none';
     document.body.appendChild(element);
-  
+
     element.click();
-  
+
     document.body.removeChild(element);
   }
 
@@ -229,7 +238,21 @@ $(document).ready(function() {
 
   		var cell = $(this),
   			column = cell.index();
-  		if (column === 0) {
+		if( cell.attr("id") == "title-input") {
+			if (!value){
+				$('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Charts need a title!"));
+			}
+			else if (value.trim().length == 0){
+				$('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Titles must be at least 1 character long!"));
+			}
+			else if (value.trim().length >= 30){
+				$('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Titles must be less than 30 characters long!"));
+			} else {
+				$("#alert-event-name-length").remove();
+			}
+			return !!value && value.trim().length > 0 && value.trim().length < 30;
+		}
+  		else if (column === 0) {
         if (!value){
   		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must not be empty!"));
         }
@@ -265,8 +288,6 @@ $(document).ready(function() {
           '<td class="color-col"><input class="colorpick" type="color" value="' + color +
           '"><span class="clink"><i class="fa fa-link"></i></span></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
     $('#mainTable tr:last').after(newRow);
-    calculateData();
-    makeWaffleChart();
     newRow.editableTableWidget().numericInputExample()
   }
 
@@ -275,6 +296,8 @@ $(document).ready(function() {
     var m = getRandomIntInclusive(12, 48);
     var c = randomColor();
     addNewEventRow(eventNames[0], m, c);
+    calculateData();
+    makeWaffleChart();
   }
 
   $( "#addrow" ).click(function() {
@@ -292,17 +315,17 @@ $(document).ready(function() {
 
   function populateTable(newData) {
     $("#mainTable").find("tbody").html("");
-    var toAdd = "";
+    colors_map = new Map();
     newData.forEach(function(row) {
-      toAdd += '<tr>' + '<td>' + row["name"] + '</td>' +
-      '<td class="monthsevent">' + row["value"] + '</td>' +
-      '<td class="colorpick"><input type="color" value="' +
-      randomColor() + '">' +
-      '<i class="clink" class="fa fa-link"></i></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>';
+      if (!colors_map.has(row["name"])) {
+        let c = randomColor();
+        addNewEventRow(row["name"], row["value"], c);
+        colors_map.set(row["name"], c);
+      } else {
+        addNewEventRow(row["name"], row["value"], colors_map.get(row["name"]));
+      }
     })
-    $("#mainTable").find("tbody").html(toAdd);
     data = newData;
-    range = goadrichrange;
   }
 
   $( "#togglefuture" ).click(function() {
@@ -317,7 +340,7 @@ $(document).ready(function() {
       futureIndex = data.length;
       data.push({ "name": "The Future",
                   "value": (lifeExpectancy * 12) - numMonths});
-      range.push("#bfbfbf");
+      colors_map.set("The Future", "#bfbfbf");
     }
   };
 
@@ -374,52 +397,15 @@ $(document).ready(function() {
     '</div>'
   }
 
-  // https://stackoverflow.com/questions/9205164/validate-html-text-input-as-its-typed
-  $('#waffle-title-input').bind('input propertychange', function() {
-    var text = $(this).val();
-    //console.log($("#waffle-title").width());
-    if (text.length > 30) {
-      text = text.slice(0, 30);
-      $(this).val(text);
-      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Title must be less than 30 characters long!"));
-    } else {
-      $("#alert-event-name-length").remove();
-    }
-    console.log($("waffle-title").text());
-    $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
-  });
-  $("#waffle-title-input").bind("paste", function(){
-    var text = $(this).val();
-    //console.log($("#waffle-title").width());
-    if (text.length > 30) {
-      text = text.slice(0, 30);
-      $(this).val(text);
-      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Title must be less than 30 characters long!"));
-    } else {
-      $("#alert-event-name-length").remove();
-    }
-    console.log($("waffle-title").text());
-    $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
-  });
-
   var eventNames = getRandomEventName(3);
   for (var i = 0; i < eventNames.length; i++) {
     var m = getRandomIntInclusive(12, 48);
     var c = randomColor();
     addNewEventRow(eventNames[i], m, c);
   }
-  //calculateData();
+
+  calculateData();
   makeWaffleChart();
-
-  $( "#reset" ).click(function() {
-    //resetChart(originaldata, originalrange);
-  });
-
-  function resetChart(data, range) {
-    var tablebody = $("#mainTable").find('tbody');
-    tablebody.html("");
-    generateTable(data, range);
-  }
 
   $( document ).on( "click", ".remove", function(){
     var dataRows = $("#mainTable").find('tbody tr');

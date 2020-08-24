@@ -48,7 +48,11 @@
         <p>
           Edit the table below to map out your
           career path, where you've lived, trials and tribulations, or other meaningful life events.
-          Then, click <strong>Download</strong> to save your chart!</p>
+          Two events with the same name will be automatically linked in the chart.
+        </p>
+        <p>
+          When you are done, click <i class="fa fa-camera" aria-hidden="true"></i> to save a PNG of your chart!
+          Or, click <i class="fa fa-table" aria-hidden="true"></i> to download your table data.</p>
 
           <div class="alert alert-warning alert-dismissible show fade" role="alert">
             <strong>Warning!</strong> The download function will not work in the Facebook mobile browser.
@@ -66,17 +70,18 @@
       <div class="col-md-6 chart-div">
         <table id="mainTable" class="table table-striped">
           <thead><tr><th>Title</th>
-            <th colspan="3"><input type="text" id="waffle-title-input" class="chart-title" value="My Life in Months"></input></th></thead>
+            <td colspan="3" id="title-input">My Life in Months</td></thead>
 
           <thead><tr><th>Life Event</th><th class="th_center">Months</th><th class="th_center">Color</th><th class="th_center">Delete</th></tr></thead>
           <tbody>
             <tr>
-              <td id="eventname-1" class="eventname">Childhood</td><td class="monthsevent">184</td>
-              <td class="color-col"><input id="colorpick-1" class="colorpick" type="color" name="head" value="#1f77b4">
+              <td class="eventname">Childhood</td><td class="monthsevent">184</td>
+              <td class="color-col"><input class="colorpick" type="color" name="head" value="#1f77b4">
               <span class="clink"><i class="fa fa-link"></i></span></td>
               <td class="remove"><i class="fa fa-trash-o"></i></td></tr>
-            <tr><td id="eventname-2" class="eventname">High School</td><td class="monthsevent">45</td>
-              <td class="color-col"><input id="colorpick-2" class="colorpick" type="color" name="head" value="#ff7f0e">
+            <tr>
+              <td class="eventname">High School</td><td class="monthsevent">45</td>
+              <td class="color-col"><input class="colorpick" type="color" name="head" value="#ff7f0e">
               <span class="clink"><i class="fa fa-link"></i></span></td>
               <td class="remove"><i class="fa fa-trash-o"></i></td></tr>
           </tbody>
@@ -118,9 +123,9 @@
           </div>
         </div>
         <p>
-          <button id="camera" type="button" class="btn btn-primary">Download <i class="fa fa-camera" aria-hidden="true"></i>
+          <button id="camera" type="button" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i>
           </button>
-          <button id="csv-button" type="button" class="btn btn-primary">Download as CSV <i class="fa fa-table" aria-hidden="true"></i>
+          <button id="csv-button" type="button" class="btn btn-primary"><i class="fa fa-table" aria-hidden="true"></i>
           </button>
         </p>
       </div>
