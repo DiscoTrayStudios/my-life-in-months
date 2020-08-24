@@ -146,7 +146,7 @@ $(document).ready(function() {
 
   function makeWaffleChart() {
     chart = d3waffle()
-        .title($("#waffle-title-input").val())
+        .title($("#title-input").text())
         .colorscale(colors_map);
 
     d3.select("#waffle")
@@ -238,7 +238,21 @@ $(document).ready(function() {
 
   		var cell = $(this),
   			column = cell.index();
-  		if (column === 0) {
+		if( cell.attr("id") == "title-input") {
+			if (!value){
+				$('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Charts need a title!"));
+			}
+			else if (value.trim().length == 0){
+				$('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Titles must be at least 1 character long!"));
+			}
+			else if (value.trim().length >= 30){
+				$('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Titles must be less than 30 characters long!"));
+			} else {
+				$("#alert-event-name-length").remove();
+			}
+			return !!value && value.trim().length > 0 && value.trim().length < 30;
+		}
+  		else if (column === 0) {
         if (!value){
   		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must not be empty!"));
         }
@@ -382,34 +396,6 @@ $(document).ready(function() {
       '</button>' +
     '</div>'
   }
-
-  // https://stackoverflow.com/questions/9205164/validate-html-text-input-as-its-typed
-  $('#waffle-title-input').bind('input propertychange', function() {
-    var text = $(this).val();
-    //console.log($("#waffle-title").width());
-    if (text.length > 30) {
-      text = text.slice(0, 30);
-      $(this).val(text);
-      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Title must be less than 30 characters long!"));
-    } else {
-      $("#alert-event-name-length").remove();
-    }
-    console.log($("waffle-title").text());
-    $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
-  });
-  $("#waffle-title-input").bind("paste", function(){
-    var text = $(this).val();
-    //console.log($("#waffle-title").width());
-    if (text.length > 30) {
-      text = text.slice(0, 30);
-      $(this).val(text);
-      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Title must be less than 30 characters long!"));
-    } else {
-      $("#alert-event-name-length").remove();
-    }
-    console.log($("waffle-title").text());
-    $('#waffle-title').html(text.replace(/</g, "&lt;").replace(/>/g, "&gt;"));
-  });
 
   var eventNames = getRandomEventName(3);
   for (var i = 0; i < eventNames.length; i++) {
