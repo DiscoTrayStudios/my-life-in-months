@@ -3,7 +3,7 @@ function d3waffle() {
       scale = 1,
       title = "My Life in Months",
       cols = 12,
-      colorscale = d3.scaleOrdinal(d3.schemeCategory10),
+      colorscale = new Map(),
       appearancetimes = function(d, i){ return 100; },
       width = 200,
       magic_padding = 5;
@@ -21,7 +21,6 @@ function d3waffle() {
       data.forEach(function(d, i){
         data[i].class = slugify(d.name);
         data[i].scalevalue = Math.round(data[i].value*scale);
-        data[i].class_index = d.class.concat(i);
       });
 
       var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
@@ -31,7 +30,7 @@ function d3waffle() {
 
       data.forEach(function(d){
         d3.range(d.scalevalue).forEach(function(e){
-          detaildata.push({ name: d.name, class: d.class, class_index: d.class_index})
+          detaildata.push({ name: d.name, class: d.class})
         });
       });
 
@@ -46,8 +45,7 @@ function d3waffle() {
       for (var i = 0; i < data.length; i++) {
         var found = false;
         for (var j = 0; j < i; j++) {
-          if (data[i].class == data[j].class &&
-              colorscale(data[i].class_index) == colorscale(data[j].class_index)) {
+          if (data[i].class == data[j].class) {
             found = true;
           }
         }
@@ -134,7 +132,7 @@ function d3waffle() {
             .attr("transform", function(d) { return "translate(" + (d.col)*gridSize + "," + (d.row)*gridSize  + ")"; });
 
       nodes.append("rect")
-            .style('fill', function(d){ return colorscale(d.class_index); })
+            .style('fill', function(d){ return colorscale.get(d.name); })
             .attr('class', function(d){ return d.class; })
             .style("stroke", "white")
             .attr("width", gridSize)
@@ -153,7 +151,7 @@ function d3waffle() {
       legend.append("rect")
             .attr('x', gridSize)
             .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
-            .style('fill', function(d){ return colorscale(d.class_index); })
+            .style('fill', function(d){ return colorscale.get(d.name); })
             .attr('class', function(d){ return d.class; })
             .style("stroke", "white")
             .attr("width", gridSize)
