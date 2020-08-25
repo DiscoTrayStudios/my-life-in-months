@@ -45,7 +45,7 @@ function d3waffle() {
       for (var i = 0; i < data.length; i++) {
         var found = false;
         for (var j = 0; j < i; j++) {
-          if (data[i].class == data[j].class) {
+          if (data[i].name == data[j].name) {
             found = true;
           }
         }
