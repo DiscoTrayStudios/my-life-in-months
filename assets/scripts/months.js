@@ -201,6 +201,45 @@ $(document).ready(function() {
     download(title, convertDataToCSVFormat(data, colors_map));
   });
 
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // use the 1st file from the list
+    f = files[0];
+
+    var reader = new FileReader();
+
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+        return function(e) {
+
+          CSVFormatToData(e.target.result, data, colors_map);
+        };
+      })(f);
+      reader.readAsText(f);
+      calculateData();
+      makeWaffleChart();
+    }
+
+  document.getElementById('file-upload').addEventListener('change', handleFileSelect, false);
+
+  function CSVFormatToData(csv_string) {
+    var rows = csv_string.split("\n");
+    var dataToChange = [];
+    var colorsMapToChange = new Map();
+    rows.splice(rows.length - 1, 1);
+    rows.splice(0, 1);
+    rows.forEach(element => {
+      var columns = element.split(",");
+      dataToChange.push({"name" : columns[0], "value" : columns[1]});
+      if (!colorsMapToChange.has(columns[0])) {
+        colorsMapToChange.set(columns[0], columns[2]);
+      }
+    });
+    populateTable(dataToChange);
+    console.log(rows);
+  }
+
   function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
     var toReturn = "Life Event,Months,Color\n";
     dataToConvert.forEach(element => {
