@@ -197,12 +197,12 @@ $(document).ready(function() {
   });
 
   $( "#csv-button" ).click(function() {
-    var title = document.getElementById("waffle-title-input").getAttribute("value");
+    var title = document.getElementById("title-input").textContent;
     download(title, convertDataToCSVFormat(data, colors_map));
   });
 
   function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
-    var toReturn = "";
+    var toReturn = "Life Event,Months,Color\n";
     dataToConvert.forEach(element => {
       toReturn += element["name"] + "," + element["value"] + "," + colorsMapToConvert.get(element["name"]) + "\n";
     });
