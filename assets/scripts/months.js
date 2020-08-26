@@ -217,8 +217,6 @@ $(document).ready(function() {
         };
       })(f);
       reader.readAsText(f);
-      calculateData();
-      makeWaffleChart();
     }
 
   document.getElementById('file-upload').addEventListener('change', handleFileSelect, false);
@@ -230,14 +228,26 @@ $(document).ready(function() {
     rows.splice(rows.length - 1, 1);
     rows.splice(0, 1);
     rows.forEach(element => {
-      var columns = element.split(",");
+      var columns = parseCSVRows(element);
       dataToChange.push({"name" : columns[0], "value" : columns[1]});
       if (!colorsMapToChange.has(columns[0])) {
         colorsMapToChange.set(columns[0], columns[2]);
       }
     });
     populateTable(dataToChange);
+    calculateData();
+    makeWaffleChart();
     console.log(rows);
+  }
+
+  function parseCSVRows(rowString) {
+    var splitOnDoubleQuotes = rowString.split('"');
+    console.log(splitOnDoubleQuotes);
+    var first = splitOnDoubleQuotes[1];
+    var lastTwo = splitOnDoubleQuotes[2].split(",");
+    console.log(first + lastTwo);
+    return [first, lastTwo[1], lastTwo[2]];
+
   }
 
   function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
@@ -326,7 +336,7 @@ $(document).ready(function() {
           '<td class="monthsevent">' + months + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color +
           '"><span class="clink"><i class="fa fa-link"></i></span></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
-    $('#mainTable tr:last').after(newRow);
+    $('#mainTable').find("tbody").append(newRow);
     newRow.editableTableWidget().numericInputExample()
   }
 
@@ -364,7 +374,7 @@ $(document).ready(function() {
         addNewEventRow(row["name"], row["value"], colors_map.get(row["name"]));
       }
     })
-    data = newData;
+    //data = newData;
   }
 
   $( "#togglefuture" ).click(function() {
