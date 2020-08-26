@@ -241,7 +241,7 @@ $(document).ready(function() {
   }
 
   function parseCSVRows(rowString) {
-    var splitOnDoubleQuotes = rowString.split('"');
+    var splitOnDoubleQuotes = rowString.split('\"');
     console.log(splitOnDoubleQuotes);
     var first = splitOnDoubleQuotes[1];
     var lastTwo = splitOnDoubleQuotes[2].split(",");
