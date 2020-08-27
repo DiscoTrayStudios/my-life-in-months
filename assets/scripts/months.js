@@ -201,10 +201,59 @@ $(document).ready(function() {
     download(title, convertDataToCSVFormat(data, colors_map));
   });
 
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // use the 1st file from the list
+    f = files[0];
+
+    var reader = new FileReader();
+
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+        return function(e) {
+
+          CSVFormatToData(e.target.result, data, colors_map);
+        };
+      })(f);
+      reader.readAsText(f);
+    }
+
+  document.getElementById('file-upload').addEventListener('change', handleFileSelect, false);
+
+  function CSVFormatToData(csv_string) {
+    var rows = csv_string.split("\n");
+    var dataToChange = [];
+    var colorsMapToChange = new Map();
+    rows.splice(rows.length - 1, 1);
+    rows.splice(0, 1);
+    rows.forEach(element => {
+      var columns = parseCSVRows(element);
+      dataToChange.push({"name" : columns[0], "value" : columns[1]});
+      if (!colorsMapToChange.has(columns[0])) {
+        colorsMapToChange.set(columns[0], columns[2]);
+      }
+    });
+    populateTable(dataToChange);
+    calculateData();
+    makeWaffleChart();
+    console.log(rows);
+  }
+
+  function parseCSVRows(rowString) {
+    var splitOnDoubleQuotes = rowString.split('\"');
+    console.log(splitOnDoubleQuotes);
+    var first = splitOnDoubleQuotes[1];
+    var lastTwo = splitOnDoubleQuotes[2].split(",");
+    console.log(first + lastTwo);
+    return [first, lastTwo[1], lastTwo[2]];
+
+  }
+
   function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
     var toReturn = "Life Event,Months,Color\n";
     dataToConvert.forEach(element => {
-      toReturn += element["name"] + "," + element["value"] + "," + colorsMapToConvert.get(element["name"]) + "\n";
+      toReturn += '"' + element["name"] + '"' + "," + element["value"] + "," + colorsMapToConvert.get(element["name"]) + "\n";
     });
     return toReturn
   }
@@ -287,7 +336,7 @@ $(document).ready(function() {
           '<td class="monthsevent">' + months + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color +
           '"><span class="clink"><i class="fa fa-link"></i></span></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
-    $('#mainTable tr:last').after(newRow);
+    $('#mainTable').find("tbody").append(newRow);
     newRow.editableTableWidget().numericInputExample()
   }
 
@@ -325,7 +374,7 @@ $(document).ready(function() {
         addNewEventRow(row["name"], row["value"], colors_map.get(row["name"]));
       }
     })
-    data = newData;
+    //data = newData;
   }
 
   $( "#togglefuture" ).click(function() {
