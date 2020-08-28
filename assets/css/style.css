@@ -75,3 +75,12 @@ table {
   float: left;
   padding: 16px;
 }
+
+.csv-upload {
+  margin-top: 20px;
+  padding: 10px;
+}
+
+#file-upload {
+  display: none;
+}
