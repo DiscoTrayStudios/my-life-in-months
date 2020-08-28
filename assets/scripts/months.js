@@ -206,6 +206,7 @@ $(document).ready(function() {
 
     // use the 1st file from the list
     f = files[0];
+    $( "#title-input" ).html(f.name.split(".")[0]);
 
     var reader = new FileReader();
 
@@ -213,7 +214,7 @@ $(document).ready(function() {
     reader.onload = (function(theFile) {
         return function(e) {
 
-          CSVFormatToData(e.target.result, data, colors_map);
+          CSVFormatToData(e.target.result);
         };
       })(f);
       reader.readAsText(f);
