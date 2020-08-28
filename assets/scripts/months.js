@@ -252,6 +252,7 @@ $(document).ready(function() {
       $('#showEventAlertHere').html(alertMaker("alert-event-name-length", 
       "Your CSV file is not in the correct format! Please read our Uploading Format Guidlines."));
     }
+    document.getElementById('file-upload').value = '';
     console.log(rows);
   }
 
