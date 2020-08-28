@@ -13,6 +13,12 @@
   width:100%;
 }
 
+#title-input {
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: rgb(222, 226, 230);
+}
+
 .chart-title {
   display: table-cell;
   width:100%;

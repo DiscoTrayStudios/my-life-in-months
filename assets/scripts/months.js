@@ -189,7 +189,7 @@ $(document).ready(function() {
           window.saveAs(blob, 'my-life-in-months.png');
       }).finally(function (blob) {
           $("#captureClone").remove();
-          $("#camera" ).html("Download <i class='fa fa-camera' aria-hidden='true'></i>");
+          $("#camera" ).html("Download Image <i class='fa fa-camera' aria-hidden='true'></i>");
           $("#camera" ).removeClass("btn-danger");
           $("#camera" ).addClass("btn-primary");
       });
@@ -468,4 +468,6 @@ $(document).ready(function() {
   $('#mainTable').editableTableWidget().numericInputExample();
 
   $(".alert").alert();
+
+  document.getElementById("title-input").focus();
 });
