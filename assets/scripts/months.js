@@ -226,7 +226,9 @@ $(document).ready(function() {
     var rows = csv_string.split("\n");
     var dataToChange = [];
     var colorsMapToChange = new Map();
-    rows.splice(rows.length - 1, 1);
+    if (rows[rows.length - 1] == "") {
+      rows.splice(rows.length - 1, 1);
+    }
     rows.splice(0, 1);
     rows.forEach(element => {
       var columns = parseCSVRows(element);
@@ -243,12 +245,14 @@ $(document).ready(function() {
 
   function parseCSVRows(rowString) {
     var splitOnDoubleQuotes = rowString.split('\"');
+    if (splitOnDoubleQuotes.length == 1) {
+      return rowString.split(",");
+    }
     console.log(splitOnDoubleQuotes);
     var first = splitOnDoubleQuotes[1];
     var lastTwo = splitOnDoubleQuotes[2].split(",");
     console.log(first + lastTwo);
     return [first, lastTwo[1], lastTwo[2]];
-
   }
 
   function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
