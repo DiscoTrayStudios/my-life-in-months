@@ -326,7 +326,7 @@ $(document).ready(function() {
 			}
 			return !!value && value.trim().length > 0 && value.trim().length < 30;
 		}
-  		else if (column === 0) {
+  		else if (column === 1) {
         if (!value){
   		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must not be empty!"));
         }
@@ -339,7 +339,7 @@ $(document).ready(function() {
           $("#alert-event-name-length").remove();
         }
   			return !!value && value.trim().length > 0 && value.trim().length < 25;
-  		} else if (column === 1){
+  		} else if (column === 2){
         if (!isNormalPosInteger(value)) {
           $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
         } else {
@@ -357,10 +357,11 @@ $(document).ready(function() {
   function addNewEventRow(event, months, color) {
     var dataRows = $("#mainTable").find('tbody tr');
     var newRow = $('<tr>' +
+          '<td class="radiocheck"><input type="checkbox"></td>' +
           '<td class="eventname">' + event + '</td>' +
           '<td class="monthsevent">' + months + '</td>' +
-          '<td class="color-col"><input class="colorpick" type="color" value="' + color +
-          '"><span class="clink"><i class="fa fa-link"></i></span></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
+          '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
+          '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
     $('#mainTable').find("tbody").append(newRow);
     newRow.editableTableWidget().numericInputExample()
   }
