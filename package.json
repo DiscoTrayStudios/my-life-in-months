@@ -1,0 +1,28 @@
+{
+  "name": "mylifeinmonths",
+  "version": "1.0.0",
+  "description": "Inspired by Isabella Benabaye, Sharla Gelfand, and Tim Urban, My Life in Months is a chart that helps you see the larger picture of your life.",
+  "main": "months.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiscoTrayStudios/my-life-in-months.git"
+  },
+  "author": "Disco Tray Studios",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DiscoTrayStudios/my-life-in-months/issues"
+  },
+  "homepage": "https://github.com/DiscoTrayStudios/my-life-in-months",
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "d3": "^6.1.0",
+    "dom-to-image": "^2.6.0",
+    "filesaver": "0.0.13",
+    "randomcolor": "^0.6.2",
+    "watermark": "^1.0.2"
+  }
+}
