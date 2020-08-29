@@ -165,7 +165,7 @@ $(document).ready(function() {
     var dataRows = $("#mainTable").find('tbody tr');
     dataRows.each(function () {
       var row = $(this);
-      numMonths += parseInt(row.children().eq(1).text());
+      numMonths += parseInt(row.children().eq(2).text());
     })
     console.log(numMonths);
     return numMonths;
@@ -249,7 +249,7 @@ $(document).ready(function() {
       makeWaffleChart();
     }
     else {
-      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", 
+      $('#showEventAlertHere').html(alertMaker("alert-event-name-length",
       "Your CSV file is not in the correct format! Please read our Uploading Format Guidlines."));
     }
     document.getElementById('file-upload').value = '';
@@ -482,13 +482,21 @@ $(document).ready(function() {
   calculateData();
   makeWaffleChart();
 
-  $( document ).on( "click", ".remove", function(){
+  $( "#remove" ).click(function() {
+    console.log("Still working..");
     var dataRows = $("#mainTable").find('tbody tr');
-    if (dataRows.length > 1) {
-      $(this).parent("tr:first").remove();
-      calculateData();
-      makeWaffleChart();
-    }
+    dataRows.each( function () {
+      var row = $(this);
+      var box = $(row.children().eq(0).children().eq(0));
+      console.log(box);
+      //https://www.tutorialrepublic.com/faq/how-to-check-a-checkbox-is-checked-or-not-using-jquery.php
+      if(box.is(":checked")){
+        console.log("Checkbox is checked.");
+        row.remove();
+      };
+    });
+    calculateData();
+    makeWaffleChart();
   });
 
   $('#mainTable').editableTableWidget().numericInputExample();

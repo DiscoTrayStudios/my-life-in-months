@@ -91,21 +91,34 @@
         </div>
         <div id="showMonthsAlertHere">
         </div>
-        <div class="form-row align-items-center">
-          <div class="col-4 my-1">
-            <button id="addrow" type="button" class="btn btn-primary">Add Event</button>
-        <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
+        <div>
+            <button id="addrow" type="button" class="btn btn-primary">
+              <i class="fa fa-plus" aria-hidden="true"></i> Insert
+            </button>
+            <button id="moveup" type="button" class="btn btn-primary">
+              <i class="fa fa-arrow-up" aria-hidden="true"></i> Up
+            </button>
+            <button id="movedown" type="button" class="btn btn-primary">
+              <i class="fa fa-arrow-down" aria-hidden="true"></i> Down
+            </button>
+
+            <button id="repeat" type="button" class="btn btn-primary">
+              <i class="fa fa-repeat" aria-hidden="true"></i> Repeat
+            </button>
+
+            <button id="remove" type="button" class="btn btn-primary">
+              <i class="fa fa-trash" aria-hidden="true"></i> Delete
+            </button>
           </div>
-          <div class="col-auto my-1">
+
+        <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
             <div class="custom-control custom-switch">
               <input type="checkbox" class="custom-control-input" id="togglefuture">
               <label class="custom-control-label" for="togglefuture">Extend Chart to 80 Years</label>
             </div>
-          </div>
 
-        </div>
-        
-        
+
+
         <!-- Temporary positioning for example dropdown.
           Dropdown aspect is potentially temporary
           (I just didn't want to deal with multiple buttons)
@@ -136,9 +149,9 @@
     </div>
     <div class="bg-light csv-upload">
       <h4>Uploading a CSV File</h4>
-      <p>Want to edit your chart in spreadsheet software like Excel instead of editing the table on this page? 
-        Or do you want to upload a chart that you downloaded from this website in the past? Use the "Choose File" 
-        button to choose a CSV file to populate the table. Don't know how to download a spreadsheet as a CSV? Click 
+      <p>Want to edit your chart in spreadsheet software like Excel instead of editing the table on this page?
+        Or do you want to upload a chart that you downloaded from this website in the past? Use the "Choose File"
+        button to choose a CSV file to populate the table. Don't know how to download a spreadsheet as a CSV? Click
         <a href="https://www.extendoffice.com/documents/excel/2980-excel-save-export-each-sheet-as-csv.html">here</a> for instruction.</p>
       <label for="file-upload" class="btn btn-primary">
         Choose File <i class="fa fa-table" aria-hidden="true"></i>
