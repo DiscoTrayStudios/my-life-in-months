@@ -104,7 +104,8 @@
           </div>
 
         </div>
-        <input id="file-upload" type="file" />
+        
+        
         <!-- Temporary positioning for example dropdown.
           Dropdown aspect is potentially temporary
           (I just didn't want to deal with multiple buttons)
@@ -117,13 +118,7 @@
               <button id="Andrew" value="1" class="dropdown-item exampleCharts" type="button">Andrew Sample</button>
             </div>
           </div> -->
-
-
-
         </div>
-
-
-
 
       <div class="col-md-6">
         <div class="chart-div">
@@ -138,6 +133,23 @@
           </button>
         </p>
       </div>
+    </div>
+    <div class="bg-light csv-upload">
+      <h4>Uploading a CSV File</h4>
+      <p>Want to edit your chart in spreadsheet software like Excel instead of editing the table on this page? 
+        Or do you want to upload a chart that you downloaded from this website in the past? Use the "Choose File" 
+        button to choose a CSV file to populate the table. Don't know how to download a spreadsheet as a CSV? Click 
+        <a href="https://www.extendoffice.com/documents/excel/2980-excel-save-export-each-sheet-as-csv.html">here</a> for instruction.</p>
+      <label for="file-upload" class="btn btn-primary">
+        Choose File <i class="fa fa-table" aria-hidden="true"></i>
+      </label>
+      <input id="file-upload" onfocus="this.value=''" type="file"/>
+      <h5>Uploading Format Guidlines:</h5>
+      <p>1. CSV file must only have three columns</p>
+      <p>2. The names of the three columns in the first row must be named "Life Event", "Months", and "Color" in that order.</p>
+      <p>3. The names of the columns in the CSV correspond to the columns with the same name in the table above.</p>
+      <p>4. Months must be positive integers and colors must be hexadecimals representing the color.</p>
+      <p>5. For an example of a CSV file in the proper format, download a CSV file from this page and use it as a guide.</p>
     </div>
 
   <hr class="mt-2 mb-3"/>

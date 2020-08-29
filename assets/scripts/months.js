@@ -206,6 +206,7 @@ $(document).ready(function() {
 
     // use the 1st file from the list
     f = files[0];
+    var f_name = f.name.split(".")[0];
 
     var reader = new FileReader();
 
@@ -213,7 +214,7 @@ $(document).ready(function() {
     reader.onload = (function(theFile) {
         return function(e) {
 
-          CSVFormatToData(e.target.result, data, colors_map);
+          CSVFormatToData(e.target.result, f_name);
         };
       })(f);
       reader.readAsText(f);
@@ -221,33 +222,57 @@ $(document).ready(function() {
 
   document.getElementById('file-upload').addEventListener('change', handleFileSelect, false);
 
-  function CSVFormatToData(csv_string) {
+  function CSVFormatToData(csv_string, csv_name) {
     var rows = csv_string.split("\n");
     var dataToChange = [];
     var colorsMapToChange = new Map();
-    rows.splice(rows.length - 1, 1);
+    if (rows[rows.length - 1] == "") {
+      rows.splice(rows.length - 1, 1);
+    }
+    var isInvalid = false;
     rows.splice(0, 1);
     rows.forEach(element => {
       var columns = parseCSVRows(element);
+      if (columns.length != 3) {
+        isInvalid = true;
+        return;
+      }
       dataToChange.push({"name" : columns[0], "value" : columns[1]});
       if (!colorsMapToChange.has(columns[0])) {
         colorsMapToChange.set(columns[0], columns[2]);
       }
     });
-    populateTable(dataToChange);
-    calculateData();
-    makeWaffleChart();
+    if (!isInvalid) {
+      $( "#title-input" ).html(csv_name);
+      populateTable(dataToChange);
+      calculateData();
+      makeWaffleChart();
+    }
+    else {
+      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", 
+      "Your CSV file is not in the correct format! Please read our Uploading Format Guidlines."));
+    }
+    document.getElementById('file-upload').value = '';
     console.log(rows);
   }
 
   function parseCSVRows(rowString) {
     var splitOnDoubleQuotes = rowString.split('\"');
+    if (splitOnDoubleQuotes.length == 1) {
+      var toReturn = rowString.split(",");
+      if (toReturn.length != 3) {
+        return []
+      }
+      return toReturn;
+    }
+    else if (splitOnDoubleQuotes.length != 3){
+      return [];
+    }
     console.log(splitOnDoubleQuotes);
     var first = splitOnDoubleQuotes[1];
     var lastTwo = splitOnDoubleQuotes[2].split(",");
     console.log(first + lastTwo);
     return [first, lastTwo[1], lastTwo[2]];
-
   }
 
   function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
