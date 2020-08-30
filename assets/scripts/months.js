@@ -363,7 +363,7 @@ $(document).ready(function() {
 
   function randomEventRow() {
     var eventNames = getRandomEventName(1);
-    var m = getRandomIntInclusive(12, 48);
+    var m = getRandomIntInclusive(13, 83);
     var c = randomColor();
     addNewEventRow(eventNames[0], m, c);
     calculateData();
@@ -388,7 +388,7 @@ $(document).ready(function() {
     colors_map = new Map();
     newData.forEach(function(row) {
       if (!colors_map.has(row["name"])) {
-        let c = randomColor();
+        let c = randomColor({seed:eventNames[i]});
         addNewEventRow(row["name"], row["value"], c);
         colors_map.set(row["name"], c);
       } else {
@@ -467,9 +467,9 @@ $(document).ready(function() {
     '</div>'
   }
 
-  var eventNames = getRandomEventName(3);
+  var eventNames = getRandomEventName(5);
   for (var i = 0; i < eventNames.length; i++) {
-    var m = getRandomIntInclusive(12, 48);
+    var m = getRandomIntInclusive(13, 83);
     var c = randomColor();
     addNewEventRow(eventNames[i], m, c);
   }
@@ -503,6 +503,14 @@ $(document).ready(function() {
 
   $( "#movedown" ).click(function() {
     alterTable(function(row) {row.insertAfter(row.next());})
+    calculateData();
+    makeWaffleChart();
+  });
+
+  $( "#repeat" ).click(function() {
+    alterTable(function(row) {
+      let c = row.clone();
+      c.insertAfter(row);})
     calculateData();
     makeWaffleChart();
   });

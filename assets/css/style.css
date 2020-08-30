@@ -79,9 +79,8 @@ table {
   padding: 16px;
 }
 
-.csv-upload {
-  margin-top: 20px;
-  padding: 10px;
+.togglediv {
+  padding-bottom: 15px;
 }
 
 #file-upload {

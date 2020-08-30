@@ -82,7 +82,7 @@
 
           <thead><tr><th></th><th>Life Event</th><th class="th_center">Months</th><th class="th_center">Color</th></tr></thead>
           <tbody>
-            <tr>
+<!--            <tr>
               <td class="radiocheck"><input type="checkbox"></td>
               <td class="eventname" tabindex="1">Childhood</td>
               <td class="monthsevent" tabindex="1">184</td>
@@ -94,15 +94,20 @@
               <td class="monthsevent" tabindex="1">45</td>
               <td class="color-col"><input class="colorpick" type="color" name="head" value="#ff7f0e">
               <span class="clink"><i class="fa fa-link"></i></span></td>
+-->
           </tbody>
         </table>
         <div id="showEventAlertHere">
         </div>
         <div id="showMonthsAlertHere">
         </div>
+        <div class="custom-control custom-switch togglediv">
+          <input type="checkbox" class="custom-control-input" id="togglefuture">
+          <label class="custom-control-label" for="togglefuture">Extend Chart to 80 Years</label>
+        </div>
         <div>
             <button id="addrow" type="button" class="btn btn-primary">
-              <i class="fa fa-plus" aria-hidden="true"></i> Insert
+              <i class="fa fa-plus" aria-hidden="true"></i> New Event
             </button>
             <button id="moveup" type="button" class="btn btn-primary">
               <i class="fa fa-arrow-up" aria-hidden="true"></i> Up
@@ -121,10 +126,7 @@
           </div>
 
         <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="togglefuture">
-              <label class="custom-control-label" for="togglefuture">Extend Chart to 80 Years</label>
-            </div>
+
 
 
 
@@ -156,7 +158,9 @@
         </p>
       </div>
     </div>
-    
+
+    <hr class="mt-2 mb-3"/>
+
     <div class="row">
       <div class="col-md-12 csv-upload">
         <h4>Uploading a CSV File</h4>
