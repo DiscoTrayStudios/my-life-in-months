@@ -1,4 +1,4 @@
-function d3waffle() {
+function myLifeInMonths() {
   var margin = {top: 30, right: 20, bottom: 20, left: 30, title: 35, footer: 15},
       scale = 1,
       title = "My Life in Months",

@@ -145,7 +145,7 @@ $(document).ready(function() {
   }
 
   function makeWaffleChart() {
-    chart = d3waffle()
+    chart = myLifeInMonths()
         .title($("#title-input").text())
         .colorscale(colors_map);
 
