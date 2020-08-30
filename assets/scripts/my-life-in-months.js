@@ -1,3 +1,5 @@
+/* Heavily based on code from https://github.com/jbkunst/d3-waffle/ licensed under MIT */
+
 function myLifeInMonths() {
   var margin = {top: 30, right: 20, bottom: 20, left: 30, title: 35, footer: 15},
       scale = 1,

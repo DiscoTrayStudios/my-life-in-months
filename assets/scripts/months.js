@@ -357,6 +357,7 @@ $(document).ready(function() {
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
     $('#mainTable').find("tbody").append(newRow);
+    // https://github.com/mindmup/editable-table/issues/1
     newRow.numericInputExample()
   }
 
