@@ -481,16 +481,27 @@ $(document).ready(function() {
   makeWaffleChart();
 
   $( "#remove" ).click(function() {
-    console.log("Still working..");
     var dataRows = $("#mainTable").find('tbody tr');
     dataRows.each( function () {
       var row = $(this);
       var box = $(row.children().eq(0).children().eq(0));
-      console.log(box);
       //https://www.tutorialrepublic.com/faq/how-to-check-a-checkbox-is-checked-or-not-using-jquery.php
       if(box.is(":checked")){
-        console.log("Checkbox is checked.");
         row.remove();
+      };
+    });
+    calculateData();
+    makeWaffleChart();
+  });
+
+  $( "#moveup" ).click(function() {
+    var dataRows = $("#mainTable").find('tbody tr');
+    dataRows.each( function () {
+      var row = $(this);
+      var box = $(row.children().eq(0).children().eq(0));
+      //https://www.tutorialrepublic.com/faq/how-to-check-a-checkbox-is-checked-or-not-using-jquery.php
+      if(box.is(":checked")){
+        row.insertBefore(row.prev());
       };
     });
     calculateData();
