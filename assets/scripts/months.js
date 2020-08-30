@@ -480,30 +480,33 @@ $(document).ready(function() {
   calculateData();
   makeWaffleChart();
 
-  $( "#remove" ).click(function() {
+  function alterTable(func) {
     var dataRows = $("#mainTable").find('tbody tr');
     dataRows.each( function () {
       var row = $(this);
       var box = $(row.children().eq(0).children().eq(0));
       //https://www.tutorialrepublic.com/faq/how-to-check-a-checkbox-is-checked-or-not-using-jquery.php
       if(box.is(":checked")){
-        row.remove();
+        func(row);
       };
     });
+  }
+
+
+  $( "#remove" ).click(function() {
+    alterTable(function(row) {row.remove();});
     calculateData();
     makeWaffleChart();
   });
 
   $( "#moveup" ).click(function() {
-    var dataRows = $("#mainTable").find('tbody tr');
-    dataRows.each( function () {
-      var row = $(this);
-      var box = $(row.children().eq(0).children().eq(0));
-      //https://www.tutorialrepublic.com/faq/how-to-check-a-checkbox-is-checked-or-not-using-jquery.php
-      if(box.is(":checked")){
-        row.insertBefore(row.prev());
-      };
-    });
+    alterTable(function(row) {row.insertBefore(row.prev());})
+    calculateData();
+    makeWaffleChart();
+  });
+
+  $( "#movedown" ).click(function() {
+    alterTable(function(row) {row.insertAfter(row.next());})
     calculateData();
     makeWaffleChart();
   });
