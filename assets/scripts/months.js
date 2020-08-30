@@ -152,12 +152,6 @@ $(document).ready(function() {
     d3.select("#waffle")
   			.datum(data)
   			.call(chart);
-
-    // closest watermark yet.
-/*    d3.xml("https://discotraystudios.github.io/my-life-in-months/assets/images/discotray.svg")
-      .then(data => {
-        d3.select("#watermark").node().append(data.documentElement)
-      });*/
   }
 
   function getCurrentNumMonths() {
@@ -189,7 +183,7 @@ $(document).ready(function() {
           window.saveAs(blob, 'my-life-in-months.png');
       }).finally(function (blob) {
           $("#captureClone").remove();
-          $("#camera" ).html("Download Image <i class='fa fa-camera' aria-hidden='true'></i>");
+          $("#camera" ).html("<i class='fa fa-camera' aria-hidden='true'></i> Download Image");
           $("#camera" ).removeClass("btn-danger");
           $("#camera" ).addClass("btn-primary");
       });
@@ -306,8 +300,12 @@ $(document).ready(function() {
     element.find('td').off('change').off('validate');
 
   	element.find('td').on('change', function (evt) {
-      calculateData();
-      makeWaffleChart();
+      var cell = $(this),
+  		column = cell.index();
+      if (column != 0) {
+        calculateData();
+        makeWaffleChart();
+      }
   	}).on('validate', function (evt, value) {
 
   		var cell = $(this),
