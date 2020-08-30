@@ -22,7 +22,6 @@
     "d3": "^6.1.0",
     "dom-to-image": "^2.6.0",
     "filesaver": "0.0.13",
-    "randomcolor": "^0.6.2",
-    "watermark": "^1.0.2"
+    "randomcolor": "^0.6.2"
   }
 }
