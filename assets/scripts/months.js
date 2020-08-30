@@ -300,14 +300,11 @@ $(document).ready(function() {
     element.find('td').off('change').off('validate');
 
   	element.find('td').on('change', function (evt) {
-      var cell = $(this),
-  		column = cell.index();
-      if (column != 0) {
+      if (!$(this).hasClass( "radiocheck" )) {
         calculateData();
         makeWaffleChart();
       }
   	}).on('validate', function (evt, value) {
-
   		var cell = $(this),
   			column = cell.index();
 		if( cell.attr("id") == "title-input") {
@@ -353,15 +350,14 @@ $(document).ready(function() {
   };
 
   function addNewEventRow(event, months, color) {
-    var dataRows = $("#mainTable").find('tbody tr');
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input type="checkbox"></td>' +
-          '<td class="eventname">' + event + '</td>' +
-          '<td class="monthsevent">' + months + '</td>' +
+          '<td class="eventname" tabindex="1">' + event + '</td>' +
+          '<td class="monthsevent" tabindex="1">' + months + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
     $('#mainTable').find("tbody").append(newRow);
-    //newRow.editableTableWidget().numericInputExample()
+    newRow.numericInputExample()
   }
 
   function randomEventRow() {
@@ -491,7 +487,6 @@ $(document).ready(function() {
       };
     });
   }
-
 
   $( "#remove" ).click(function() {
     alterTable(function(row) {row.remove();});

@@ -15,7 +15,6 @@ $.fn.editableTableWidget = function (options) {
 			showEditor = function (select) {
 				active = element.find('td:focus');
 				if (!(active.hasClass( "color-col" ) ||
-						  active.hasClass("remove") ||
 							active.hasClass("radiocheck"))) {
 
 					if (active.length) {
@@ -117,8 +116,7 @@ $.fn.editableTableWidget = function (options) {
 			}
 		});
 
-
-		element.find('td').prop('tabindex', 1);
+		//element.find('td').prop('tabindex', 1);
 
 		$(window).on('resize', function () {
 			if (editor.is(':visible')) {
