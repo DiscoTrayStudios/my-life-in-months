@@ -17,6 +17,9 @@
 	border-bottom-width: 2px;
 	border-bottom-style: solid;
 	border-bottom-color: rgb(222, 226, 230);
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .chart-title {
@@ -28,7 +31,7 @@
   border-radius: 0 !important;
 }
 
-.remove, .colorpick, .monthsevent, .color-col, .th_center{
+.colorpick, .monthsevent, .color-col, .radiocheck, .th_center{
   text-align: center;
 }
 
@@ -76,9 +79,8 @@ table {
   padding: 16px;
 }
 
-.csv-upload {
-  margin-top: 20px;
-  padding: 10px;
+.togglediv {
+  padding-bottom: 15px;
 }
 
 #file-upload {

@@ -45,67 +45,92 @@
         <p>
           <img src="assets/images/monthdemo.png" class="mx-auto d-block img-fluid">
         </p>
+      </div>
+    </div>
+    <hr class="mt-2 mb-3"/>
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Create Your Own Chart</h4>
         <p>
-          Click to edit the data in the table below to map out your
+          Click on the title, an event name, or the number of months to edit the data in
+          the table below. You can map out your
           career path, where you've lived, trials and tribulations, or other meaningful life events.
           Two events with the same name will be automatically linked in the chart.
         </p>
         <p>
-          When you are done, click <strong>Download Image <i class="fa fa-camera" aria-hidden="true"></i></strong>
+          When you are done, click <strong><i class="fa fa-camera" aria-hidden="true"></i> Download Image</strong>
           to keep a picture of your chart!
-          Or, click <strong>Download CSV <i class="fa fa-table" aria-hidden="true"></i></strong> to save your data.</p>
+          Or, click <strong><i class="fa fa-table" aria-hidden="true"></i> Download CSV</strong> to save your data.
+        </p>
 
-          <div class="alert alert-warning alert-dismissible show fade" role="alert">
-            <strong>Warning!</strong> The download function will not work in the Facebook mobile browser.
-            Please <a href="https://www.phonearena.com/news/Facebook-Messenger-open-external-safari-chrome-browser_id114893">open this
-            page in either Safari or Chrome</a> to be able to save your chart.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
+        <div class="alert alert-warning alert-dismissible show fade" role="alert">
+          <strong>Warning!</strong> The download function will not work in the Facebook mobile browser.
+          Please <a href="https://www.phonearena.com/news/Facebook-Messenger-open-external-safari-chrome-browser_id114893">open this
+          page in either Safari or Chrome</a> to be able to save your chart.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-6 chart-div">
         <table id="mainTable" class="table table-striped">
-          <thead><tr><th>Title</th>
-            <td colspan="3" id="title-input">My Life in Months</td></thead>
+          <thead><tr>
+            <td colspan="4" id="title-input" tabindex="1">My Life in Months</td></thead>
 
-          <thead><tr><th>Life Event</th><th class="th_center">Months</th><th class="th_center">Color</th><th class="th_center">Delete</th></tr></thead>
+          <thead><tr><th></th><th>Life Event</th><th class="th_center">Months</th><th class="th_center">Color</th></tr></thead>
           <tbody>
-            <tr>
-              <td class="eventname">Childhood</td><td class="monthsevent">184</td>
+<!--            <tr>
+              <td class="radiocheck"><input type="checkbox"></td>
+              <td class="eventname" tabindex="1">Childhood</td>
+              <td class="monthsevent" tabindex="1">184</td>
               <td class="color-col"><input class="colorpick" type="color" name="head" value="#1f77b4">
               <span class="clink"><i class="fa fa-link"></i></span></td>
-              <td class="remove"><i class="fa fa-trash-o"></i></td></tr>
             <tr>
-              <td class="eventname">High School</td><td class="monthsevent">45</td>
+              <td class="radiocheck"><input type="checkbox"></td>
+              <td class="eventname" tabindex="1">High School</td>
+              <td class="monthsevent" tabindex="1">45</td>
               <td class="color-col"><input class="colorpick" type="color" name="head" value="#ff7f0e">
               <span class="clink"><i class="fa fa-link"></i></span></td>
-              <td class="remove"><i class="fa fa-trash-o"></i></td></tr>
+-->
           </tbody>
         </table>
         <div id="showEventAlertHere">
         </div>
         <div id="showMonthsAlertHere">
         </div>
-        <div class="form-row align-items-center">
-          <div class="col-4 my-1">
-            <button id="addrow" type="button" class="btn btn-primary">Add Event</button>
-        <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
-          </div>
-          <div class="col-auto my-1">
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="togglefuture">
-              <label class="custom-control-label" for="togglefuture">Extend Chart to 80 Years</label>
-            </div>
+        <div class="custom-control custom-switch togglediv">
+          <input type="checkbox" class="custom-control-input" id="togglefuture">
+          <label class="custom-control-label" for="togglefuture">Extend Chart to 80 Years</label>
+        </div>
+        <div>
+            <button id="addrow" type="button" class="btn btn-primary">
+              <i class="fa fa-plus" aria-hidden="true"></i> New Event
+            </button>
+
+            <button id="repeat" type="button" class="btn btn-primary">
+              <i class="fa fa-repeat" aria-hidden="true"></i> Repeat
+            </button>
+            <button id="remove" type="button" class="btn btn-primary">
+              <i class="fa fa-trash" aria-hidden="true"></i> Delete
+            </button>
+
+            <button id="moveup" type="button" class="btn btn-primary">
+              <i class="fa fa-arrow-up" aria-hidden="true"></i> Up
+            </button>
+            <button id="movedown" type="button" class="btn btn-primary">
+              <i class="fa fa-arrow-down" aria-hidden="true"></i> Down
+            </button>
+
           </div>
 
-        </div>
-        
-        
+        <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
+
+
+
+
         <!-- Temporary positioning for example dropdown.
           Dropdown aspect is potentially temporary
           (I just didn't want to deal with multiple buttons)
@@ -127,29 +152,34 @@
           </div>
         </div>
         <p>
-          <button id="camera" type="button" class="btn btn-primary">Download Image <i class="fa fa-camera" aria-hidden="true"></i>
+          <button id="camera" type="button" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> Download Image
           </button>
-          <button id="csv-button" type="button" class="btn btn-primary">Download CSV <i class="fa fa-table" aria-hidden="true"></i>
+          <button id="csv-button" type="button" class="btn btn-primary"><i class="fa fa-table" aria-hidden="true"></i> Download CSV
           </button>
         </p>
       </div>
     </div>
-    <div class="bg-light csv-upload">
-      <h4>Uploading a CSV File</h4>
-      <p>Want to edit your chart in spreadsheet software like Excel instead of editing the table on this page? 
-        Or do you want to upload a chart that you downloaded from this website in the past? Use the "Choose File" 
-        button to choose a CSV file to populate the table. Don't know how to download a spreadsheet as a CSV? Click 
-        <a href="https://www.extendoffice.com/documents/excel/2980-excel-save-export-each-sheet-as-csv.html">here</a> for instruction.</p>
-      <label for="file-upload" class="btn btn-primary">
-        Choose File <i class="fa fa-table" aria-hidden="true"></i>
-      </label>
-      <input id="file-upload" onfocus="this.value=''" type="file"/>
-      <h5>Uploading Format Guidlines:</h5>
-      <p>1. CSV file must only have three columns</p>
-      <p>2. The names of the three columns in the first row must be named "Life Event", "Months", and "Color" in that order.</p>
-      <p>3. The names of the columns in the CSV correspond to the columns with the same name in the table above.</p>
-      <p>4. Months must be positive integers and colors must be hexadecimals representing the color.</p>
-      <p>5. For an example of a CSV file in the proper format, download a CSV file from this page and use it as a guide.</p>
+
+    <hr class="mt-2 mb-3"/>
+
+    <div class="row">
+      <div class="col-md-12 csv-upload">
+        <h4>Uploading a CSV File</h4>
+        <p>Want to edit your chart in spreadsheet software like Excel instead of editing the table on this page?
+          Or do you want to upload a chart that you downloaded from this website in the past? Use the "Choose File"
+          button to choose a CSV file to populate the table. Don't know how to download a spreadsheet as a CSV? Click
+          <a href="https://www.extendoffice.com/documents/excel/2980-excel-save-export-each-sheet-as-csv.html">here</a> for instruction.</p>
+        <label for="file-upload" class="btn btn-primary">
+          <i class="fa fa-table" aria-hidden="true"></i> Choose File
+        </label>
+        <input id="file-upload" onfocus="this.value=''" type="file"/>
+        <h5>Uploading Format Guidlines:</h5>
+        <p>1. CSV file must only have three columns</p>
+        <p>2. The names of the three columns in the first row must be named "Life Event", "Months", and "Color" in that order.</p>
+        <p>3. The names of the columns in the CSV correspond to the columns with the same name in the table above.</p>
+        <p>4. Months must be positive integers and colors must be hexadecimals representing the color.</p>
+        <p>5. For an example of a CSV file in the proper format, download a CSV file from this page and use it as a guide.</p>
+      </div>
     </div>
 
   <hr class="mt-2 mb-3"/>
@@ -235,12 +265,12 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
+  <!-- using https://github.com/davidmerfield/randomColor -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.6.1/randomColor.min.js"></script>
+
   <!-- using https://github.com/jbkunst/d3-waffle/ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js" type="text/javascript"></script>
   <script src="assets/scripts/my-life-in-months.js" type="text/javascript"></script>
-
-  <!-- using https://github.com/davidmerfield/randomColor -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.6.1/randomColor.min.js"></script>
 
   <!-- using https://github.com/tsayen/dom-to-image -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.js" integrity="sha512-wUa0ktp10dgVVhWdRVfcUO4vHS0ryT42WOEcXjVVF2+2rcYBKTY7Yx7JCEzjWgPV+rj2EDUr8TwsoWF6IoIOPg==" crossorigin="anonymous"></script>
