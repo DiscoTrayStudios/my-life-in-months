@@ -21,6 +21,7 @@ function myLifeInMonths() {
       /* updating data */
       data.forEach(function(d, i){
         data[i].class = slugify(d.name);
+        /* if colors are missing, assign the same random color each time */
         if (!colorscale.has(d.name)) {
           colorscale.set(d.name, randomColor({seed:d.name}));
         }
@@ -176,6 +177,7 @@ function myLifeInMonths() {
     });
   }
 
+  // Do we want to delete this and make 200 standard?
   chart.width = function(_) {
     if (!arguments.length) return width;
     width = _;
@@ -188,12 +190,14 @@ function myLifeInMonths() {
     return chart;
   };
 
+  // Do we need this?
   chart.height = function(_) {
     if (!arguments.length) return height;
     height = _;
     return chart;
   };
 
+  // Can we delete this, because there are always 12 months in a year?
   chart.cols = function(_) {
     if (!arguments.length) return cols;
     cols = _;

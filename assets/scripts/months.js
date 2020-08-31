@@ -351,14 +351,18 @@ $(document).ready(function() {
 
   function addNewEventRow(event, months, color) {
     var newRow = $('<tr>' +
-          '<td class="radiocheck"><input type="checkbox"></td>' +
+          '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
           '<td class="eventname" tabindex="1">' + event + '</td>' +
           '<td class="monthsevent" tabindex="1">' + months + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
     $('#mainTable').find("tbody").append(newRow);
     // https://github.com/mindmup/editable-table/issues/1
-    newRow.numericInputExample()
+    newRow.numericInputExample();
+    var box = $(newRow.children().eq(0).children().eq(0));
+    box.click(function() {
+      checkState()
+    });
   }
 
   function randomEventRow() {
@@ -477,6 +481,21 @@ $(document).ready(function() {
   calculateData();
   makeWaffleChart();
 
+
+  function getCurrentChecks() {
+    var numChecks = 0;
+    var dataRows = $("#mainTable").find('tbody tr');
+    dataRows.each(function () {
+      var row = $(this);
+      var box = $(row.children().eq(0).children().eq(0));
+      if(box.is(":checked")){
+        numChecks++;
+      };
+    })
+    console.log(numChecks);
+    return numChecks;
+  }
+
   function alterTable(func) {
     var dataRows = $("#mainTable").find('tbody tr');
     dataRows.each( function () {
@@ -487,6 +506,7 @@ $(document).ready(function() {
         func(row);
       };
     });
+    checkState();
   }
 
   $( "#remove" ).click(function() {
@@ -515,6 +535,32 @@ $(document).ready(function() {
       row.parent().append(c);})
     calculateData();
     makeWaffleChart();
+  });
+
+  function checkState(){
+    let check_count = getCurrentChecks();
+    if (check_count == 0) {
+      $( "#remove" ).prop('disabled', true);
+      $( "#moveup" ).prop('disabled', true);
+      $( "#movedown" ).prop('disabled', true);
+      $( "#repeat" ).prop('disabled', true);
+    } else if (check_count == 1) {
+      $( "#remove" ).prop('disabled', false);
+      $( "#moveup" ).prop('disabled', false);
+      $( "#movedown" ).prop('disabled', false);
+      $( "#repeat" ).prop('disabled', false);
+    } else {
+      $( "#remove" ).prop('disabled', false);
+      $( "#moveup" ).prop('disabled', true);
+      $( "#movedown" ).prop('disabled', true);
+      $( "#repeat" ).prop('disabled', false);
+    }
+  }
+
+  checkState();
+
+  $('.rowcheck').click(function() {
+    checkState()
   });
 
   $('#mainTable').editableTableWidget().numericInputExample();
