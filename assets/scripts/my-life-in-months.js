@@ -5,7 +5,7 @@ function myLifeInMonths() {
       title = "My Life in Months",
       cols = 12,
       colorscale = new Map(),
-      appearancetimes = function(d, i){ return 100; },
+      appearancetimes = function(d, i){ return 0 },
       width = 200,
       magic_padding = 5;
 
