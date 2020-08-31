@@ -2,7 +2,6 @@
 
 function myLifeInMonths() {
   var margin = {top: 30, right: 20, bottom: 20, left: 30, title: 35, footer: 15},
-      scale = 1,
       title = "My Life in Months",
       cols = 12,
       colorscale = new Map(),
@@ -22,16 +21,18 @@ function myLifeInMonths() {
       /* updating data */
       data.forEach(function(d, i){
         data[i].class = slugify(d.name);
-        data[i].scalevalue = Math.round(data[i].value*scale);
+        if (!colorscale.has(d.name)) {
+          colorscale.set(d.name, randomColor({seed:d.name}));
+        }
       });
 
-      var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
-      var rows = Math.ceil(totalscales/cols);
+      var totalvalues = d3.sum(data, function(d){ return d.value; })
+      var rows = Math.ceil(totalvalues/cols);
       var griddata = cartesianprod(d3.range(rows), d3.range(cols));
       var detaildata = [];
 
       data.forEach(function(d){
-        d3.range(d.scalevalue).forEach(function(e){
+        d3.range(d.value).forEach(function(e){
           detaildata.push({ name: d.name, class: d.class})
         });
       });
@@ -196,12 +197,6 @@ function myLifeInMonths() {
   chart.cols = function(_) {
     if (!arguments.length) return cols;
     cols = _;
-    return chart;
-  };
-
-  chart.scale = function(_) {
-    if (!arguments.length) return scale;
-    scale = _;
     return chart;
   };
 
