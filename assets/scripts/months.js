@@ -510,7 +510,9 @@ $(document).ready(function() {
   $( "#repeat" ).click(function() {
     alterTable(function(row) {
       let c = row.clone();
-      c.insertAfter(row);})
+      var box = $(c.children().eq(0).children().eq(0)); // need to remove the checkmark
+      box.prop('checked', false); //https://stackoverflow.com/questions/13557623/remove-attribute-checked-of-checkbox
+      row.parent().append(c);})
     calculateData();
     makeWaffleChart();
   });
