@@ -145,19 +145,13 @@ $(document).ready(function() {
   }
 
   function makeWaffleChart() {
-    chart = d3waffle()
+    chart = myLifeInMonths()
         .title($("#title-input").text())
         .colorscale(colors_map);
 
     d3.select("#waffle")
   			.datum(data)
   			.call(chart);
-
-    // closest watermark yet.
-/*    d3.xml("https://discotraystudios.github.io/my-life-in-months/assets/images/discotray.svg")
-      .then(data => {
-        d3.select("#watermark").node().append(data.documentElement)
-      });*/
   }
 
   function getCurrentNumMonths() {
@@ -165,7 +159,7 @@ $(document).ready(function() {
     var dataRows = $("#mainTable").find('tbody tr');
     dataRows.each(function () {
       var row = $(this);
-      numMonths += parseInt(row.children().eq(1).text());
+      numMonths += parseInt(row.children().eq(2).text());
     })
     console.log(numMonths);
     return numMonths;
@@ -189,7 +183,7 @@ $(document).ready(function() {
           window.saveAs(blob, 'my-life-in-months.png');
       }).finally(function (blob) {
           $("#captureClone").remove();
-          $("#camera" ).html("Download Image <i class='fa fa-camera' aria-hidden='true'></i>");
+          $("#camera" ).html("<i class='fa fa-camera' aria-hidden='true'></i> Download Image");
           $("#camera" ).removeClass("btn-danger");
           $("#camera" ).addClass("btn-primary");
       });
@@ -249,7 +243,7 @@ $(document).ready(function() {
       makeWaffleChart();
     }
     else {
-      $('#showEventAlertHere').html(alertMaker("alert-event-name-length", 
+      $('#showEventAlertHere').html(alertMaker("alert-event-name-length",
       "Your CSV file is not in the correct format! Please read our Uploading Format Guidlines."));
     }
     document.getElementById('file-upload').value = '';
@@ -306,10 +300,11 @@ $(document).ready(function() {
     element.find('td').off('change').off('validate');
 
   	element.find('td').on('change', function (evt) {
-      calculateData();
-      makeWaffleChart();
+      if (!$(this).hasClass( "radiocheck" )) {
+        calculateData();
+        makeWaffleChart();
+      }
   	}).on('validate', function (evt, value) {
-
   		var cell = $(this),
   			column = cell.index();
 		if( cell.attr("id") == "title-input") {
@@ -326,7 +321,7 @@ $(document).ready(function() {
 			}
 			return !!value && value.trim().length > 0 && value.trim().length < 30;
 		}
-  		else if (column === 0) {
+  		else if (column === 1) {
         if (!value){
   		    $('#showEventAlertHere').html(alertMaker("alert-event-name-length", "Event names must not be empty!"));
         }
@@ -339,7 +334,7 @@ $(document).ready(function() {
           $("#alert-event-name-length").remove();
         }
   			return !!value && value.trim().length > 0 && value.trim().length < 25;
-  		} else if (column === 1){
+  		} else if (column === 2){
         if (!isNormalPosInteger(value)) {
           $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
         } else {
@@ -355,19 +350,24 @@ $(document).ready(function() {
   };
 
   function addNewEventRow(event, months, color) {
-    var dataRows = $("#mainTable").find('tbody tr');
     var newRow = $('<tr>' +
-          '<td class="eventname">' + event + '</td>' +
-          '<td class="monthsevent">' + months + '</td>' +
-          '<td class="color-col"><input class="colorpick" type="color" value="' + color +
-          '"><span class="clink"><i class="fa fa-link"></i></span></td><td class="remove"><i class="fa fa-trash-o"></i></td></tr>');
+          '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
+          '<td class="eventname" tabindex="1">' + event + '</td>' +
+          '<td class="monthsevent" tabindex="1">' + months + '</td>' +
+          '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
+          '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
     $('#mainTable').find("tbody").append(newRow);
-    newRow.editableTableWidget().numericInputExample()
+    // https://github.com/mindmup/editable-table/issues/1
+    newRow.numericInputExample();
+    var box = $(newRow.children().eq(0).children().eq(0));
+    box.click(function() {
+      checkState()
+    });
   }
 
   function randomEventRow() {
     var eventNames = getRandomEventName(1);
-    var m = getRandomIntInclusive(12, 48);
+    var m = getRandomIntInclusive(13, 83);
     var c = randomColor();
     addNewEventRow(eventNames[0], m, c);
     calculateData();
@@ -392,7 +392,7 @@ $(document).ready(function() {
     colors_map = new Map();
     newData.forEach(function(row) {
       if (!colors_map.has(row["name"])) {
-        let c = randomColor();
+        let c = randomColor({seed:eventNames[i]});
         addNewEventRow(row["name"], row["value"], c);
         colors_map.set(row["name"], c);
       } else {
@@ -471,9 +471,9 @@ $(document).ready(function() {
     '</div>'
   }
 
-  var eventNames = getRandomEventName(3);
+  var eventNames = getRandomEventName(5);
   for (var i = 0; i < eventNames.length; i++) {
-    var m = getRandomIntInclusive(12, 48);
+    var m = getRandomIntInclusive(13, 83);
     var c = randomColor();
     addNewEventRow(eventNames[i], m, c);
   }
@@ -481,13 +481,86 @@ $(document).ready(function() {
   calculateData();
   makeWaffleChart();
 
-  $( document ).on( "click", ".remove", function(){
+
+  function getCurrentChecks() {
+    var numChecks = 0;
     var dataRows = $("#mainTable").find('tbody tr');
-    if (dataRows.length > 1) {
-      $(this).parent("tr:first").remove();
-      calculateData();
-      makeWaffleChart();
+    dataRows.each(function () {
+      var row = $(this);
+      var box = $(row.children().eq(0).children().eq(0));
+      if(box.is(":checked")){
+        numChecks++;
+      };
+    })
+    console.log(numChecks);
+    return numChecks;
+  }
+
+  function alterTable(func) {
+    var dataRows = $("#mainTable").find('tbody tr');
+    dataRows.each( function () {
+      var row = $(this);
+      var box = $(row.children().eq(0).children().eq(0));
+      //https://www.tutorialrepublic.com/faq/how-to-check-a-checkbox-is-checked-or-not-using-jquery.php
+      if(box.is(":checked")){
+        func(row);
+      };
+    });
+    checkState();
+  }
+
+  $( "#remove" ).click(function() {
+    alterTable(function(row) {row.remove();});
+    calculateData();
+    makeWaffleChart();
+  });
+
+  $( "#moveup" ).click(function() {
+    alterTable(function(row) {row.insertBefore(row.prev());})
+    calculateData();
+    makeWaffleChart();
+  });
+
+  $( "#movedown" ).click(function() {
+    alterTable(function(row) {row.insertAfter(row.next());})
+    calculateData();
+    makeWaffleChart();
+  });
+
+  $( "#repeat" ).click(function() {
+    alterTable(function(row) {
+      let c = row.clone();
+      var box = $(c.children().eq(0).children().eq(0)); // need to remove the checkmark
+      box.prop('checked', false); //https://stackoverflow.com/questions/13557623/remove-attribute-checked-of-checkbox
+      row.parent().append(c);})
+    calculateData();
+    makeWaffleChart();
+  });
+
+  function checkState(){
+    let check_count = getCurrentChecks();
+    if (check_count == 0) {
+      $( "#remove" ).prop('disabled', true);
+      $( "#moveup" ).prop('disabled', true);
+      $( "#movedown" ).prop('disabled', true);
+      $( "#repeat" ).prop('disabled', true);
+    } else if (check_count == 1) {
+      $( "#remove" ).prop('disabled', false);
+      $( "#moveup" ).prop('disabled', false);
+      $( "#movedown" ).prop('disabled', false);
+      $( "#repeat" ).prop('disabled', false);
+    } else {
+      $( "#remove" ).prop('disabled', false);
+      $( "#moveup" ).prop('disabled', true);
+      $( "#movedown" ).prop('disabled', true);
+      $( "#repeat" ).prop('disabled', false);
     }
+  }
+
+  checkState();
+
+  $('.rowcheck').click(function() {
+    checkState()
   });
 
   $('#mainTable').editableTableWidget().numericInputExample();

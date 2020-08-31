@@ -14,7 +14,8 @@ $.fn.editableTableWidget = function (options) {
 			active,
 			showEditor = function (select) {
 				active = element.find('td:focus');
-				if (!(active.hasClass( "color-col" ) || active.hasClass("remove"))) {
+				if (!(active.hasClass( "color-col" ) ||
+							active.hasClass("radiocheck"))) {
 
 					if (active.length) {
 						editor.val(active.text())
@@ -115,8 +116,7 @@ $.fn.editableTableWidget = function (options) {
 			}
 		});
 
-
-		element.find('td').prop('tabindex', 1);
+		//element.find('td').prop('tabindex', 1);
 
 		$(window).on('resize', function () {
 			if (editor.is(':visible')) {
@@ -132,5 +132,5 @@ $.fn.editableTableWidget.defaultOptions = {
 	cloneProperties: ['padding', 'padding-top', 'padding-bottom', 'padding-left', 'padding-right',
 					  'text-align', 'font', 'font-size', 'font-family', 'font-weight',
 					  'border', 'border-top', 'border-bottom', 'border-left', 'border-right'],
-	editor: $('<input class="monthseventname" type="text">')
+	editor: $('<input>')
 };
