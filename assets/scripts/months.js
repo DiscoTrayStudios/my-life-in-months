@@ -227,7 +227,7 @@ $(document).ready(function() {
     rows.splice(0, 1);
     rows.forEach(element => {
       var columns = parseCSVRows(element);
-      if (columns.length != 3) {
+      if (columns.length != 3 || !isNormalPosInteger(columns[1]) || !/^#[0-9A-F]{6}$/i.test(columns[2])) {
         isInvalid = true;
         return;
       }
@@ -238,7 +238,7 @@ $(document).ready(function() {
     });
     if (!isInvalid) {
       $( "#title-input" ).html(csv_name);
-      populateTable(dataToChange);
+      populateTable(dataToChange, colorsMapToChange);
       calculateData();
       makeWaffleChart();
     }
@@ -247,7 +247,6 @@ $(document).ready(function() {
       "Your CSV file is not in the correct format! Please read our Uploading Format Guidlines."));
     }
     document.getElementById('file-upload').value = '';
-    console.log(rows);
   }
 
   function parseCSVRows(rowString) {
@@ -387,9 +386,9 @@ $(document).ready(function() {
     $('#mainTable').editableTableWidget().numericInputExample()
   });
 
-  function populateTable(newData) {
+  function populateTable(newData, colorsMapData) {
     $("#mainTable").find("tbody").html("");
-    colors_map = new Map();
+    colors_map = colorsMapData;
     newData.forEach(function(row) {
       if (!colors_map.has(row["name"])) {
         let c = randomColor({seed:eventNames[i]});
