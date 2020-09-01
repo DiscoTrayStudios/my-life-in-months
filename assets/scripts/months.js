@@ -239,7 +239,7 @@ $(document).ready(function() {
     });
     if (!isInvalid) {
       $( "#title-input" ).html(csv_name);
-      populateTable(dataToChange);
+      populateTable(dataToChange, colorsMapToChange);
       calculateData();
       makeWaffleChart();
     }
@@ -388,9 +388,9 @@ $(document).ready(function() {
     $('#mainTable').editableTableWidget().numericInputExample()
   });
 
-  function populateTable(newData) {
+  function populateTable(newData, colorsMapData) {
     $("#mainTable").find("tbody").html("");
-    colors_map = new Map();
+    colors_map = colorsMapData;
     newData.forEach(function(row) {
       if (!colors_map.has(row["name"])) {
         let c = randomColor({seed:eventNames[i]});
