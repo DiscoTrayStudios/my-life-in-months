@@ -227,7 +227,8 @@ $(document).ready(function() {
     rows.splice(0, 1);
     rows.forEach(element => {
       var columns = parseCSVRows(element);
-      if (columns.length != 3) {
+      console.log(/^#[0-9A-F]{6}$/i.test(columns[2]))
+      if (columns.length != 3 || !isNormalPosInteger(columns[1]) || !/^#[0-9A-F]{6}$/i.test(columns[2])) {
         isInvalid = true;
         return;
       }
