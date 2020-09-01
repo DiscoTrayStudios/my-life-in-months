@@ -63,6 +63,29 @@
           Or, click <strong><i class="fa fa-table" aria-hidden="true"></i> Download CSV</strong> to save your data.
         </p>
 
+        <!--https://codepen.io/JacobLett/pen/xqpEYE-->
+        <button type="button" class="btn btn-primary video-btn" data-toggle="modal" data-src="https://www.youtube.com/embed/pVE92TNDwUk" data-target="#myModal">
+          Need help?
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <!-- 16:9 aspect ratio -->
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         <div class="alert alert-warning alert-dismissible show fade" role="alert">
           <strong>Warning!</strong> The download function will not work in the Facebook mobile browser.
           Please <a href="https://www.phonearena.com/news/Facebook-Messenger-open-external-safari-chrome-browser_id114893">open this
