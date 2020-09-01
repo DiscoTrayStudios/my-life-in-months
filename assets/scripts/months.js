@@ -227,7 +227,6 @@ $(document).ready(function() {
     rows.splice(0, 1);
     rows.forEach(element => {
       var columns = parseCSVRows(element);
-      console.log(/^#[0-9A-F]{6}$/i.test(columns[2]))
       if (columns.length != 3 || !isNormalPosInteger(columns[1]) || !/^#[0-9A-F]{6}$/i.test(columns[2])) {
         isInvalid = true;
         return;
@@ -248,7 +247,6 @@ $(document).ready(function() {
       "Your CSV file is not in the correct format! Please read our Uploading Format Guidlines."));
     }
     document.getElementById('file-upload').value = '';
-    console.log(rows);
   }
 
   function parseCSVRows(rowString) {
