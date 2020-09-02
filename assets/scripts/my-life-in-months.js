@@ -1,10 +1,11 @@
-function d3waffle() {
+/* Heavily based on code from https://github.com/jbkunst/d3-waffle/ licensed under MIT */
+
+function myLifeInMonths() {
   var margin = {top: 30, right: 20, bottom: 20, left: 30, title: 35, footer: 15},
-      scale = 1,
       title = "My Life in Months",
       cols = 12,
       colorscale = new Map(),
-      appearancetimes = function(d, i){ return 100; },
+      appearancetimes = function(d, i){ return 0 },
       width = 200,
       magic_padding = 5;
 
@@ -20,16 +21,19 @@ function d3waffle() {
       /* updating data */
       data.forEach(function(d, i){
         data[i].class = slugify(d.name);
-        data[i].scalevalue = Math.round(data[i].value*scale);
+        /* if colors are missing, assign the same random color each time */
+        if (!colorscale.has(d.name)) {
+          colorscale.set(d.name, randomColor({seed:d.name}));
+        }
       });
 
-      var totalscales = d3.sum(data, function(d){ return d.scalevalue; })
-      var rows = Math.ceil(totalscales/cols);
+      var totalvalues = d3.sum(data, function(d){ return d.value; })
+      var rows = Math.ceil(totalvalues/cols);
       var griddata = cartesianprod(d3.range(rows), d3.range(cols));
       var detaildata = [];
 
       data.forEach(function(d){
-        d3.range(d.scalevalue).forEach(function(e){
+        d3.range(d.value).forEach(function(e){
           detaildata.push({ name: d.name, class: d.class})
         });
       });
@@ -173,6 +177,7 @@ function d3waffle() {
     });
   }
 
+  // Do we want to delete this and make 200 standard?
   chart.width = function(_) {
     if (!arguments.length) return width;
     width = _;
@@ -185,21 +190,17 @@ function d3waffle() {
     return chart;
   };
 
+  // Do we need this?
   chart.height = function(_) {
     if (!arguments.length) return height;
     height = _;
     return chart;
   };
 
+  // Can we delete this, because there are always 12 months in a year?
   chart.cols = function(_) {
     if (!arguments.length) return cols;
     cols = _;
-    return chart;
-  };
-
-  chart.scale = function(_) {
-    if (!arguments.length) return scale;
-    scale = _;
     return chart;
   };
 

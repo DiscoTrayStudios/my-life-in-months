@@ -3,14 +3,31 @@
 Inspired by [Isabella Benabaye](https://github.com/isabellabenabaye/life-chart),
 [Sharla Gelfand](https://github.com/sharlagelfand/mylifeinmonths), and
 [Tim Urban](https://waitbutwhy.com/2014/05/life-weeks.html),
-**My Life in Months** is a JavaScript implementation of a
+**My Life in Months** is a d3 JavaScript implementation of a
 chart that can help you see the larger picture of your life.
 You can use it to map out where you've lived, your
 career path, or other meaningful life events.
 
-# Example
+# Example Chart
 
 ![MLIM](assets/images/random.png)
+
+# Easy Code Snippet
+
+```
+var data = [
+  {"name": "Paris", "value": 57},
+  {"name": "Warren", "value": 48},
+  {"name": "Charleston", "value": 98},
+  {"name": "Conway", "value": 24}
+]
+
+var chart = myLifeInMonths();
+
+d3.select("#container")
+    .datum(data)
+    .call(chart);
+```
 
 # Live Website
 
