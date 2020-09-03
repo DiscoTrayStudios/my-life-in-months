@@ -47,7 +47,7 @@ input[type="color"] {
 }
 
 body {
-  font-family: 'Merriweather', serif;
+  font-family: 'Baloo Tammudu 2', cursive;
 }
 
 table {
@@ -81,6 +81,10 @@ table {
 
 .togglediv {
   padding-bottom: 15px;
+}
+
+.eventname, .monthsevent, #title-input{
+	background: url('../images/pencilIcon70.png') no-repeat right;
 }
 
 #file-upload {
