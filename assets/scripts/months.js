@@ -504,7 +504,8 @@ $(document).ready(function() {
   function getLastEventDate() {
     var last_event_date = new Date("2000-01-01");
     if ($(".date-pick").length) {
-      last_event_date = $( ".date-pick" ).last().value
+      last_event_date = $( ".date-pick" ).last().value;
+      console.log(last_event_date);
     }
     return last_event_date;
   }
