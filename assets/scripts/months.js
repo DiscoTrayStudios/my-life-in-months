@@ -94,9 +94,20 @@ $(document).ready(function() {
 
     //Events_list and colors_list are used to help set up the linking system.
     let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-    let months_list = $(".monthsevent").map(function(){return this.innerHTML;}).get();
+    let dates_list = $(".date-pick").map(function(){return new Date(this.value);}).get();
     var colors_list = $(".colorpick").map(function(){return this.value;}).get();
     let dataRows = $(".color-col");
+    var months_list = [];
+    console.log(dates_list);
+    for (let index = 0; index < dates_list.length; index++) {
+      const element = dates_list[index];
+      var previous = new Date();
+      if (!(index == dates_list.length - 1)) {
+        previous = dates_list[index + 1];
+      }
+      months_list.push(calculateMonths(element, previous));
+    }
+    console.log(months_list);
 
     data = []
     colors_map = new Map();
@@ -348,11 +359,12 @@ $(document).ready(function() {
   	return this;
   };
 
-  function addNewEventRow(event, months, color) {
+  function addNewEventRow(event, dayStarted, color) {
+    var dateInputFormat =  dayStarted.getFullYear() + "-" + (dayStarted.getMonth() + 1) + "-" + dayStarted.getDate(); 
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
           '<td class="eventname" tabindex="1">' + event + '</td>' +
-          '<td class="monthsevent" tabindex="1">' + months + '</td>' +
+          '<td class="monthsevent" tabindex="1">' + '<input class="date-pick" type="date" value="' + dateInputFormat + '">' + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
     $('#mainTable').find("tbody").append(newRow);
@@ -363,14 +375,19 @@ $(document).ready(function() {
       checkState()
     });
   }
-
+  var latestDate = 1980;
   function randomEventRow() {
     var eventNames = getRandomEventName(1);
-    var m = getRandomIntInclusive(13, 83);
+    var day = new Date(latestDate + "-01-01");
+    latestDay += 1;
     var c = randomColor();
-    addNewEventRow(eventNames[0], m, c);
+    addNewEventRow(eventNames[0], day, c);
     calculateData();
     makeWaffleChart();
+  }
+
+  function calculateMonths(first, second) {
+    return (second.getFullYear()*12 + second.getMonth()) - (first.getFullYear()*12 + first.getMonth());
   }
 
   $( "#addrow" ).click(function() {
@@ -472,9 +489,10 @@ $(document).ready(function() {
 
   var eventNames = getRandomEventName(5);
   for (var i = 0; i < eventNames.length; i++) {
-    var m = getRandomIntInclusive(13, 83);
+    var day = new Date(latestDate + "-01-01");
+    latestDate += 1;
     var c = randomColor();
-    addNewEventRow(eventNames[i], m, c);
+    addNewEventRow(eventNames[i], day, c);
   }
 
   calculateData();
