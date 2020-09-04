@@ -386,8 +386,8 @@ $(document).ready(function() {
     var month = date.getMonth() + 1;
     var day = date.getDate();
     var date_input_format = year + "-";
-    date_input_format += (month > 9) ? (month + "") : ("0" + month);
-    date_input_format += (day > 9) ? (month + "") : ("0" + day);
+    date_input_format += ((month > 9) ? (month + "") : ("0" + month)) + "-";
+    date_input_format += (day > 9) ? (day + "") : ("0" + day);
     return date_input_format;
   }
 
@@ -503,11 +503,13 @@ $(document).ready(function() {
 
   function getLastEventDate() {
     var last_event_date = new Date("2000-01-01");
+    console.log($(".date-pick").length);
     if ($(".date-pick").length) {
-      last_event_date = $( ".date-pick" ).last().value;
-      console.log(last_event_date);
+      console.log($(".date-pick").last())
+      last_event_date = $( ".date-pick" ).last().val();
+      console.log("last event" + last_event_date);
     }
-    return last_event_date;
+    return new Date(last_event_date);
   }
 
   function getNextRandomDate() {
