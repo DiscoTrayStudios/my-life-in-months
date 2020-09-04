@@ -46,6 +46,10 @@ input[type="color"] {
 
 }
 
+button {
+  margin-bottom: 5px;
+}
+
 body {
   font-family: 'Merriweather', serif;
 }
