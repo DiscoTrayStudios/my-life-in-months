@@ -51,7 +51,7 @@ button {
 }
 
 body {
-  font-family: 'Merriweather', serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 table {
@@ -85,6 +85,10 @@ table {
 
 .togglediv {
   padding-bottom: 15px;
+}
+
+.eventname, .monthsevent, #title-input{
+	background: url('../images/pencilIcon70.png') no-repeat right;
 }
 
 #file-upload {
