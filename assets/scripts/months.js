@@ -95,18 +95,10 @@ $(document).ready(function() {
     //Events_list and colors_list are used to help set up the linking system.
     let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
     let dates_list = $(".date-pick").map(function(){return new Date(this.value);}).get();
+    let months_list = getNumMonthsFromDatesList(dates_list);
     var colors_list = $(".colorpick").map(function(){return this.value;}).get();
     let dataRows = $(".color-col");
-    var months_list = [];
     console.log(dates_list);
-    for (let index = 0; index < dates_list.length; index++) {
-      const element = dates_list[index];
-      var previous = new Date();
-      if (!(index == dates_list.length - 1)) {
-        previous = dates_list[index + 1];
-      }
-      months_list.push(calculateMonths(element, previous));
-    }
     console.log(months_list);
 
     data = []
@@ -174,6 +166,19 @@ $(document).ready(function() {
     })
     console.log(numMonths);
     return numMonths;
+  }
+
+  function getNumMonthsFromDatesList(dates_list) {
+    var months_list = [];
+    for (let index = 0; index < dates_list.length; index++) {
+      const element = dates_list[index];
+      var previous = new Date();
+      if (!(index == dates_list.length - 1)) {
+        previous = dates_list[index + 1];
+      }
+      months_list.push(calculateMonths(element, previous));
+    }
+    return months_list;
   }
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
@@ -360,7 +365,7 @@ $(document).ready(function() {
   };
 
   function addNewEventRow(event, dayStarted, color) {
-    var dateInputFormat =  dayStarted.getFullYear() + "-" + (dayStarted.getMonth() + 1) + "-" + dayStarted.getDate(); 
+    var dateInputFormat =  getDateInputFormat(dayStarted); 
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
           '<td class="eventname" tabindex="1">' + event + '</td>' +
@@ -375,11 +380,20 @@ $(document).ready(function() {
       checkState()
     });
   }
-  var latestDate = 1980;
+
+  function getDateInputFormat(date) {
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var date_input_format = year + "-";
+    date_input_format += ((month > 9) ? (month + "") : ("0" + month)) + "-";
+    date_input_format += (day > 9) ? (day + "") : ("0" + day);
+    return date_input_format;
+  }
+
   function randomEventRow() {
     var eventNames = getRandomEventName(1);
-    var day = new Date(latestDate + "-01-01");
-    latestDay += 1;
+    var day = getNextRandomDate();
     var c = randomColor();
     addNewEventRow(eventNames[0], day, c);
     calculateData();
@@ -387,7 +401,7 @@ $(document).ready(function() {
   }
 
   function calculateMonths(first, second) {
-    return (second.getFullYear()*12 + second.getMonth()) - (first.getFullYear()*12 + first.getMonth());
+    return (second.getFullYear() * 12 + second.getMonth()) - (first.getFullYear() * 12 + first.getMonth());
   }
 
   $( "#addrow" ).click(function() {
@@ -487,10 +501,27 @@ $(document).ready(function() {
     '</div>'
   }
 
+  function getLastEventDate() {
+    var last_event_date = new Date("2000-01-01");
+    console.log($(".date-pick").length);
+    if ($(".date-pick").length) {
+      console.log($(".date-pick").last())
+      last_event_date = $( ".date-pick" ).last().val();
+      console.log("last event" + last_event_date);
+    }
+    return new Date(last_event_date);
+  }
+
+  function getNextRandomDate() {
+    var last_event_date = getLastEventDate();
+    var num_months_to_add = getRandomIntInclusive(10,30);
+    var next_random_date = new Date(last_event_date.setMonth(last_event_date.getMonth() + num_months_to_add));
+    return next_random_date;
+  }
+
   var eventNames = getRandomEventName(5);
   for (var i = 0; i < eventNames.length; i++) {
-    var day = new Date(latestDate + "-01-01");
-    latestDate += 1;
+    var day = getNextRandomDate();
     var c = randomColor();
     addNewEventRow(eventNames[i], day, c);
   }
