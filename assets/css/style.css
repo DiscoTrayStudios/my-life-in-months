@@ -87,7 +87,7 @@ table {
   padding-bottom: 15px;
 }
 
-.eventname, .monthsevent, #title-input{
+.eventname, #title-input{
 	background: url('../images/pencilIcon70.png') no-repeat right;
 }
 

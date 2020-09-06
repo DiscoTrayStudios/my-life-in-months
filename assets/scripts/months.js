@@ -365,11 +365,11 @@ $(document).ready(function() {
   };
 
   function addNewEventRow(event, dayStarted, color) {
-    var dateInputFormat =  getDateInputFormat(dayStarted); 
+    var dateInputFormat =  getDateInputFormat(dayStarted);
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
           '<td class="eventname" tabindex="1">' + event + '</td>' +
-          '<td class="monthsevent" tabindex="1">' + '<input class="date-pick" type="date" value="' + dateInputFormat + '">' + '</td>' +
+          '<td class="monthsevent">' + '<input class="date-pick" type="date" value="' + dateInputFormat + '">' + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
     $('#mainTable').find("tbody").append(newRow);
