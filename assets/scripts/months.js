@@ -369,7 +369,7 @@ $(document).ready(function() {
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
           '<td class="eventname" tabindex="1">' + event + '</td>' +
-          '<td class="monthsevent">' + '<input class="date-pick" type="date" value="' + dateInputFormat + '">' + '</td>' +
+          '<td class="monthsevent">' + '<input class="date-pick" type="month" value="' + dateInputFormat + '">' + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
     $('#mainTable').find("tbody").append(newRow);
@@ -384,10 +384,10 @@ $(document).ready(function() {
   function getDateInputFormat(date) {
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
-    var day = date.getDate();
+  //  var day = date.getDate();
     var date_input_format = year + "-";
-    date_input_format += ((month > 9) ? (month + "") : ("0" + month)) + "-";
-    date_input_format += (day > 9) ? (day + "") : ("0" + day);
+    date_input_format += ((month > 9) ? (month + "") : ("0" + month));//+ "-";
+    //date_input_format += (day > 9) ? (day + "") : ("0" + day);
     return date_input_format;
   }
 
