@@ -482,15 +482,22 @@ $(document).ready(function() {
 
 
   function getCurrentChecks() {
-    var numChecks = 0;
+    var numChecks = [];
     var dataRows = $("#mainTable").find('tbody tr');
+    var prevCheck = false;
     dataRows.each(function () {
       var row = $(this);
       var box = $(row.children().eq(0).children().eq(0));
       if(box.is(":checked")){
-        numChecks++;
-      };
-    })
+        if (!prevCheck) {
+          numChecks.push([]);
+        }
+        numChecks[numChecks.length - 1].push("a");
+        prevCheck = true;
+      } else {
+        prevCheck = false;
+      }
+    });
     console.log(numChecks);
     return numChecks;
   }
@@ -541,12 +548,12 @@ $(document).ready(function() {
 
   function checkState(){
     let check_count = getCurrentChecks();
-    if (check_count == 0) {
+    if (check_count.length == 0) {
       $( "#remove" ).prop('disabled', true);
       $( "#moveup" ).prop('disabled', true);
       $( "#movedown" ).prop('disabled', true);
       $( "#repeat" ).prop('disabled', true);
-    } else if (check_count == 1) {
+    } else if (check_count.length == 1) {
       $( "#remove" ).prop('disabled', false);
       $( "#moveup" ).prop('disabled', false);
       $( "#movedown" ).prop('disabled', false);
@@ -555,7 +562,7 @@ $(document).ready(function() {
       $( "#remove" ).prop('disabled', false);
       $( "#moveup" ).prop('disabled', true);
       $( "#movedown" ).prop('disabled', true);
-      $( "#repeat" ).prop('disabled', false);
+      $( "#repeat" ).prop('disabled', true);
     }
   }
 
