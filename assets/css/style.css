@@ -46,8 +46,12 @@ input[type="color"] {
 
 }
 
+button {
+  margin-bottom: 5px;
+}
+
 body {
-  font-family: 'Merriweather', serif;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 table {
@@ -81,6 +85,10 @@ table {
 
 .togglediv {
   padding-bottom: 15px;
+}
+
+.eventname, #title-input{
+	background: url('../images/pencilIcon70.png') no-repeat right;
 }
 
 #file-upload {
