@@ -1,42 +1,5 @@
 $(document).ready(function() {
 
-  var obamadata = [
-      { "name": "Hawaii", "value":72},
-      { "name": "Jakarta", "value":45},
-      { "name": "Hawaii", "value":96},
-      { "name": "Occidental College", "value":24},
-      { "name": "Columbia University", "value":21},
-      { "name": "Business Int. Co.", "value":15},
-      { "name": "NYPIRG", "value":5},
-      { "name": "Chicago Comm. Org.", "value":38},
-      { "name": "Harvard Law", "value":39},
-      { "name": "U. Chicago Prof.", "value":60},
-      { "name": "Illinois Senator", "value":96},
-      { "name": "US Senator", "value":48},
-      { "name": "President", "value":96},
-      { "name": "Private Citizen", "value":44}
-    ];
-
-  var obamarange = ["#1f77b4", "#ff7f0e", "#1f77b4", "#2ca02c", "#d62728",
-  "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
-  "#d728a0", "#a9b9cb", "#0fffb7"];
-
-  var gdata = [
-    { "name": "Northampton, PA", "value":120},
-    { "name": "Canvas, WV", "value":96},
-    { "name": "Gambier, OH", "value":9},
-    { "name": "Canvas, WV", "value":3},
-    { "name": "Gambier, OH", "value":9},
-    { "name": "Canvas, WV", "value":3},
-    { "name": "Gambier, OH", "value":21},
-    { "name": "Milwaukee, WI", "value":3},
-    { "name": "Madison, WI", "value":21},
-    { "name": "San Antonio, TX", "value":7},
-    { "name": "Madison, WI", "value":77},
-    { "name": "Shreveport, LA", "value":84},
-    { "name": "Conway, AR", "value":75}
-  ];
-
   var gcolors_map = new Map();
   gcolors_map.set("Northampton, PA", "#008080");
   gcolors_map.set("Canvas, WV", "#002855");
@@ -47,16 +10,7 @@ $(document).ready(function() {
   gcolors_map.set("Shreveport, LA", "#8a2432");
   gcolors_map.set("Conway, AR", "#E96B10");
 
-  var isabelladata = [
-    { "name": "childhood", "value":160},
-    { "name": "high school", "value":46},
-    { "name": "college", "value":48},
-    { "name": "adulting", "value":30},
-    { "name": "moved back to U.S.", "value":9},
-    { "name": "time left", "value":559},
-  ];
-
-  var isabellarange = ["#EF476F","#FCA311","#FFD166","#0EAD69","#4ECDC4","#118AB2"];
+  
 
   exampleData = [
     [
@@ -77,12 +31,6 @@ $(document).ready(function() {
       {"name": "Conway", "value": 24}
     ]
   ]
-
-  var originaldata = [
-    { "name": "Childhood", "value":184},
-    { "name": "High School", "value":45}
-  ];
-  var originalrange = ["#1f77b4", "#aec7e8"];
 
   var data = [];
   var colors_map = new Map();
