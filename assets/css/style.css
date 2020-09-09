@@ -87,6 +87,10 @@ table {
   padding-bottom: 15px;
 }
 
+.table td {
+  vertical-align: middle;
+}
+
 .eventname, .monthsevent, #title-input{
 	background: url('../images/pencilIcon70.png') no-repeat right;
 }
