@@ -98,9 +98,6 @@ $(document).ready(function() {
     let months_list = getNumMonthsFromDatesList(dates_list);
     var colors_list = $(".colorpick").map(function(){return this.value;}).get();
     let dataRows = $(".color-col");
-    console.log(dates_list);
-    console.log(months_list);
-
     data = []
     colors_map = new Map();
 
@@ -503,11 +500,8 @@ $(document).ready(function() {
 
   function getLastEventDate() {
     var last_event_date = new Date("2000-01-01");
-    console.log($(".date-pick").length);
     if ($(".date-pick").length) {
-      console.log($(".date-pick").last())
       last_event_date = $( ".date-pick" ).last().val();
-      console.log("last event" + last_event_date);
     }
     return new Date(last_event_date);
   }
