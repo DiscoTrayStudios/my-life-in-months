@@ -138,7 +138,7 @@ function myLifeInMonths() {
       nodes.append("rect")
             .style('fill', function(d){ return colorscale.get(d.name); })
             .attr('class', function(d){ return d.class; })
-            .style("stroke", "white")
+            .style("stroke", "#fafafa")
             .attr("width", gridSize)
             .attr("height", gridSize)
             .style("opacity", 0)
@@ -157,7 +157,7 @@ function myLifeInMonths() {
             .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
             .style('fill', function(d){ return colorscale.get(d.name); })
             .attr('class', function(d){ return d.class; })
-            .style("stroke", "white")
+            .style("stroke", "#fafafa")
             .attr("width", gridSize)
             .attr("height", gridSize)
             .style("opacity", 0)
@@ -183,7 +183,7 @@ function myLifeInMonths() {
     title = _;
     return chart;
   };
-  
+
 
 
   chart.colorscale = function(_) {
