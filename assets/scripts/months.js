@@ -334,7 +334,8 @@ $(document).ready(function() {
           '<td class="monthsevent">' + '<input class="date-pick" type="month" value="' + dateInputFormat + '">' + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
-    $('#mainTable').find("tbody").append(newRow);
+    if ($("#end-date-row").length) $("#end-date-row").before(newRow);
+    else $('#mainTable').find("tbody").append(newRow);
     // https://github.com/mindmup/editable-table/issues/1
     newRow.numericInputExample();
     var box = $(newRow.children().eq(0).children().eq(0));
@@ -465,8 +466,11 @@ $(document).ready(function() {
 
   function getLastEventDate() {
     var last_event_date = new Date("2000-01-01");
-    if ($(".date-pick").length) {
-      last_event_date = $( ".date-pick" ).last().val();
+    if ($(".radiocheck").length ) {
+      if($("#end-date-row").length)
+        last_event_date = new Date($(".date-pick").eq(-2).val());
+      else
+        last_event_date = new Date($( ".date-pick" ).last().val());
     }
     return new Date(last_event_date);
   }
