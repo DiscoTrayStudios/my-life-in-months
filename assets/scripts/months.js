@@ -40,6 +40,7 @@ $(document).ready(function() {
 
   function calculateData() {
     console.log("Recalculating...");
+    sortDatesInTable();
 
     //Events_list and colors_list are used to help set up the linking system.
     let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
@@ -91,6 +92,17 @@ $(document).ready(function() {
     checkFuture();
     //console.log(colors_map);
     //console.log(data);
+  }
+
+  function sortDatesInTable() {
+    var dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get().sort((a, b) => a - b);
+    console.log(dates_list);
+    var index = 0;
+    var dates_elements = $(".monthsevent");
+    dates_elements.each(function() {
+      $(this).html(getDateInputFormat(dates_list[index]));
+      index += 1;
+    })
   }
 
   function makeWaffleChart() {
@@ -368,7 +380,16 @@ $(document).ready(function() {
     });
   }
 
+  function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
   function getDateInputFormat(date) {
+    console.log(date);
+    date = addDays(date, 1);
+    console.log(date);
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
   //  var day = date.getDate();
@@ -558,7 +579,7 @@ $(document).ready(function() {
   });
 
   $( "#movedown" ).click(function() {
-    alterTable(function(row) {row.insertAfter(row.next());})
+    alterTable(function(row) {if (row.next().attr('id') != "end-date-row") row.insertAfter(row.next());})
     calculateData();
     makeWaffleChart();
   });
