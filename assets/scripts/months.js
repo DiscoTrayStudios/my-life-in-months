@@ -36,6 +36,7 @@ $(document).ready(function() {
   var colors_map = new Map();
   //var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
   var chart;
+  var chart_end_date = new Date();
 
   function calculateData() {
     console.log("Recalculating...");
@@ -107,7 +108,8 @@ $(document).ready(function() {
     var dataRows = $("#mainTable").find('tbody tr');
     dataRows.each(function () {
       var row = $(this);
-      numMonths += parseInt(row.children().eq(2).text());
+      if (!row.id == "end-date-row")
+        numMonths += parseInt(row.children().eq(2).text());
     })
     console.log(numMonths);
     return numMonths;
@@ -117,13 +119,27 @@ $(document).ready(function() {
     var months_list = [];
     for (let index = 0; index < dates_list.length; index++) {
       const element = dates_list[index];
-      var previous = new Date();
+      var previous = chart_end_date;
       if (!(index == dates_list.length - 1)) {
         previous = dates_list[index + 1];
       }
       months_list.push(calculateMonths(element, previous));
     }
     return months_list;
+  }
+
+  function setChartEndDate(new_end_date) {
+    chart_end_date = new_end_date;
+  }
+
+  function getEndDateRow() {
+    var end_month_input_format = getDateInputFormat(chart_end_date);
+    var newRow = $('<tr id="end-date-row">' +
+          '<td></td>' +
+          '<td id="end-date-name" tabindex="1">End Date</td>' +
+          '<td class="monthsevent">' + '<input class="date-pick" type="month" value="' + end_month_input_format + '">' + '</td>' +
+          '<td></td></tr>');
+          return newRow;
   }
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
@@ -295,6 +311,7 @@ $(document).ready(function() {
         }
   			return !!value && value.trim().length > 0 && value.trim().length < 25;
   		} else if (column === 2){
+        console.log(isNormalPosInteger(value));
         if (!isNormalPosInteger(value)) {
           $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
         } else {
@@ -467,6 +484,8 @@ $(document).ready(function() {
     var c = randomColor();
     addNewEventRow(eventNames[i], day, c);
   }
+  $('#mainTable').find("tbody").append(getEndDateRow());
+  $( '#end-date-name' ).on('change', function (evt, newValue) {return false;})
 
   calculateData();
   makeWaffleChart();
