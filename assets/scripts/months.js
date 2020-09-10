@@ -43,7 +43,7 @@ $(document).ready(function() {
 
     //Events_list and colors_list are used to help set up the linking system.
     let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-    let dates_list = $(".date-pick").map(function(){return new Date(this.value);}).get();
+    let dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get();
     let months_list = getNumMonthsFromDatesList(dates_list);
     var colors_list = $(".colorpick").map(function(){return this.value;}).get();
     let dataRows = $(".color-col");
@@ -125,6 +125,7 @@ $(document).ready(function() {
       }
       months_list.push(calculateMonths(element, previous));
     }
+    console.log(months_list);
     return months_list;
   }
 
@@ -136,8 +137,8 @@ $(document).ready(function() {
     var end_month_input_format = getDateInputFormat(chart_end_date);
     var newRow = $('<tr id="end-date-row">' +
           '<td></td>' +
-          '<td id="end-date-name" tabindex="1">End Date</td>' +
-          '<td class="monthsevent">' + '<input class="date-pick" type="month" value="' + end_month_input_format + '">' + '</td>' +
+          '<td id="end-date-name">End Month</td>' +
+          '<td class="monthsevent" tabindex="1">' + end_month_input_format + '</td>' +
           '<td></td></tr>');
           return newRow;
   }
@@ -311,27 +312,50 @@ $(document).ready(function() {
         }
   			return !!value && value.trim().length > 0 && value.trim().length < 25;
   		} else if (column === 2){
-        console.log(isNormalPosInteger(value));
-        if (!isNormalPosInteger(value)) {
-          $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
+        console.log(value + " is " + isDateValid(value));
+        if (!isDateValid(value)) {
+          $('#showEventAlertHere').html(alertMaker("alert-event-date-format", "Dates must be in YYYY-MM format!"));
         } else {
-          $("#alert-event-month-length").remove();
+          $("#alert-event-date-format").remove();
         }
 
-  			return isNormalPosInteger(value);
+  			return isDateValid(value);
   		} else {
         return false;
       }
-  	});
+    });
+
+    
   	return this;
   };
+
+  function isDateValid(date) {
+    var yearMonth = date.trim().split("-");
+    if (yearMonth[0].length != 4) {
+      return false;
+    }
+    isValid = new Date(date);
+    if (isValid == "Invalid Date") {
+      return false;
+    }
+    if (yearMonth.length != 2) {
+      return false;
+    }
+    console.log(!isNormalPosInteger(yearMonth[0]));
+    console.log(!isNormalPosInteger(yearMonth[1]));
+    console.log(!(Number(yearMonth[1]) > 12));
+    if (!isNormalPosInteger(yearMonth[0]) || (!isNormalPosInteger(yearMonth[1]) && Number(yearMonth[1]) > 12)) {
+      return false;
+    }
+    return true;
+  }
 
   function addNewEventRow(event, dayStarted, color) {
     var dateInputFormat =  getDateInputFormat(dayStarted);
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
           '<td class="eventname" tabindex="1">' + event + '</td>' +
-          '<td class="monthsevent">' + '<input class="date-pick" type="month" value="' + dateInputFormat + '">' + '</td>' +
+          '<td class="monthsevent" tabindex="1">' + dateInputFormat + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
     if ($("#end-date-row").length) $("#end-date-row").before(newRow);
@@ -445,7 +469,7 @@ $(document).ready(function() {
       }
       str = str.replace(/^0+/, "") || "0";
       var n = Math.floor(Number(str));
-      return n !== Infinity && String(n) === str && n > 0 && n <= 1200;
+      return n !== Infinity && String(n) === str && n > 0;
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
@@ -468,9 +492,9 @@ $(document).ready(function() {
     var last_event_date = new Date("2000-01-01");
     if ($(".radiocheck").length ) {
       if($("#end-date-row").length)
-        last_event_date = new Date($(".date-pick").eq(-2).val());
+        last_event_date = new Date($(".monthsevent").eq(-2).html());
       else
-        last_event_date = new Date($( ".date-pick" ).last().val());
+        last_event_date = new Date($( ".monthsevent" ).last().html());
     }
     return last_event_date;
   }
@@ -489,7 +513,6 @@ $(document).ready(function() {
     addNewEventRow(eventNames[i], day, c);
   }
   $('#mainTable').find("tbody").append(getEndDateRow());
-  $( '#end-date-name' ).on('change', function (evt, newValue) {return false;})
 
   calculateData();
   makeWaffleChart();
