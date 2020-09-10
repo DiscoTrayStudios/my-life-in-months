@@ -472,7 +472,7 @@ $(document).ready(function() {
       else
         last_event_date = new Date($( ".date-pick" ).last().val());
     }
-    return new Date(last_event_date);
+    return last_event_date;
   }
 
   function getNextRandomDate() {
