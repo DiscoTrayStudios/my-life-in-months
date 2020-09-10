@@ -1,42 +1,5 @@
 $(document).ready(function() {
 
-  var obamadata = [
-      { "name": "Hawaii", "value":72},
-      { "name": "Jakarta", "value":45},
-      { "name": "Hawaii", "value":96},
-      { "name": "Occidental College", "value":24},
-      { "name": "Columbia University", "value":21},
-      { "name": "Business Int. Co.", "value":15},
-      { "name": "NYPIRG", "value":5},
-      { "name": "Chicago Comm. Org.", "value":38},
-      { "name": "Harvard Law", "value":39},
-      { "name": "U. Chicago Prof.", "value":60},
-      { "name": "Illinois Senator", "value":96},
-      { "name": "US Senator", "value":48},
-      { "name": "President", "value":96},
-      { "name": "Private Citizen", "value":44}
-    ];
-
-  var obamarange = ["#1f77b4", "#ff7f0e", "#1f77b4", "#2ca02c", "#d62728",
-  "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
-  "#d728a0", "#a9b9cb", "#0fffb7"];
-
-  var gdata = [
-    { "name": "Northampton, PA", "value":120},
-    { "name": "Canvas, WV", "value":96},
-    { "name": "Gambier, OH", "value":9},
-    { "name": "Canvas, WV", "value":3},
-    { "name": "Gambier, OH", "value":9},
-    { "name": "Canvas, WV", "value":3},
-    { "name": "Gambier, OH", "value":21},
-    { "name": "Milwaukee, WI", "value":3},
-    { "name": "Madison, WI", "value":21},
-    { "name": "San Antonio, TX", "value":7},
-    { "name": "Madison, WI", "value":77},
-    { "name": "Shreveport, LA", "value":84},
-    { "name": "Conway, AR", "value":75}
-  ];
-
   var gcolors_map = new Map();
   gcolors_map.set("Northampton, PA", "#008080");
   gcolors_map.set("Canvas, WV", "#002855");
@@ -47,16 +10,7 @@ $(document).ready(function() {
   gcolors_map.set("Shreveport, LA", "#8a2432");
   gcolors_map.set("Conway, AR", "#E96B10");
 
-  var isabelladata = [
-    { "name": "childhood", "value":160},
-    { "name": "high school", "value":46},
-    { "name": "college", "value":48},
-    { "name": "adulting", "value":30},
-    { "name": "moved back to U.S.", "value":9},
-    { "name": "time left", "value":559},
-  ];
-
-  var isabellarange = ["#EF476F","#FCA311","#FFD166","#0EAD69","#4ECDC4","#118AB2"];
+  
 
   exampleData = [
     [
@@ -78,29 +32,22 @@ $(document).ready(function() {
     ]
   ]
 
-  var originaldata = [
-    { "name": "Childhood", "value":184},
-    { "name": "High School", "value":45}
-  ];
-  var originalrange = ["#1f77b4", "#aec7e8"];
-
   var data = [];
   var colors_map = new Map();
   //var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
   var chart;
+  var chart_end_date = new Date();
 
   function calculateData() {
     console.log("Recalculating...");
+    sortDatesInTable();
 
     //Events_list and colors_list are used to help set up the linking system.
     let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-    let dates_list = $(".date-pick").map(function(){return new Date(this.value);}).get();
+    let dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get();
     let months_list = getNumMonthsFromDatesList(dates_list);
     var colors_list = $(".colorpick").map(function(){return this.value;}).get();
     let dataRows = $(".color-col");
-    console.log(dates_list);
-    console.log(months_list);
-
     data = []
     colors_map = new Map();
 
@@ -147,6 +94,17 @@ $(document).ready(function() {
     //console.log(data);
   }
 
+  function sortDatesInTable() {
+    var dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get().sort((a, b) => a - b);
+    console.log(dates_list);
+    var index = 0;
+    var dates_elements = $(".monthsevent");
+    dates_elements.each(function() {
+      $(this).html(getDateInputFormat(dates_list[index]));
+      index += 1;
+    })
+  }
+
   function makeWaffleChart() {
     chart = myLifeInMonths()
         .title($("#title-input").text())
@@ -162,7 +120,8 @@ $(document).ready(function() {
     var dataRows = $("#mainTable").find('tbody tr');
     dataRows.each(function () {
       var row = $(this);
-      numMonths += parseInt(row.children().eq(2).text());
+      if (!row.id == "end-date-row")
+        numMonths += parseInt(row.children().eq(2).text());
     })
     console.log(numMonths);
     return numMonths;
@@ -172,13 +131,28 @@ $(document).ready(function() {
     var months_list = [];
     for (let index = 0; index < dates_list.length; index++) {
       const element = dates_list[index];
-      var previous = new Date();
+      var previous = chart_end_date;
       if (!(index == dates_list.length - 1)) {
         previous = dates_list[index + 1];
       }
       months_list.push(calculateMonths(element, previous));
     }
+    console.log(months_list);
     return months_list;
+  }
+
+  function setChartEndDate(new_end_date) {
+    chart_end_date = new_end_date;
+  }
+
+  function getEndDateRow() {
+    var end_month_input_format = getDateInputFormat(chart_end_date);
+    var newRow = $('<tr id="end-date-row">' +
+          '<td></td>' +
+          '<td id="end-date-name">End Month</td>' +
+          '<td class="monthsevent" tabindex="1">' + end_month_input_format + '</td>' +
+          '<td></td></tr>');
+          return newRow;
   }
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
@@ -350,29 +324,54 @@ $(document).ready(function() {
         }
   			return !!value && value.trim().length > 0 && value.trim().length < 25;
   		} else if (column === 2){
-        if (!isNormalPosInteger(value)) {
-          $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
+        console.log(value + " is " + isDateValid(value));
+        if (!isDateValid(value)) {
+          $('#showEventAlertHere').html(alertMaker("alert-event-date-format", "Dates must be in YYYY-MM format!"));
         } else {
-          $("#alert-event-month-length").remove();
+          $("#alert-event-date-format").remove();
         }
 
-  			return isNormalPosInteger(value);
+  			return isDateValid(value);
   		} else {
         return false;
       }
-  	});
+    });
+
+    
   	return this;
   };
+
+  function isDateValid(date) {
+    var yearMonth = date.trim().split("-");
+    if (yearMonth[0].length != 4) {
+      return false;
+    }
+    isValid = new Date(date);
+    if (isValid == "Invalid Date") {
+      return false;
+    }
+    if (yearMonth.length != 2) {
+      return false;
+    }
+    console.log(!isNormalPosInteger(yearMonth[0]));
+    console.log(!isNormalPosInteger(yearMonth[1]));
+    console.log(!(Number(yearMonth[1]) > 12));
+    if (!isNormalPosInteger(yearMonth[0]) || (!isNormalPosInteger(yearMonth[1]) && Number(yearMonth[1]) > 12)) {
+      return false;
+    }
+    return true;
+  }
 
   function addNewEventRow(event, dayStarted, color) {
     var dateInputFormat =  getDateInputFormat(dayStarted);
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
           '<td class="eventname" tabindex="1">' + event + '</td>' +
-          '<td class="monthsevent">' + '<input class="date-pick" type="month" value="' + dateInputFormat + '">' + '</td>' +
+          '<td class="monthsevent" tabindex="1">' + dateInputFormat + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
-    $('#mainTable').find("tbody").append(newRow);
+    if ($("#end-date-row").length) $("#end-date-row").before(newRow);
+    else $('#mainTable').find("tbody").append(newRow);
     // https://github.com/mindmup/editable-table/issues/1
     newRow.numericInputExample();
     var box = $(newRow.children().eq(0).children().eq(0));
@@ -381,7 +380,16 @@ $(document).ready(function() {
     });
   }
 
+  function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
   function getDateInputFormat(date) {
+    console.log(date);
+    date = addDays(date, 1);
+    console.log(date);
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
   //  var day = date.getDate();
@@ -482,7 +490,7 @@ $(document).ready(function() {
       }
       str = str.replace(/^0+/, "") || "0";
       var n = Math.floor(Number(str));
-      return n !== Infinity && String(n) === str && n > 0 && n <= 1200;
+      return n !== Infinity && String(n) === str && n > 0;
   }
 
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
@@ -503,13 +511,13 @@ $(document).ready(function() {
 
   function getLastEventDate() {
     var last_event_date = new Date("2000-01-01");
-    console.log($(".date-pick").length);
-    if ($(".date-pick").length) {
-      console.log($(".date-pick").last())
-      last_event_date = $( ".date-pick" ).last().val();
-      console.log("last event" + last_event_date);
+    if ($(".radiocheck").length ) {
+      if($("#end-date-row").length)
+        last_event_date = new Date($(".monthsevent").eq(-2).html());
+      else
+        last_event_date = new Date($( ".monthsevent" ).last().html());
     }
-    return new Date(last_event_date);
+    return last_event_date;
   }
 
   function getNextRandomDate() {
@@ -525,6 +533,7 @@ $(document).ready(function() {
     var c = randomColor();
     addNewEventRow(eventNames[i], day, c);
   }
+  $('#mainTable').find("tbody").append(getEndDateRow());
 
   calculateData();
   makeWaffleChart();
@@ -570,7 +579,7 @@ $(document).ready(function() {
   });
 
   $( "#movedown" ).click(function() {
-    alterTable(function(row) {row.insertAfter(row.next());})
+    alterTable(function(row) {if (row.next().attr('id') != "end-date-row") row.insertAfter(row.next());})
     calculateData();
     makeWaffleChart();
   });
