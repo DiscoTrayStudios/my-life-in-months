@@ -589,7 +589,7 @@ $(document).ready(function() {
       let c = row.clone();
       var box = $(c.children().eq(0).children().eq(0)); // need to remove the checkmark
       box.prop('checked', false); //https://stackoverflow.com/questions/13557623/remove-attribute-checked-of-checkbox
-      row.parent().append(c);
+      addNewEventRow(row.find(".eventname").html(), getNextRandomDate(), "#FFFFFF");
       box.click(function() {
         checkState()
       });})
