@@ -40,7 +40,7 @@ $(document).ready(function() {
 
   function calculateData() {
     console.log("Recalculating...");
-    sortDatesInTable();
+    sortDatesAndNamesInTable();
 
     //Events_list and colors_list are used to help set up the linking system.
     let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
@@ -94,15 +94,29 @@ $(document).ready(function() {
     //console.log(data);
   }
 
-  function sortDatesInTable() {
-    var dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get().sort((a, b) => a - b);
+  function sortDatesAndNamesInTable() {
+    var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
+    var dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get();
+    var date_to_event_map = {};
+    for (let index = 0; index < events_list.length; index++) {
+      const element = events_list[index];
+      const date = dates_list[index];
+      date_to_event_map[date] = element;
+    }
+    dates_list = dates_list.sort((a, b) => a - b);
     console.log(dates_list);
     var index = 0;
+    var event_names = $(".eventname");
     var dates_elements = $(".monthsevent");
     dates_elements.each(function() {
-      $(this).html(getDateInputFormat(dates_list[index]));
+      $(this).html(getDateInputFormat(dates_list[index]));      
       index += 1;
-    })
+    });
+    index = 0;
+    event_names.each(function() {
+      $(this).html(date_to_event_map[dates_list[index]])
+      index += 1;
+    });
   }
 
   function makeWaffleChart() {
@@ -150,7 +164,7 @@ $(document).ready(function() {
     var newRow = $('<tr id="end-date-row">' +
           '<td></td>' +
           '<td id="end-date-name">End Month</td>' +
-          '<td class="monthsevent" tabindex="1">' + end_month_input_format + '</td>' +
+          '<td class="monthsevent end-month-input" tabindex="1">' + end_month_input_format + '</td>' +
           '<td></td></tr>');
           return newRow;
   }
@@ -288,8 +302,23 @@ $(document).ready(function() {
 
     element.find('td').off('change').off('validate');
 
-  	element.find('td').on('change', function (evt) {
+  	element.find('td').on('change', function (evt, value) {
       if (!$(this).hasClass( "radiocheck" )) {
+        if ($(this).hasClass("end-month-input")) {
+          if ($(".monthsevent").length > 1) {
+            var end_date = new Date(value);
+            var next_to_last_date = new Date($(".monthsevent").eq(-2).html());
+            console.log(end_date);
+            console.log(next_to_last_date);
+            if (end_date < next_to_last_date) {
+              $('#showEventAlertHere').html(alertMaker("alert-end-month-small", "End Month must be the latest month!"));
+              return false;
+            }
+            else {
+              $("#alert-end-month-small").remove();
+            }
+          }
+        }
         calculateData();
         makeWaffleChart();
       }
@@ -353,9 +382,6 @@ $(document).ready(function() {
     if (yearMonth.length != 2) {
       return false;
     }
-    console.log(!isNormalPosInteger(yearMonth[0]));
-    console.log(!isNormalPosInteger(yearMonth[1]));
-    console.log(!(Number(yearMonth[1]) > 12));
     if (!isNormalPosInteger(yearMonth[0]) || (!isNormalPosInteger(yearMonth[1]) && Number(yearMonth[1]) > 12)) {
       return false;
     }
