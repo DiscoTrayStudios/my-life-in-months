@@ -177,14 +177,11 @@ function myLifeInMonths() {
     });
   }
 
-
   chart.title = function(_) {
     if (!arguments.length) return title;
     title = _;
     return chart;
   };
-
-
 
   chart.colorscale = function(_) {
     if (!arguments.length) return colorscale;
