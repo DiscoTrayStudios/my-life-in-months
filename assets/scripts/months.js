@@ -503,21 +503,31 @@ $(document).ready(function() {
 
 
   function getCurrentChecks() {
-    var numChecks = 0;
+    var numChecks = [];
     var dataRows = $("#mainTable").find('tbody tr');
-    dataRows.each(function () {
+    var prevCheck = false;
+    dataRows.each(function (index, value) {
       var row = $(this);
       var box = $(row.children().eq(0).children().eq(0));
       if(box.is(":checked")){
-        numChecks++;
-      };
-    })
+        if (!prevCheck) {
+          numChecks.push([]);
+        }
+        numChecks[numChecks.length - 1].push(index);
+        prevCheck = true;
+      } else {
+        prevCheck = false;
+      }
+    });
     console.log(numChecks);
     return numChecks;
   }
 
-  function alterTable(func) {
+  function alterTable(func, reverse) {
     var dataRows = $("#mainTable").find('tbody tr');
+    if (reverse) {
+      dataRows = $(dataRows.get().reverse());
+    }
     dataRows.each( function () {
       var row = $(this);
       var box = $(row.children().eq(0).children().eq(0));
@@ -530,21 +540,28 @@ $(document).ready(function() {
   }
 
   $( "#remove" ).click(function() {
-    alterTable(function(row) {row.remove();});
+    alterTable(function(row) {row.remove();}, false);
     calculateData();
     makeWaffleChart();
   });
 
   $( "#moveup" ).click(function() {
-    alterTable(function(row) {row.insertBefore(row.prev());})
-    calculateData();
-    makeWaffleChart();
+    let checks = getCurrentChecks();
+    if (checks[0][0] != 0) {
+      alterTable(function(row) {row.insertBefore(row.prev());}, false)
+      calculateData();
+      makeWaffleChart();
+    }
   });
 
   $( "#movedown" ).click(function() {
-    alterTable(function(row) {row.insertAfter(row.next());})
-    calculateData();
-    makeWaffleChart();
+    let checks = getCurrentChecks();
+    var dataRows = $("#mainTable").find('tbody tr');
+    if (checks[0][checks[0].length - 1] != dataRows.length - 1) {
+      alterTable(function(row) {row.insertAfter(row.next());}, true)
+      calculateData();
+      makeWaffleChart();
+    }
   });
 
   $( "#repeat" ).click(function() {
@@ -555,19 +572,19 @@ $(document).ready(function() {
       row.parent().append(c);
       box.click(function() {
         checkState()
-      });})
+      });}, false)
     calculateData();
     makeWaffleChart();
   });
 
   function checkState(){
     let check_count = getCurrentChecks();
-    if (check_count == 0) {
+    if (check_count.length == 0) {
       $( "#remove" ).prop('disabled', true);
       $( "#moveup" ).prop('disabled', true);
       $( "#movedown" ).prop('disabled', true);
       $( "#repeat" ).prop('disabled', true);
-    } else if (check_count == 1) {
+    } else if (check_count.length == 1) {
       $( "#remove" ).prop('disabled', false);
       $( "#moveup" ).prop('disabled', false);
       $( "#movedown" ).prop('disabled', false);
@@ -576,7 +593,7 @@ $(document).ready(function() {
       $( "#remove" ).prop('disabled', false);
       $( "#moveup" ).prop('disabled', true);
       $( "#movedown" ).prop('disabled', true);
-      $( "#repeat" ).prop('disabled', false);
+      $( "#repeat" ).prop('disabled', true);
     }
   }
 

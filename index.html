@@ -9,7 +9,10 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous" >
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet" crossorigin="anonymous" >
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 <link rel="icon" type="image/png" href="assets/images/logo.png"/>
 <title>My Life in Months</title>
@@ -52,9 +55,10 @@
       <div class="col-md-12">
         <h4>Create Your Own Chart</h4>
         <p>
-          Click on the title, an event name, or the number of months to edit the data in
-          the table below. You can map out your
+          Use table below to map out your
           career path, where you've lived, trials and tribulations, or other meaningful life events.
+          We've filled the table with some data to help you see how it works, so just
+          click on the title, event names, or the number of months in a row to edit the data.
           Two events with the same name will be automatically linked in the chart.
         </p>
         <p>
@@ -105,19 +109,6 @@
 
           <thead><tr><th></th><th>Life Event</th><th class="th_center">Months</th><th class="th_center">Color</th></tr></thead>
           <tbody>
-<!--            <tr>
-              <td class="radiocheck"><input type="checkbox"></td>
-              <td class="eventname" tabindex="1">Childhood</td>
-              <td class="monthsevent" tabindex="1">184</td>
-              <td class="color-col"><input class="colorpick" type="color" name="head" value="#1f77b4">
-              <span class="clink"><i class="fa fa-link"></i></span></td>
-            <tr>
-              <td class="radiocheck"><input type="checkbox"></td>
-              <td class="eventname" tabindex="1">High School</td>
-              <td class="monthsevent" tabindex="1">45</td>
-              <td class="color-col"><input class="colorpick" type="color" name="head" value="#ff7f0e">
-              <span class="clink"><i class="fa fa-link"></i></span></td>
--->
           </tbody>
         </table>
         <div id="showEventAlertHere">
@@ -133,13 +124,13 @@
               <i class="fa fa-plus" aria-hidden="true"></i> New Event
             </button>
 
-            <button id="repeat" type="button" class="btn btn-primary">
-              <i class="fa fa-repeat" aria-hidden="true"></i> Repeat
-            </button>
             <button id="remove" type="button" class="btn btn-primary">
               <i class="fa fa-trash" aria-hidden="true"></i> Delete
             </button>
 
+            <button id="repeat" type="button" class="btn btn-primary">
+              <i class="fa fa-repeat" aria-hidden="true"></i> Repeat
+            </button>
             <button id="moveup" type="button" class="btn btn-primary">
               <i class="fa fa-arrow-up" aria-hidden="true"></i> Up
             </button>
@@ -148,11 +139,6 @@
             </button>
 
           </div>
-
-        <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
-
-
-
 
         <!-- Temporary positioning for example dropdown.
           Dropdown aspect is potentially temporary
@@ -258,8 +244,11 @@
       <div class="container">
         <div class="row">
           <div class="col-md-8">
-            <p>Built by <a href="https://discotraystudios.github.io/">Disco Tray Studios</a>, bringing you
-              serendipitious projects since 2020.</p>
+            <p><a href="https://github.com/DiscoTrayStudios/my-life-in-months/releases">Get info about new updates!</a></p>
+
+            <p>Built by <a href="https://discotraystudios.github.io/">Disco Tray Studios</a>,
+              working to infuse unexpected joy and wonder into community-focused software
+              development projects.</p>
             <p><small>Powered by
               <a href="https://getbootstrap.com/">Bootstrap</a>,
               <a href="https://www.javascript.com/">JavaScript</a>,
