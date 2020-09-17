@@ -305,19 +305,15 @@ $(document).ready(function() {
   	element.find('td').on('change', function (evt, value) {
       if (!$(this).hasClass( "radiocheck" )) {
         if ($(this).hasClass("end-month-input")) {
-          if ($(".monthsevent").length > 1) {
-            var end_date = new Date(value);
-            var next_to_last_date = new Date($(".monthsevent").eq(-2).html());
-            console.log(end_date);
-            console.log(next_to_last_date);
-            if (end_date < next_to_last_date) {
-              $('#showEventAlertHere').html(alertMaker("alert-end-month-small", "End Month must be the latest month!"));
-              return false;
-            }
-            else {
-              $("#alert-end-month-small").remove();
-            }
+          if (!isEndMonthValid(value)) {
+            return false;
           }
+        }
+        else if ($(this).hasClass("monthsevent")) {
+          if (new Date(value) > new Date($(".end-month-input").eq(0).html())) {
+            $('#showEventAlertHere').html(alertMaker("alert-month-before-end", "Months must not come after end date!"));
+            return false;
+          } else {$("#alert-month-before-end").remove();}
         }
         calculateData();
         makeWaffleChart();
@@ -353,9 +349,8 @@ $(document).ready(function() {
         }
   			return !!value && value.trim().length > 0 && value.trim().length < 25;
   		} else if (column === 2){
-        console.log(value + " is " + isDateValid(value));
         if (!isDateValid(value)) {
-          $('#showEventAlertHere').html(alertMaker("alert-event-date-format", "Dates must be in YYYY-MM format!"));
+          $('#showMonthsAlertHere').html(alertMaker("alert-event-date-format", "Dates must be in YYYY-MM format!"));
         } else {
           $("#alert-event-date-format").remove();
         }
@@ -386,6 +381,21 @@ $(document).ready(function() {
       return false;
     }
     return true;
+  }
+
+  function isEndMonthValid(value) {
+    if ($(".monthsevent").length > 1) {
+      var end_date = new Date(value);
+      var next_to_last_date = new Date($(".monthsevent").eq(-2).html());
+      if (end_date < next_to_last_date) {
+        $('#showEventAlertHere').html(alertMaker("alert-end-month-small", "End Month must be the latest month!"));
+        return false;
+      }
+      else {
+        $("#alert-end-month-small").remove();
+        return true;
+      }
+    }
   }
 
   function addNewEventRow(event, dayStarted, color) {
