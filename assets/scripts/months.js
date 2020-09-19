@@ -134,7 +134,11 @@ $(document).ready(function() {
 
   $( "#csv-button" ).click(function() {
     var title = document.getElementById("title-input").textContent;
-    download(title, convertDataToCSVFormat(data, colors_map));
+    let events_list = $(".all-event-names").map(function(){return this.innerHTML;}).get();
+    let months_or_dates_list = $(".monthsevent").map(function(){
+      return this.innerHTML;
+    }).get();
+    download(title, convertDataToCSVFormat(events_list, months_or_dates_list, colors_map));
   });
 
   function handleFileSelect(evt) {
@@ -167,9 +171,18 @@ $(document).ready(function() {
     }
     var isInvalid = false;
     rows.splice(0, 1);
-    rows.forEach(element => {
+    var upload_is_month_picker;
+    rows.forEach((element, i) => {
+      
       var columns = parseCSVRows(element);
-      if (columns.length != 3 || !isNormalPosInteger(columns[1]) || !/^#[0-9A-F]{6}$/i.test(columns[2])) {
+      if (i === 0 && isDateValid(columns[1])) upload_is_month_picker = true; 
+      else if (i === 0) upload_is_month_picker = false;
+      var is_end_row = upload_is_month_picker && (i === rows.length - 1);
+      if (columns.length != 3 || (!/^#[0-9A-F]{6}$/i.test(columns[2]) && !is_end_row)) {
+        isInvalid = true;
+        return;
+      } else if ((upload_is_month_picker && !isDateValid(columns[1])) 
+      || (!upload_is_month_picker && !isNormalPosInteger(columns[1]))) {
         isInvalid = true;
         return;
       }
@@ -179,7 +192,11 @@ $(document).ready(function() {
       }
     });
     if (!isInvalid) {
+      console.log(dataToChange);
+      console.log(colorsMapToChange);
       $( "#title-input" ).html(csv_name);
+      if ((month_picker_on && !upload_is_month_picker) || (!month_picker_on && upload_is_month_picker))
+        $("#toggle-month-picker").click();
       populateTable(dataToChange, colorsMapToChange);
       calculateData();
       makeWaffleChart();
@@ -208,10 +225,10 @@ $(document).ready(function() {
     return [first, lastTwo[1], lastTwo[2]];
   }
 
-  function convertDataToCSVFormat(dataToConvert, colorsMapToConvert) {
+  function convertDataToCSVFormat(names, months_or_dates, colorsMapToConvert) {
     var toReturn = "Life Event,Months,Color\n";
-    dataToConvert.forEach(element => {
-      toReturn += '"' + element["name"] + '"' + "," + element["value"] + "," + colorsMapToConvert.get(element["name"]) + "\n";
+    names.forEach((name, i)=> {
+      toReturn += '"' + name + '"' + "," + months_or_dates[i] + "," + colorsMapToConvert.get(name) + "\n";
     });
     return toReturn
   }
@@ -350,7 +367,7 @@ $(document).ready(function() {
     var dateInputFormat =  month_picker_on ? getDateInputFormat(monthOrDate) : monthOrDate;
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
-          '<td class="eventname" tabindex="1">' + event + '</td>' +
+          '<td class="eventname all-event-names" tabindex="1">' + event + '</td>' +
           '<td class="monthsevent" tabindex="1">' + dateInputFormat + '</td>' +
           '<td class="color-col"><input class="colorpick" type="color" value="' + color + '">' +
           '<span class="clink"><i class="fa fa-link"></i></span></td></tr>');
@@ -393,15 +410,20 @@ $(document).ready(function() {
   function populateTable(newData, colorsMapData) {
     $("#mainTable").find("tbody").html("");
     colors_map = colorsMapData;
-    newData.forEach(function(row) {
-      if (!colors_map.has(row["name"])) {
+    newData.forEach((row, i) => {
+      var is_end_date_row = (i === newData.length - 1) && month_picker_on;
+      if (is_end_date_row) {
+        current_end_month = row["value"];
+        appendEndDateRow();
+      }
+      else if (!colors_map.has(row["name"])) {
         let c = randomColor({seed:eventNames[i]});
         addNewEventRow(row["name"], row["value"], c);
         colors_map.set(row["name"], c);
       } else {
         addNewEventRow(row["name"], row["value"], colors_map.get(row["name"]));
       }
-    })
+    });
     //data = newData;
   }
 
@@ -413,7 +435,7 @@ $(document).ready(function() {
   function checkFuture() {
     const lifeExpectancy = 80
     var numMonths = getCurrentNumMonths();
-    if ($('#togglefuture').prop('checked') && (lifeExpectancy * 12) > numMonths) {
+    if ($('#togglefuture').prop('checked') && (lifeExpectancy * 12) >= numMonths) {
       futureIndex = data.length;
       data.push({ "name": "The Future",
                   "value": (lifeExpectancy * 12) - numMonths});
@@ -651,7 +673,7 @@ $(document).ready(function() {
   function getEndDateRow() {
     var newRow = $('<tr id="end-date-row">' +
           '<td></td>' +
-          '<td id="end-date-name">End Month</td>' +
+          '<td id="end-date-name" class="all-event-names">End Month</td>' +
           '<td id="end-month-input" class="monthsevent end-month-input" tabindex="1">' + current_end_month + '</td>' +
           '<td></td></tr>');
     newRow.numericInputExample();
@@ -715,11 +737,13 @@ $(document).ready(function() {
 
   function getCurrentNumMonths() {
     var numMonths = 0;
-    var dataRows = $("#mainTable").find('tbody tr');
-    dataRows.each(function () {
-        var row = $(this);
-        numMonths += parseInt(row.children().eq(2).text());
-    })
+    var month_or_date_list = $(".monthsevent").map(function(){
+      return month_picker_on ? new Date(this.innerHTML) : this.innerHTML;
+    }).get();
+    month_or_date_list = month_picker_on ? getNumMonthsFromDatesList(month_or_date_list) : month_or_date_list;
+    month_or_date_list.forEach(element => {
+        numMonths += parseInt(element);
+    }); 
     return numMonths;
   }
 
