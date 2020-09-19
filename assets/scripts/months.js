@@ -65,7 +65,6 @@ $(document).ready(function() {
       let clink = $(color_td).find(".clink");
 
       if(!colors_map.has(item)){
-        //console.log("found " + item + " " + colors_list[i]);
         colors_map.set(item, colors_list[i]);
 
         cpick.css("display", "initial");
@@ -93,8 +92,6 @@ $(document).ready(function() {
     });
 
     checkFuture();
-    //console.log(colors_map);
-    //console.log(data);
   }
 
   function makeWaffleChart() {
@@ -116,7 +113,6 @@ $(document).ready(function() {
     $(this).html("Processing");
     $(this).removeClass("btn-primary");
     $(this).addClass("btn-danger");
-    console.log("Testing");
     var cameraClone = $("<div></div>").html($("#capture").html());
     cameraClone.css("width", "800px");
     cameraClone.attr("id", "captureClone");
@@ -207,10 +203,8 @@ $(document).ready(function() {
     else if (splitOnDoubleQuotes.length != 3){
       return [];
     }
-    console.log(splitOnDoubleQuotes);
     var first = splitOnDoubleQuotes[1];
     var lastTwo = splitOnDoubleQuotes[2].split(",");
-    console.log(first + lastTwo);
     return [first, lastTwo[1], lastTwo[2]];
   }
 
@@ -430,15 +424,29 @@ $(document).ready(function() {
   $("#toggle-month-picker").click(function() {
     if (month_picker_on) {
       month_picker_on = false;
+      $("#chart-month-label").html("Months");
+      showMoveButtons()
       removeEndDateRow();
     } else {
       month_picker_on = true;
+      $("#chart-month-label").html("Start Month");
+      hideMoveButtons();
       appendEndDateRow();
     }
     toggleMonthPicker();
     calculateData();
     makeWaffleChart();
   })
+
+  function showMoveButtons() {
+    $("#moveup").show();
+    $("#movedown").show();
+  }
+
+  function hideMoveButtons() {
+    $("#moveup").hide("hidden", "true");
+    $("#movedown").hide("hidden", "true");
+  }
 
   // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   /* Randomize array in-place using Durstenfeld shuffle algorithm */
@@ -519,7 +527,7 @@ $(document).ready(function() {
   }
   
   if (month_picker_on) appendEndDateRow();
-
+  hideMoveButtons();
   calculateData();
   makeWaffleChart();
 
@@ -534,7 +542,6 @@ $(document).ready(function() {
         numChecks++;
       };
     })
-    console.log(numChecks);
     return numChecks;
   }
 
@@ -612,7 +619,6 @@ $(document).ready(function() {
       date_to_event_map[date] = element;
     }
     dates_list = dates_list.sort((a, b) => a - b);
-    console.log(dates_list);
     var index = 0;
     var event_names = $(".eventname");
     var dates_elements = $(".monthsevent");
@@ -628,15 +634,11 @@ $(document).ready(function() {
   }
 
   function getDateInputFormat(date) {
-    //console.log(date);
     date = addDays(date, 1);
-    //console.log(date);
     var year = date.getFullYear();
     var month = date.getMonth() + 1;
-  //  var day = date.getDate();
     var date_input_format = year + "-";
     date_input_format += ((month > 9) ? (month + "") : ("0" + month));//+ "-";
-    //date_input_format += (day > 9) ? (day + "") : ("0" + day);
     return date_input_format;
   }
 
@@ -668,16 +670,13 @@ $(document).ready(function() {
       let months_or_dates_list = $(".monthsevent").map(function(){
         return month_picker_on ? this.innerHTML : new Date(this.innerHTML);
       }).get();
-      console.log(month_picker_on);
       var replacement_list = month_picker_on ? getDatesFromNumMonthsList(months_or_dates_list) : getNumMonthsFromDatesList(months_or_dates_list);
       replaceMonthRow(replacement_list);
   }
 
   function getNumMonthsFromDatesList(dates_list) {
     var months_list = [];
-    console.log(current_start_month);
     current_start_month = getDateInputFormat(dates_list[0]);
-    console.log(current_start_month);
     for (let index = 0; index < dates_list.length; index++) {
       const element = dates_list[index];
       var previous = new Date(current_end_month);
@@ -686,7 +685,6 @@ $(document).ready(function() {
       }
       months_list.push(calculateMonths(element, previous));
     }
-    //console.log(months_list);
     return months_list;
   }
 
@@ -697,10 +695,8 @@ $(document).ready(function() {
   function getDatesFromNumMonthsList(months_list) {
       var dates_list = [];
       var current_date = current_start_month;
-      console.log("HEY");
       for (let index = 0; index < months_list.length; index++) {
         const element = months_list[index];
-        console.log(current_date);
         dates_list.push(current_date);
         current_date = addMonths(current_date, element);
       }
@@ -724,7 +720,6 @@ $(document).ready(function() {
         var row = $(this);
         numMonths += parseInt(row.children().eq(2).text());
     })
-    //console.log(numMonths);
     return numMonths;
   }
 
