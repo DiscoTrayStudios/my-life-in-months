@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
   var gcolors_map = new Map();
   gcolors_map.set("Northampton, PA", "#008080");
   gcolors_map.set("Canvas, WV", "#002855");
@@ -36,16 +35,20 @@ $(document).ready(function() {
   var colors_map = new Map();
   //var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
   var chart;
-  var chart_end_date = new Date();
+  var month_picker_on = true;
+  var current_start_month = "2000-01";
+  var current_end_month = getDateInputFormat(new Date());
 
   function calculateData() {
     console.log("Recalculating...");
-    sortDatesAndNamesInTable();
-
+    if (month_picker_on) sortDatesAndNamesInTable();
+    current_end_month = month_picker_on ? $("#end-month-input").html() : current_end_month;
     //Events_list and colors_list are used to help set up the linking system.
     let events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-    let dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get();
-    let months_list = getNumMonthsFromDatesList(dates_list);
+    let months_or_dates_list = $(".monthsevent").map(function(){
+      return month_picker_on ? new Date(this.innerHTML) : this.innerHTML;
+    }).get();
+    let months_list = month_picker_on ? getNumMonthsFromDatesList(months_or_dates_list) : months_or_dates_list;
     var colors_list = $(".colorpick").map(function(){return this.value;}).get();
     let dataRows = $(".color-col");
     data = []
@@ -94,31 +97,6 @@ $(document).ready(function() {
     //console.log(data);
   }
 
-  function sortDatesAndNamesInTable() {
-    var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
-    var dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get();
-    var date_to_event_map = {};
-    for (let index = 0; index < events_list.length; index++) {
-      const element = events_list[index];
-      const date = dates_list[index];
-      date_to_event_map[date] = element;
-    }
-    dates_list = dates_list.sort((a, b) => a - b);
-    console.log(dates_list);
-    var index = 0;
-    var event_names = $(".eventname");
-    var dates_elements = $(".monthsevent");
-    dates_elements.each(function() {
-      $(this).html(getDateInputFormat(dates_list[index]));      
-      index += 1;
-    });
-    index = 0;
-    event_names.each(function() {
-      $(this).html(date_to_event_map[dates_list[index]])
-      index += 1;
-    });
-  }
-
   function makeWaffleChart() {
     chart = myLifeInMonths()
         .title($("#title-input").text())
@@ -129,44 +107,8 @@ $(document).ready(function() {
   			.call(chart);
   }
 
-  function getCurrentNumMonths() {
-    var numMonths = 0;
-    var dataRows = $("#mainTable").find('tbody tr');
-    dataRows.each(function () {
-      var row = $(this);
-      if (!row.id == "end-date-row")
-        numMonths += parseInt(row.children().eq(2).text());
-    })
-    console.log(numMonths);
-    return numMonths;
-  }
-
-  function getNumMonthsFromDatesList(dates_list) {
-    var months_list = [];
-    for (let index = 0; index < dates_list.length; index++) {
-      const element = dates_list[index];
-      var previous = chart_end_date;
-      if (!(index == dates_list.length - 1)) {
-        previous = dates_list[index + 1];
-      }
-      months_list.push(calculateMonths(element, previous));
-    }
-    console.log(months_list);
-    return months_list;
-  }
-
   function setChartEndDate(new_end_date) {
     chart_end_date = new_end_date;
-  }
-
-  function getEndDateRow() {
-    var end_month_input_format = getDateInputFormat(chart_end_date);
-    var newRow = $('<tr id="end-date-row">' +
-          '<td></td>' +
-          '<td id="end-date-name">End Month</td>' +
-          '<td class="monthsevent end-month-input" tabindex="1">' + end_month_input_format + '</td>' +
-          '<td></td></tr>');
-          return newRow;
   }
 
   // Help from https://stackoverflow.com/questions/44494447/generate-and-download-screenshot-of-webpage-without-lossing-the-styles
@@ -398,8 +340,8 @@ $(document).ready(function() {
     }
   }
 
-  function addNewEventRow(event, dayStarted, color) {
-    var dateInputFormat =  getDateInputFormat(dayStarted);
+  function addNewEventRow(event, monthOrDate, color) {
+    var dateInputFormat =  month_picker_on ? getDateInputFormat(monthOrDate) : monthOrDate;
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
           '<td class="eventname" tabindex="1">' + event + '</td>' +
@@ -416,36 +358,17 @@ $(document).ready(function() {
     });
   }
 
-  function addDays(date, days) {
-    var result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
-  }
-
-  function getDateInputFormat(date) {
-    console.log(date);
-    date = addDays(date, 1);
-    console.log(date);
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-  //  var day = date.getDate();
-    var date_input_format = year + "-";
-    date_input_format += ((month > 9) ? (month + "") : ("0" + month));//+ "-";
-    //date_input_format += (day > 9) ? (day + "") : ("0" + day);
-    return date_input_format;
-  }
-
   function randomEventRow() {
     var eventNames = getRandomEventName(1);
-    var day = getNextRandomDate();
+    var month = getRandomMonthOrDate();
     var c = randomColor();
-    addNewEventRow(eventNames[0], day, c);
+    addNewEventRow(eventNames[0], month, c);
     calculateData();
     makeWaffleChart();
   }
 
-  function calculateMonths(first, second) {
-    return (second.getFullYear() * 12 + second.getMonth()) - (first.getFullYear() * 12 + first.getMonth());
+  function getRandomMonthOrDate() {
+    return month_picker_on ? getNextRandomDate() : getRandomIntInclusive(10, 30);
   }
 
   $( "#addrow" ).click(function() {
@@ -491,6 +414,19 @@ $(document).ready(function() {
       colors_map.set("The Future", "#bfbfbf");
     }
   };
+
+  $("#toggle-month-picker").click(function() {
+    if (month_picker_on) {
+      month_picker_on = false;
+      removeEndDateRow();
+    } else {
+      month_picker_on = true;
+      appendEndDateRow();
+    }
+    toggleMonthPicker();
+    calculateData();
+    makeWaffleChart();
+  })
 
   // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   /* Randomize array in-place using Durstenfeld shuffle algorithm */
@@ -565,11 +501,12 @@ $(document).ready(function() {
 
   var eventNames = getRandomEventName(5);
   for (var i = 0; i < eventNames.length; i++) {
-    var day = getNextRandomDate();
+    var day = getRandomMonthOrDate();
     var c = randomColor();
     addNewEventRow(eventNames[i], day, c);
   }
-  $('#mainTable').find("tbody").append(getEndDateRow());
+  
+  if (month_picker_on) appendEndDateRow();
 
   calculateData();
   makeWaffleChart();
@@ -652,6 +589,168 @@ $(document).ready(function() {
       $( "#repeat" ).prop('disabled', false);
     }
   }
+
+  function sortDatesAndNamesInTable() {
+    var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
+    var dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get();
+    var date_to_event_map = {};
+    for (let index = 0; index < events_list.length; index++) {
+      const element = events_list[index];
+      const date = dates_list[index];
+      date_to_event_map[date] = element;
+    }
+    dates_list = dates_list.sort((a, b) => a - b);
+    console.log(dates_list);
+    var index = 0;
+    var event_names = $(".eventname");
+    var dates_elements = $(".monthsevent");
+    dates_elements.each(function() {
+      $(this).html(getDateInputFormat(dates_list[index]));      
+      index += 1;
+    });
+    index = 0;
+    event_names.each(function() {
+      $(this).html(date_to_event_map[dates_list[index]])
+      index += 1;
+    });
+  }
+
+  function getDateInputFormat(date) {
+    //console.log(date);
+    date = addDays(date, 1);
+    //console.log(date);
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+  //  var day = date.getDate();
+    var date_input_format = year + "-";
+    date_input_format += ((month > 9) ? (month + "") : ("0" + month));//+ "-";
+    //date_input_format += (day > 9) ? (day + "") : ("0" + day);
+    return date_input_format;
+  }
+
+  function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
+  function getEndDateRow() {
+    var newRow = $('<tr id="end-date-row">' +
+          '<td></td>' +
+          '<td id="end-date-name">End Month</td>' +
+          '<td id="end-month-input" class="monthsevent end-month-input" tabindex="1">' + current_end_month + '</td>' +
+          '<td></td></tr>');
+    newRow.numericInputExample();
+          return newRow;
+  }
+
+  function appendEndDateRow() {
+    $('#mainTable').find("tbody").append(getEndDateRow());
+  }
+
+  function removeEndDateRow() {
+      $("#end-date-row").remove();
+  }
+
+  function toggleMonthPicker() {
+      let months_or_dates_list = $(".monthsevent").map(function(){
+        return month_picker_on ? this.innerHTML : new Date(this.innerHTML);
+      }).get();
+      console.log(month_picker_on);
+      var replacement_list = month_picker_on ? getDatesFromNumMonthsList(months_or_dates_list) : getNumMonthsFromDatesList(months_or_dates_list);
+      replaceMonthRow(replacement_list);
+  }
+
+  function getNumMonthsFromDatesList(dates_list) {
+    var months_list = [];
+    console.log(current_start_month);
+    current_start_month = getDateInputFormat(dates_list[0]);
+    console.log(current_start_month);
+    for (let index = 0; index < dates_list.length; index++) {
+      const element = dates_list[index];
+      var previous = new Date(current_end_month);
+      if (!(index == dates_list.length - 1)) {
+        previous = dates_list[index + 1];
+      }
+      months_list.push(calculateMonths(element, previous));
+    }
+    //console.log(months_list);
+    return months_list;
+  }
+
+  function calculateMonths(first, second) {
+    return (second.getFullYear() * 12 + second.getMonth()) - (first.getFullYear() * 12 + first.getMonth());
+  }
+
+  function getDatesFromNumMonthsList(months_list) {
+      var dates_list = [];
+      var current_date = current_start_month;
+      console.log("HEY");
+      for (let index = 0; index < months_list.length; index++) {
+        const element = months_list[index];
+        console.log(current_date);
+        dates_list.push(current_date);
+        current_date = addMonths(current_date, element);
+      }
+      return dates_list;
+  }
+
+  function addMonths(date, num_months) {
+    var year_month = date.split("-");
+    var old_month = parseInt(year_month[1]);
+    var new_month = (parseInt(old_month) + parseInt(num_months)) % 12;
+    var old_year = parseInt(year_month[0]);
+    var new_year = parseInt(old_year) + Math.floor((parseInt(old_month) + parseInt(num_months)) / 12);
+    if (new_month === 0) {new_month = 12; new_year--;}
+    return parseInt(new_year) + "-" + (parseInt(new_month) > 9 ? "" : "0") + parseInt(new_month);
+  }
+
+  function getCurrentNumMonths() {
+    var numMonths = 0;
+    var dataRows = $("#mainTable").find('tbody tr');
+    dataRows.each(function () {
+        var row = $(this);
+        numMonths += parseInt(row.children().eq(2).text());
+    })
+    //console.log(numMonths);
+    return numMonths;
+  }
+
+  function replaceMonthRow(replacement_list) {
+      var rows = $("#mainTable").find('tbody tr');
+      var index = 0;
+      rows.each(function () {
+          var row = $(this);
+          var replacement = replacement_list[index]
+          row.children().eq(2).html(month_picker_on ? replacement : replacement);
+          index += 1;
+      })
+  }
+
+// Date operations taken from https://stackoverflow.com/questions/5645058/how-to-add-months-to-a-date-in-javascript
+// Date.isLeapYear = function (year) { 
+//     return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)); 
+// };
+
+// Date.getDaysInMonth = function (year, month) {
+//     return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+// };
+
+// Date.prototype.isLeapYear = function () { 
+//     return Date.isLeapYear(this.getFullYear()); 
+// };
+
+// Date.prototype.getDaysInMonth = function () { 
+//     return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
+// };
+
+// Date.prototype.addMonths = function (value) {
+//     var n = this.getDate();
+//     this.setDate(1);
+//     this.setMonth(this.getMonth() + value);
+//     this.setDate(Math.min(n, this.getDaysInMonth()));
+//     return this;
+// };
 
   checkState();
 
