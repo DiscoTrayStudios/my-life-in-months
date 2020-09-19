@@ -251,7 +251,7 @@ $(document).ready(function() {
             return false;
           }
         }
-        else if ($(this).hasClass("monthsevent")) {
+        else if (month_picker_on && $(this).hasClass("monthsevent")) {
           if (new Date(value) > new Date($(".end-month-input").eq(0).html())) {
             $('#showEventAlertHere').html(alertMaker("alert-month-before-end", "Months must not come after end date!"));
             return false;
@@ -291,13 +291,7 @@ $(document).ready(function() {
         }
   			return !!value && value.trim().length > 0 && value.trim().length < 25;
   		} else if (column === 2){
-        if (!isDateValid(value)) {
-          $('#showMonthsAlertHere').html(alertMaker("alert-event-date-format", "Dates must be in YYYY-MM format!"));
-        } else {
-          $("#alert-event-date-format").remove();
-        }
-
-  			return isDateValid(value);
+        return month_picker_on ? pickerValidation(value) : monthIntegerValidation(value);
   		} else {
         return false;
       }
@@ -306,6 +300,24 @@ $(document).ready(function() {
     
   	return this;
   };
+
+  function pickerValidation(value) {
+    if (!isDateValid(value)) {
+      $('#showMonthsAlertHere').html(alertMaker("alert-event-date-format", "Dates must be in YYYY-MM format!"));
+    } else {
+      $("#alert-event-date-format").remove();
+    }
+    return isDateValid(value);
+  }
+
+  function monthIntegerValidation(value) {
+    if (!isNormalPosInteger(value)) {
+      $('#showMonthsAlertHere').html(alertMaker("alert-event-month-length", "Events must be an integer greater than 0 and less than 1200 months long!"));
+    } else {
+      $("#alert-event-month-length").remove();
+    }
+    return !!isNormalPosInteger(value);
+  }
 
   function isDateValid(date) {
     var yearMonth = date.trim().split("-");
@@ -562,7 +574,7 @@ $(document).ready(function() {
       let c = row.clone();
       var box = $(c.children().eq(0).children().eq(0)); // need to remove the checkmark
       box.prop('checked', false); //https://stackoverflow.com/questions/13557623/remove-attribute-checked-of-checkbox
-      addNewEventRow(row.find(".eventname").html(), getNextRandomDate(), "#FFFFFF");
+      addNewEventRow(row.find(".eventname").html(), month_picker_on ? getNextRandomDate() : getRandomIntInclusive(10,30), "#FFFFFF");
       box.click(function() {
         checkState()
       });})
@@ -726,31 +738,6 @@ $(document).ready(function() {
           index += 1;
       })
   }
-
-// Date operations taken from https://stackoverflow.com/questions/5645058/how-to-add-months-to-a-date-in-javascript
-// Date.isLeapYear = function (year) { 
-//     return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)); 
-// };
-
-// Date.getDaysInMonth = function (year, month) {
-//     return [31, (Date.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
-// };
-
-// Date.prototype.isLeapYear = function () { 
-//     return Date.isLeapYear(this.getFullYear()); 
-// };
-
-// Date.prototype.getDaysInMonth = function () { 
-//     return Date.getDaysInMonth(this.getFullYear(), this.getMonth());
-// };
-
-// Date.prototype.addMonths = function (value) {
-//     var n = this.getDate();
-//     this.setDate(1);
-//     this.setMonth(this.getMonth() + value);
-//     this.setDate(Math.min(n, this.getDaysInMonth()));
-//     return this;
-// };
 
   checkState();
 
