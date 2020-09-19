@@ -58,8 +58,11 @@
           Use table below to map out your
           career path, where you've lived, trials and tribulations, or other meaningful life events.
           We've filled the table with some data to help you see how it works, so just
-          click on the title, event names, or the number of months in a row to edit the data.
+          click on the title, event names, or the start date of the event to edit the data. Note that the 
+          start date of an event is also the end date of the previous event. 
           Two events with the same name will be automatically linked in the chart.
+          Pressing the <strong>Use Number of Months</strong> switch will enable you to use the number 
+          of months to edit an event instead of the start dates. 
         </p>
         <p>
           When you are done, click <strong><i class="fa fa-camera" aria-hidden="true"></i> Download Image</strong>
@@ -193,10 +196,13 @@
         <input id="file-upload" onfocus="this.value=''" type="file"/>
         <h5>Uploading Format Guidlines:</h5>
         <p>1. CSV file must only have three columns</p>
-        <p>2. The names of the three columns in the first row must be named "Life Event", "Months", and "Color" in that order.</p>
+        <p>2. The first three columns in the first row must be named "Life Event", "End Month" (or "Month"), and "Color" in that order.</p>
         <p>3. The names of the columns in the CSV correspond to the columns with the same name in the table above.</p>
-        <p>4. Months must be positive integers and colors must be hexadecimals representing the color.</p>
-        <p>5. For an example of a CSV file in the proper format, download a CSV file from this page and use it as a guide.</p>
+        <p>4. Months must be in "YYYY-MM" format if you are using start dates. They must be positive integers if you are using the number of months.</p>
+        <p>5. If you are using start dates, then every row in your chart must use start dates. If you're using the number of months, 
+          then every row must use the number of months.</p>
+        <p>5. colors must be hexadecimals representing the color.</p>
+        <p>6. For an example of a CSV file in the proper format, download a CSV file from this page and use it as a guide.</p>
       </div>
     </div>
 
