@@ -55,18 +55,40 @@
       <div class="col-md-12">
         <h4>Create Your Own Chart</h4>
         <p>
-          Click on the title, an event name, or the start month of your event to edit the data in
-          the table below. You can map out your
+          Use table below to map out your
           career path, where you've lived, trials and tribulations, or other meaningful life events.
-          Two events with the same name will be automatically linked in the chart. If you would like 
-          to use the number of months for each event instead of using the date, then press the 
-          <strong>Use Number of Months</strong> toggle!
+          We've filled the table with some data to help you see how it works, so just
+          click on the title, event names, or the number of months in a row to edit the data.
+          Two events with the same name will be automatically linked in the chart.
         </p>
         <p>
           When you are done, click <strong><i class="fa fa-camera" aria-hidden="true"></i> Download Image</strong>
           to keep a picture of your chart!
           Or, click <strong><i class="fa fa-table" aria-hidden="true"></i> Download CSV</strong> to save your data.
         </p>
+
+        <!--https://codepen.io/JacobLett/pen/xqpEYE-->
+        <button type="button" class="btn btn-primary video-btn" data-toggle="modal" data-src="https://www.youtube.com/embed/4VXVnyjxbac" data-target="#myModal">
+          Need help?
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <!-- 16:9 aspect ratio -->
+                <div class="embed-responsive embed-responsive-16by9">
+                  <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay"></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <div class="alert alert-warning alert-dismissible show fade" role="alert">
           <strong>Warning!</strong> The download function will not work in the Facebook mobile browser.
@@ -87,19 +109,6 @@
 
           <thead><tr><th></th><th>Life Event</th><th id="chart-month-label" class="th_center">Start Month</th><th class="th_center">Color</th></tr></thead>
           <tbody>
-<!--            <tr>
-              <td class="radiocheck"><input type="checkbox"></td>
-              <td class="eventname" tabindex="1">Childhood</td>
-              <td class="monthsevent" tabindex="1">184</td>
-              <td class="color-col"><input class="colorpick" type="color" name="head" value="#1f77b4">
-              <span class="clink"><i class="fa fa-link"></i></span></td>
-            <tr>
-              <td class="radiocheck"><input type="checkbox"></td>
-              <td class="eventname" tabindex="1">High School</td>
-              <td class="monthsevent" tabindex="1">45</td>
-              <td class="color-col"><input class="colorpick" type="color" name="head" value="#ff7f0e">
-              <span class="clink"><i class="fa fa-link"></i></span></td>
--->
           </tbody>
         </table>
         <div id="showEventAlertHere">
@@ -124,13 +133,13 @@
               <i class="fa fa-plus" aria-hidden="true"></i> New Event
             </button>
 
-            <button id="repeat" type="button" class="btn btn-primary">
-              <i class="fa fa-repeat" aria-hidden="true"></i> Repeat
-            </button>
             <button id="remove" type="button" class="btn btn-primary">
               <i class="fa fa-trash" aria-hidden="true"></i> Delete
             </button>
 
+            <button id="repeat" type="button" class="btn btn-primary">
+              <i class="fa fa-repeat" aria-hidden="true"></i> Repeat
+            </button>
             <button id="moveup" type="button" class="btn btn-primary">
               <i class="fa fa-arrow-up" aria-hidden="true"></i> Up
             </button>
@@ -139,11 +148,6 @@
             </button>
 
           </div>
-
-        <!--  <button id="reset" type="button" class="btn btn-danger">Reset Chart</button> -->
-
-
-
 
         <!-- Temporary positioning for example dropdown.
           Dropdown aspect is potentially temporary
@@ -249,8 +253,11 @@
       <div class="container">
         <div class="row">
           <div class="col-md-8">
-            <p>Built by <a href="https://discotraystudios.github.io/">Disco Tray Studios</a>, bringing you
-              serendipitious projects since 2020.</p>
+            <p><a href="https://github.com/DiscoTrayStudios/my-life-in-months/releases">Get info about new updates!</a></p>
+
+            <p>Built by <a href="https://discotraystudios.github.io/">Disco Tray Studios</a>,
+              working to infuse unexpected joy and wonder into community-focused software
+              development projects.</p>
             <p><small>Powered by
               <a href="https://getbootstrap.com/">Bootstrap</a>,
               <a href="https://www.javascript.com/">JavaScript</a>,
