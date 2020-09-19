@@ -87,10 +87,32 @@ table {
   padding-bottom: 15px;
 }
 
-.eventname, #title-input{
+.table td {
+  vertical-align: middle;
+}
+
+.eventname, .monthsevent, #title-input{
 	background: url('../images/pencilIcon70.png') no-repeat right;
 }
 
 #file-upload {
   display: none;
+}
+.modal-dialog {
+    max-width: 800px;
+    margin: 30px auto;
+}
+.modal-body {
+    position:relative;
+    padding:0px;
+}
+.close {
+    position:absolute;
+    right:-30px;
+    top:0;
+    z-index:999;
+    font-size:2rem;
+    font-weight: normal;
+    color:#fff;
+    opacity:1;
 }

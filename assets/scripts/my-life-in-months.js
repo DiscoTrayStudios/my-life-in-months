@@ -138,7 +138,7 @@ function myLifeInMonths() {
       nodes.append("rect")
             .style('fill', function(d){ return colorscale.get(d.name); })
             .attr('class', function(d){ return d.class; })
-            .style("stroke", "white")
+            .style("stroke", "#fafafa")
             .attr("width", gridSize)
             .attr("height", gridSize)
             .style("opacity", 0)
@@ -157,7 +157,7 @@ function myLifeInMonths() {
             .attr('y', function(d, i){ return i * gridSize + i * magic_padding / 2;})
             .style('fill', function(d){ return colorscale.get(d.name); })
             .attr('class', function(d){ return d.class; })
-            .style("stroke", "white")
+            .style("stroke", "#fafafa")
             .attr("width", gridSize)
             .attr("height", gridSize)
             .style("opacity", 0)
@@ -177,30 +177,9 @@ function myLifeInMonths() {
     });
   }
 
-  // Do we want to delete this and make 200 standard?
-  chart.width = function(_) {
-    if (!arguments.length) return width;
-    width = _;
-    return chart;
-  };
-
   chart.title = function(_) {
     if (!arguments.length) return title;
     title = _;
-    return chart;
-  };
-
-  // Do we need this?
-  chart.height = function(_) {
-    if (!arguments.length) return height;
-    height = _;
-    return chart;
-  };
-
-  // Can we delete this, because there are always 12 months in a year?
-  chart.cols = function(_) {
-    if (!arguments.length) return cols;
-    cols = _;
     return chart;
   };
 
