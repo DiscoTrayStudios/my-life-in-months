@@ -255,7 +255,7 @@ $(document).ready(function() {
 
   	element.find('td').on('change', function (evt, value) {
       if (!$(this).hasClass( "radiocheck" )) {
-        if (!areAllDatesUnique()) {
+        if (month_picker_on && !areAllDatesUnique()) {
           $('#showEventAlertHere').html(alertMaker("alert-month-repeated", "You can't use the same date for more than one event!"));
           return false;
         } else {$("#alert-month-repeated").remove();}
@@ -371,12 +371,17 @@ $(document).ready(function() {
       return this.innerHTML;
     }).get();
     var dates_seen = [];
+    var is_repeated = false;
     dates_in_table.forEach((element) => {
+      console.log(element);
+      console.log(dates_seen.indexOf(element) > -1);
       if (dates_seen.indexOf(element) > -1) {
-        return false;
+        is_repeated = true;
       }
+      console.log(dates_seen);
       dates_seen.push(element);
     });
+    return !is_repeated;
   }
 
   function addNewEventRow(event, monthOrDate, color) {
@@ -559,7 +564,6 @@ $(document).ready(function() {
       return this.innerHTML;
     }).get();
     if (current_months.indexOf(random_date_input_format) != -1) {
-      console.log("oops!");
       return getNextRandomDate();
     }
     return next_random_date;
