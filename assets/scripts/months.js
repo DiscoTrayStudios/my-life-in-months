@@ -191,10 +191,18 @@ $(document).ready(function() {
         colorsMapToChange.set(columns[0], columns[2]);
       }
     });
+    if (!isInvalid && upload_is_month_picker) {
+      var dates = [];
+      dataToChange.forEach((element) => {
+        dates.push(element["value"]);
+      });
+      isInvalid = !areAllDatesUnique(dates);
+    }
     if (!isInvalid) {
       $( "#title-input" ).html(csv_name);
       if ((month_picker_on && !upload_is_month_picker) || (!month_picker_on && upload_is_month_picker))
         $("#toggle-month-picker").click();
+      $("#alert-event-name-length").remove();
       populateTable(dataToChange, colorsMapToChange);
       calculateData();
       makeWaffleChart();
@@ -210,7 +218,6 @@ $(document).ready(function() {
     var splitOnDoubleQuotes = rowString.trim().split('\"');
     if (splitOnDoubleQuotes.length == 1) {
       var toReturn = rowString.trim().split(",");
-      console.log(toReturn);
       if (toReturn.length != 3) {
         return []
       }
@@ -256,7 +263,7 @@ $(document).ready(function() {
 
   	element.find('td').on('change', function (evt, value) {
       if (!$(this).hasClass( "radiocheck" )) {
-        if (month_picker_on && !areAllDatesUnique()) {
+        if (month_picker_on && !areAllDatesUnique($(".monthsevent").map(function(){return this.innerHTML;}).get())) {
           $('#showEventAlertHere').html(alertMaker("alert-month-repeated", "You can't use the same date for more than one event!"));
           return false;
         } else {$("#alert-month-repeated").remove();}
@@ -367,19 +374,13 @@ $(document).ready(function() {
     }
   }
 
-  function areAllDatesUnique() {
-    var dates_in_table = $(".monthsevent").map(function(){
-      return this.innerHTML;
-    }).get();
+  function areAllDatesUnique(dates_to_check) {
     var dates_seen = [];
     var is_repeated = false;
-    dates_in_table.forEach((element) => {
-      console.log(element);
-      console.log(dates_seen.indexOf(element) > -1);
+    dates_to_check.forEach((element) => {
       if (dates_seen.indexOf(element) > -1) {
         is_repeated = true;
       }
-      console.log(dates_seen);
       dates_seen.push(element);
     });
     return !is_repeated;
