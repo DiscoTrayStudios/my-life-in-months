@@ -207,9 +207,10 @@ $(document).ready(function() {
   }
 
   function parseCSVRows(rowString) {
-    var splitOnDoubleQuotes = rowString.split('\"');
+    var splitOnDoubleQuotes = rowString.trim().split('\"');
     if (splitOnDoubleQuotes.length == 1) {
-      var toReturn = rowString.split(",");
+      var toReturn = rowString.trim().split(",");
+      console.log(toReturn);
       if (toReturn.length != 3) {
         return []
       }
