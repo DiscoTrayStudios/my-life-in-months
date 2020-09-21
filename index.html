@@ -55,7 +55,7 @@
       <div class="col-md-12">
         <h4>Create Your Own Chart</h4>
         <p>
-          Use table below to map out your
+          Use the table below to map out your
           career path, where you've lived, trials and tribulations, or other meaningful life events.
           We've filled the table with some data to help you see how it works, so just
           click on the title, event names, or the start date of the event to edit the data. Note that the 
@@ -184,23 +184,34 @@
     <div class="row">
       <div class="col-md-12 csv-upload">
         <h4>Uploading a CSV File</h4>
-        <p>Want to edit your chart in spreadsheet software like Excel instead of editing the table on this page?
-          Or do you want to upload a chart that you downloaded from this website in the past? Use the "Choose File"
-          button to choose a CSV file to populate the table. Don't know how to download a spreadsheet as a CSV? Click
-          <a href="https://www.extendoffice.com/documents/excel/2980-excel-save-export-each-sheet-as-csv.html">here</a> for instruction.</p>
+        <p>Want to edit your chart in spreadsheet software like Excel 
+          instead of editing the table on this page?
+          Or do you want to upload a chart that you downloaded from 
+          this website in the past? Use the "Choose File"
+          button to choose a CSV file to populate the table. Don't 
+          know how to save a spreadsheet as a CSV? Click
+          <a href="https://www.extendoffice.com/documents/excel/2980-excel-save-export-each-sheet-as-csv.html">
+            here</a> for instruction.</p>
         <label for="file-upload" class="btn btn-primary">
           <i class="fa fa-table" aria-hidden="true"></i> Choose File
         </label>
         <input id="file-upload" onfocus="this.value=''" type="file"/>
         <h5>Uploading Format Guidlines:</h5>
         <p>1. CSV file must only have three columns</p>
-        <p>2. The first three columns in the first row must be named "Life Event", "End Month" (or "Month"), and "Color" in that order.</p>
-        <p>3. The names of the columns in the CSV correspond to the columns with the same name in the table above.</p>
-        <p>4. Months must be in "YYYY-MM" format if you are using start dates. They must be positive integers if you are using the number of months.</p>
-        <p>5. If you are using start dates, then every row in your chart must use start dates. If you're using the number of months, 
+        <p>2. The first three columns in the first row must be named "Life Event", 
+          "End Month" (or "Month"), and "Color" in that order.</p>
+        <p>3. The names of the columns in the CSV correspond to the columns with 
+          the same name in the table above.</p>
+        <p>4. Months must be in "YYYY-MM" format if you are using start dates. 
+          They must be positive integers if you are using the number of months.</p>
+        <p>5. If you are using start dates, then every row in your chart must 
+          use start dates. If you're using the number of months, 
           then every row must use the number of months.</p>
-        <p>5. colors must be hexadecimals representing the color.</p>
-        <p>6. For an example of a CSV file in the proper format, download a CSV file from this page and use it as a guide.</p>
+        <p>6. If you are using start dates, then the last event row in your 
+          csv must be the end date, named "End Date".</p>
+        <p>7. colors must be hexadecimals representing the color.</p>
+        <p>8. For an example of a CSV file in the proper format, download a 
+          CSV file from this page and use it as a guide.</p>
       </div>
     </div>
 
