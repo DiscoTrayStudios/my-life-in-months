@@ -192,8 +192,6 @@ $(document).ready(function() {
       }
     });
     if (!isInvalid) {
-      console.log(dataToChange);
-      console.log(colorsMapToChange);
       $( "#title-input" ).html(csv_name);
       if ((month_picker_on && !upload_is_month_picker) || (!month_picker_on && upload_is_month_picker))
         $("#toggle-month-picker").click();
@@ -257,6 +255,10 @@ $(document).ready(function() {
 
   	element.find('td').on('change', function (evt, value) {
       if (!$(this).hasClass( "radiocheck" )) {
+        if (!areAllDatesUnique()) {
+          $('#showEventAlertHere').html(alertMaker("alert-month-repeated", "You can't use the same date for more than one event!"));
+          return false;
+        } else {$("#alert-month-repeated").remove();}
         if ($(this).hasClass("end-month-input")) {
           if (!isEndMonthValid(value)) {
             return false;
@@ -266,7 +268,8 @@ $(document).ready(function() {
           if (new Date(value) > new Date($(".end-month-input").eq(0).html())) {
             $('#showEventAlertHere').html(alertMaker("alert-month-before-end", "Months must not come after end date!"));
             return false;
-          } else {$("#alert-month-before-end").remove();}
+          }
+          else {$("#alert-month-before-end").remove();}
         }
         calculateData();
         makeWaffleChart();
@@ -361,6 +364,19 @@ $(document).ready(function() {
         return true;
       }
     }
+  }
+
+  function areAllDatesUnique() {
+    var dates_in_table = $(".monthsevent").map(function(){
+      return this.innerHTML;
+    }).get();
+    var dates_seen = [];
+    dates_in_table.forEach((element) => {
+      if (dates_seen.indexOf(element) > -1) {
+        return false;
+      }
+      dates_seen.push(element);
+    });
   }
 
   function addNewEventRow(event, monthOrDate, color) {
@@ -538,6 +554,14 @@ $(document).ready(function() {
     var last_event_date = getLastEventDate();
     var num_months_to_add = getRandomIntInclusive(10,30);
     var next_random_date = new Date(last_event_date.setMonth(last_event_date.getMonth() + num_months_to_add));
+    var random_date_input_format = getDateInputFormat(next_random_date);
+    var current_months = $(".monthsevent").map(function(){
+      return this.innerHTML;
+    }).get();
+    if (current_months.indexOf(random_date_input_format) != -1) {
+      console.log("oops!");
+      return getNextRandomDate();
+    }
     return next_random_date;
   }
 
@@ -571,7 +595,6 @@ $(document).ready(function() {
         prevCheck = false;
       }
     });
-    console.log(numChecks);
     return numChecks;
   }
 
