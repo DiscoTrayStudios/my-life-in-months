@@ -9,7 +9,7 @@ $(document).ready(function() {
   gcolors_map.set("Shreveport, LA", "#8a2432");
   gcolors_map.set("Conway, AR", "#E96B10");
 
-  
+
 
   exampleData = [
     [
@@ -173,15 +173,15 @@ $(document).ready(function() {
     rows.splice(0, 1);
     var upload_is_month_picker;
     rows.forEach((element, i) => {
-      
+
       var columns = parseCSVRows(element);
-      if (i === 0 && isDateValid(columns[1])) upload_is_month_picker = true; 
+      if (i === 0 && isDateValid(columns[1])) upload_is_month_picker = true;
       else if (i === 0) upload_is_month_picker = false;
       var is_end_row = upload_is_month_picker && (i === rows.length - 1);
       if (columns.length != 3 || (!/^#[0-9A-F]{6}$/i.test(columns[2]) && !is_end_row)) {
         isInvalid = true;
         return;
-      } else if ((upload_is_month_picker && !isDateValid(columns[1])) 
+      } else if ((upload_is_month_picker && !isDateValid(columns[1]))
       || (!upload_is_month_picker && !isNormalPosInteger(columns[1]))) {
         isInvalid = true;
         return;
@@ -319,7 +319,7 @@ $(document).ready(function() {
       }
     });
 
-    
+
   	return this;
   };
 
@@ -577,7 +577,7 @@ $(document).ready(function() {
     var c = randomColor();
     addNewEventRow(eventNames[i], day, c);
   }
-  
+
   if (month_picker_on) appendEndDateRow();
   hideMoveButtons();
   calculateData();
@@ -681,23 +681,35 @@ $(document).ready(function() {
   function sortDatesAndNamesInTable() {
     var events_list = $(".eventname").map(function(){return this.innerHTML;}).get();
     var dates_list = $(".monthsevent").map(function(){return new Date(this.innerHTML);}).get();
+    var colors_list = $(".colorpick").map(function(){return this.value;}).get();
+    //console.log(colors_list);
     var date_to_event_map = {};
     for (let index = 0; index < events_list.length; index++) {
       const element = events_list[index];
       const date = dates_list[index];
-      date_to_event_map[date] = element;
+      const color = colors_list[index];
+      date_to_event_map[date] = [element, color];
     }
+    //console.log(date_to_event_map);
     dates_list = dates_list.sort((a, b) => a - b);
     var index = 0;
     var event_names = $(".eventname");
     var dates_elements = $(".monthsevent");
+    var color_elements = $(".colorpick")
     dates_elements.each(function() {
-      $(this).html(getDateInputFormat(dates_list[index]));      
+      $(this).html(getDateInputFormat(dates_list[index]));
       index += 1;
     });
     index = 0;
     event_names.each(function() {
-      $(this).html(date_to_event_map[dates_list[index]])
+      $(this).html(date_to_event_map[dates_list[index]][0]);
+      index += 1;
+    });
+    index = 0;
+    color_elements.each(function() {
+      //console.log(this);
+      this.value = date_to_event_map[dates_list[index]][1];
+      //console.log(date_to_event_map[dates_list[index]][1]);
       index += 1;
     });
   }
@@ -790,7 +802,7 @@ $(document).ready(function() {
     month_or_date_list = month_picker_on ? getNumMonthsFromDatesList(month_or_date_list) : month_or_date_list;
     month_or_date_list.forEach(element => {
         numMonths += parseInt(element);
-    }); 
+    });
     return numMonths;
   }
 
