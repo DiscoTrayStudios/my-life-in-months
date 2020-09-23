@@ -388,6 +388,14 @@ $(document).ready(function() {
 
   function addNewEventRow(event, monthOrDate, color) {
     var dateInputFormat =  month_picker_on ? getDateInputFormat(monthOrDate) : monthOrDate;
+    if (month_picker_on && $("#end-month-input").length) {
+      var endDate = $("#end-month-input").html();
+      if (calculateInputMonths(dateInputFormat, endDate) > 0) {
+        console.log("here");
+        $("#end-month-input").html(dateInputFormat);
+        dateInputFormat = endDate;
+      }
+    }
     var newRow = $('<tr>' +
           '<td class="radiocheck"><input class="rowcheck" type="checkbox"></td>' +
           '<td class="eventname all-event-names" tabindex="1">' + event + '</td>' +
@@ -701,6 +709,7 @@ $(document).ready(function() {
       index += 1;
     });
     index = 0;
+    console.log(date_to_event_map);
     event_names.each(function() {
       $(this).html(date_to_event_map[dates_list[index]][0]);
       index += 1;
@@ -771,6 +780,15 @@ $(document).ready(function() {
 
   function calculateMonths(first, second) {
     return (second.getFullYear() * 12 + second.getMonth()) - (first.getFullYear() * 12 + first.getMonth());
+  }
+
+  function calculateInputMonths(first, second) {
+    var firstArray = first.split("-");
+    var secondArray = second.split("-");
+    var toReturn = 0;
+    toReturn += (firstArray[0] - secondArray[0]) * 12;
+    toReturn += firstArray[1] - secondArray[1];
+    return toReturn;
   }
 
   function getDatesFromNumMonthsList(months_list) {
