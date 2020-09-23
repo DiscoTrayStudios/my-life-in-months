@@ -391,7 +391,6 @@ $(document).ready(function() {
     if (month_picker_on && $("#end-month-input").length) {
       var endDate = $("#end-month-input").html();
       if (calculateInputMonths(dateInputFormat, endDate) > 0) {
-        console.log("here");
         $("#end-month-input").html(dateInputFormat);
         dateInputFormat = endDate;
       }
@@ -709,7 +708,6 @@ $(document).ready(function() {
       index += 1;
     });
     index = 0;
-    console.log(date_to_event_map);
     event_names.each(function() {
       $(this).html(date_to_event_map[dates_list[index]][0]);
       index += 1;
