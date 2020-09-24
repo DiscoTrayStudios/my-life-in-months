@@ -1,11 +1,12 @@
 Life Event,Months,Color
-"New York",159,#49ca4d
-"New York Military Acad.",60,#e38aef
-"Fordham University",24,#c26bab
-"Wharton School, U-Penn",20,#c647d7
-"Trump Management",35,#f4e195
-"Trump Organization",83,#d8e51f
-"Manhattan Real Estate",78,#ecc813
-"Hotel and Casino Mgmt",228,#e3a41c
-"The Apprentice",148,#b2b8b6
-"President",56,#2377d7
+"New York",1946-06,#49ca4d
+"New York Military Acad.",1959-09,#e38aef
+"Fordham University",1964-09,#c26bab
+"Wharton School, U-Penn",1966-09,#c647d7
+"Trump Management",1968-05,#f4e195
+"Trump Organization",1971-04,#d8e51f
+"Manhattan Real Estate",1978-03,#ecc813
+"Hotel and Casino Mgmt",1984-09,#e3a41c
+"The Apprentice",2003-09,#b2b8b6
+"President",2016-01,#2377d7
+"End Month",2020-09,undefined
