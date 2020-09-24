@@ -353,6 +353,9 @@ $(document).ready(function() {
     if (yearMonth.length != 2) {
       return false;
     }
+    if (yearMonth[1].length != 2) {
+      return false;
+    }
     if (!isNormalPosInteger(yearMonth[0]) || (!isNormalPosInteger(yearMonth[1]) && Number(yearMonth[1]) > 12)) {
       return false;
     }
@@ -658,6 +661,7 @@ $(document).ready(function() {
       var box = $(c.children().eq(0).children().eq(0)); // need to remove the checkmark
       box.prop('checked', false); //https://stackoverflow.com/questions/13557623/remove-attribute-checked-of-checkbox
       addNewEventRow(row.find(".eventname").html(), month_picker_on ? getNextRandomDate() : getRandomIntInclusive(10,30), "#FFFFFF");
+        // fix to be the same length as before
       box.click(function() {
         checkState()
       });}, false)
@@ -709,6 +713,7 @@ $(document).ready(function() {
     });
     index = 0;
     event_names.each(function() {
+      console.log(date_to_event_map[dates_list[index]], dates_list[index]);
       $(this).html(date_to_event_map[dates_list[index]][0]);
       index += 1;
     });
