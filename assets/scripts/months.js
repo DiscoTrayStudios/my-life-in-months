@@ -165,7 +165,7 @@ $(document).ready(function() {
     })(f);
     reader.readAsText(f);
     }
-    
+
   }
 
   document.getElementById('file-upload').addEventListener('change', handleFileSelect, false);
@@ -427,7 +427,7 @@ $(document).ready(function() {
     newRow.numericInputExample();
     var box = $(newRow.children().eq(0).children().eq(0));
     box.click(function() {
-      checkState()
+      checkState();
     });
   }
 
@@ -494,6 +494,7 @@ $(document).ready(function() {
   };
 
   $("#toggle-month-picker").click(function() {
+    console.log("Why?");
     if (month_picker_on) {
       month_picker_on = false;
       $("#chart-month-label").html("Months");
@@ -858,7 +859,7 @@ $(document).ready(function() {
   checkState();
 
   $('.rowcheck').click(function() {
-    checkState()
+    checkState();
   });
 
   $('#mainTable').editableTableWidget().numericInputExample();
