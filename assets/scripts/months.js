@@ -145,20 +145,28 @@ $(document).ready(function() {
     var files = evt.target.files; // FileList object
 
     // use the 1st file from the list
+
     f = files[0];
-    var f_name = f.name.split(".")[0];
+    var file_list = f.name.split(".");
+    var f_name = file_list[0];
 
     var reader = new FileReader();
-
-    // Closure to capture the file information.
-    reader.onload = (function(theFile) {
-        return function(e) {
-
-          CSVFormatToData(e.target.result, f_name);
-        };
-      })(f);
-      reader.readAsText(f);
+    if (file_list[1] != "csv") {
+      csvAlert(true);
     }
+    else {
+      csvAlert(false);
+      // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+      return function(e) {
+
+        CSVFormatToData(e.target.result, f_name);
+      };
+    })(f);
+    reader.readAsText(f);
+    }
+    
+  }
 
   document.getElementById('file-upload').addEventListener('change', handleFileSelect, false);
 
@@ -202,14 +210,13 @@ $(document).ready(function() {
       $( "#title-input" ).html(csv_name);
       if ((month_picker_on && !upload_is_month_picker) || (!month_picker_on && upload_is_month_picker))
         $("#toggle-month-picker").click();
-      $("#alert-event-name-length").remove();
+      csvAlert(false);
       populateTable(dataToChange, colorsMapToChange);
       calculateData();
       makeWaffleChart();
     }
     else {
-      $('#showEventAlertHere').html(alertMaker("alert-event-name-length",
-      "Your CSV file is not in the correct format! Please read our Uploading Format Guidlines."));
+      csvAlert(true);
     }
     document.getElementById('file-upload').value = '';
   }
@@ -229,6 +236,16 @@ $(document).ready(function() {
     var first = splitOnDoubleQuotes[1];
     var lastTwo = splitOnDoubleQuotes[2].split(",");
     return [first, lastTwo[1], lastTwo[2]];
+  }
+
+  function csvAlert(isActivating) {
+    if (isActivating) {
+      $('#showEventAlertHere').html(alertMaker("alert-csv",
+      "Your CSV file is not in the correct format! Please read our Uploading Format Guidlines."));
+    }
+    else {
+      $("#alert-csv").remove();
+    }
   }
 
   function convertDataToCSVFormat(names, months_or_dates, colorsMapToConvert) {
