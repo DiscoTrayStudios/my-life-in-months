@@ -761,7 +761,7 @@ $(document).ready(function() {
   function getEndDateRow() {
     var newRow = $('<tr id="end-date-row">' +
           '<td></td>' +
-          '<td id="end-date-name" class="all-event-names">End Month</td>' +
+          '<th id="end-date-name" class="all-event-names">End Month</th>' +
           '<td id="end-month-input" class="monthsevent end-month-input" tabindex="1">' + current_end_month + '</td>' +
           '<td></td></tr>');
     newRow.numericInputExample();
@@ -865,5 +865,5 @@ $(document).ready(function() {
 
   $(".alert").alert();
 
-  document.getElementById("title-input").focus();
+  //document.getElementById("title-input").focus();
 });
